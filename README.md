@@ -1,0 +1,26 @@
+# Home Haven Finder
+
+i want to build a real estate website like zillow using nextjs and supabase
+
+This project was built with [Lovable](https://lovable.dev).
+
+**Live app**: https://dream-pad-dig.lovable.app
+
+## Build with Lovable
+
+Continue developing this project in the [Lovable editor](https://lovable.dev/projects/799de18c-435c-46e5-a20b-b90cdfb5a59f).
+
+- **Ship faster**: describe what you want to build and Lovable handles the code.
+- **Stay in sync**: every change made in Lovable is committed straight to this repository.
+- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
+
+## Development
+
+Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
+
+```sh
+git clone <this-repository-url>
+cd <repository-name>
+npm i
+npm run dev
+```

@@ -1,0 +1,1 @@
+import{t as e}from"./jsx-runtime-BkSabwWG.js";var t=e(),n=()=>(0,t.jsx)(`div`,{className:`grid min-h-screen place-items-center px-8 text-center`,children:(0,t.jsx)(`p`,{className:`text-sm text-ink/60`,children:`This listing could not be loaded.`})});export{n as errorComponent};
