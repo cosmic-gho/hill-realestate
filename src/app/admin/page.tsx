@@ -15,6 +15,13 @@ import {
   type Property,
   type TourInquiry,
 } from "@/actions/properties";
+import {
+  listPaymentMethods,
+  createPaymentMethod,
+  updatePaymentMethod,
+  deletePaymentMethod,
+  type PaymentMethod,
+} from "@/actions/payments";
 import { GlassBackdrop } from "@/components/glass-backdrop";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
@@ -42,6 +49,8 @@ import {
   Lock,
   ShieldCheck,
   LogOut,
+  CreditCard,
+  QrCode,
 } from "lucide-react";
 
 interface PropertyFormState {
@@ -97,17 +106,33 @@ export default function AdminPage() {
     } | null;
   }
 
-  const [activeTab, setActiveTab] = useState<"listings" | "inquiries">("listings");
+  const [activeTab, setActiveTab] = useState<"listings" | "inquiries" | "payments">("listings");
   const [properties, setProperties] = useState<Property[]>([]);
   const [inquiries, setInquiries] = useState<AdminInquiry[]>([]);
+  const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
 
-  // Modal states
+  // Modal states for properties
   const [modalOpen, setModalOpen] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [form, setForm] = useState<PropertyFormState>(initialForm);
   const [saving, setSaving] = useState(false);
+
+  // Modal states for payment methods
+  const [paymentModalOpen, setPaymentModalOpen] = useState(false);
+  const [editingPaymentId, setEditingPaymentId] = useState<string | null>(null);
+  const initialPaymentForm = {
+    name: "",
+    account_name: "",
+    account_number: "",
+    instructions: "",
+    qr_code_url: "",
+    is_active: true,
+    display_order: 0,
+  };
+  const [paymentForm, setPaymentForm] = useState(initialPaymentForm);
+  const [savingPayment, setSavingPayment] = useState(false);
 
   // Inquiry filter
   const [inquiryStatusFilter, setInquiryStatusFilter] = useState("all");
@@ -115,14 +140,16 @@ export default function AdminPage() {
   const loadData = useCallback(async () => {
     setLoading(true);
     try {
-      const [props, inqs] = await Promise.all([
+      const [props, inqs, pms] = await Promise.all([
         listProperties({ data: {} }),
         listInquiries({
           data: { status: inquiryStatusFilter === "all" ? undefined : inquiryStatusFilter },
         }),
+        listPaymentMethods(false),
       ]);
       setProperties(props);
       setInquiries(inqs as AdminInquiry[]);
+      setPaymentMethods(pms);
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : "Failed to load admin data";
       toast.error(msg);
@@ -274,6 +301,76 @@ export default function AdminPage() {
       toast.success("Inquiry removed");
     } catch {
       toast.error("Failed to delete inquiry");
+    }
+  }
+
+  function handleOpenCreatePayment() {
+    setEditingPaymentId(null);
+    setPaymentForm(initialPaymentForm);
+    setPaymentModalOpen(true);
+  }
+
+  function handleOpenEditPayment(method: PaymentMethod) {
+    setEditingPaymentId(method.id);
+    setPaymentForm({
+      name: method.name,
+      account_name: method.account_name,
+      account_number: method.account_number,
+      instructions: method.instructions,
+      qr_code_url: method.qr_code_url || "",
+      is_active: method.is_active,
+      display_order: method.display_order,
+    });
+    setPaymentModalOpen(true);
+  }
+
+  async function handleSavePaymentMethod(e: React.FormEvent) {
+    e.preventDefault();
+    setSavingPayment(true);
+    try {
+      if (editingPaymentId) {
+        await updatePaymentMethod({
+          id: editingPaymentId,
+          data: paymentForm,
+        });
+        toast.success("Payment method updated successfully");
+      } else {
+        await createPaymentMethod(paymentForm);
+        toast.success("Payment method added");
+      }
+      setPaymentModalOpen(false);
+      loadData();
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "Failed to save payment method";
+      toast.error(msg);
+    } finally {
+      setSavingPayment(false);
+    }
+  }
+
+  async function handleTogglePaymentActive(method: PaymentMethod) {
+    try {
+      await updatePaymentMethod({
+        id: method.id,
+        data: { is_active: !method.is_active },
+      });
+      setPaymentMethods((prev) =>
+        prev.map((m) => (m.id === method.id ? { ...m, is_active: !m.is_active } : m)),
+      );
+      toast.success(method.is_active ? "Payment method paused" : "Payment method activated");
+    } catch {
+      toast.error("Failed to toggle payment method");
+    }
+  }
+
+  async function handleDeletePaymentMethod(id: string) {
+    if (!confirm("Are you sure you want to delete this payment method?")) return;
+    try {
+      await deletePaymentMethod({ id });
+      setPaymentMethods((prev) => prev.filter((m) => m.id !== id));
+      toast.success("Payment method deleted");
+    } catch {
+      toast.error("Failed to delete payment method");
     }
   }
 
@@ -513,6 +610,16 @@ export default function AdminPage() {
                 {pendingInquiries}
               </span>
             )}
+          </button>
+          <button
+            onClick={() => setActiveTab("payments")}
+            className={`flex items-center gap-2 border-b-2 px-6 py-3 text-sm font-semibold transition-colors ${
+              activeTab === "payments"
+                ? "border-brand text-brand"
+                : "border-transparent text-ink/60 hover:text-ink"
+            }`}
+          >
+            <CreditCard className="size-4" /> Payment Methods ({paymentMethods.length})
           </button>
         </div>
 
@@ -765,6 +872,124 @@ export default function AdminPage() {
             </div>
           </div>
         )}
+
+        {/* TAB 3: PAYMENT METHODS */}
+        {activeTab === "payments" && (
+          <div className="mt-6">
+            <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
+              <div>
+                <h3 className="font-display text-xl font-bold text-ink">
+                  Payment Channels & Escrow Methods
+                </h3>
+                <p className="text-xs text-ink/50 mt-0.5">
+                  Configure the payment options, accounts, and QR codes shown to clients on the Tour Reservation Payment page.
+                </p>
+              </div>
+              <button
+                onClick={handleOpenCreatePayment}
+                className="flex items-center gap-2 gradient-brand rounded-2xl px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-sky-500/25 hover:opacity-95 transition-opacity"
+              >
+                <Plus className="size-4" /> Add Payment Method
+              </button>
+            </div>
+
+            {/* Payment Methods Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {paymentMethods.map((pm) => (
+                <div
+                  key={pm.id}
+                  className={`rounded-3xl border p-6 backdrop-blur-2xl transition-all ${
+                    pm.is_active
+                      ? "border-white/80 bg-white/70 shadow-xl shadow-sky-900/5"
+                      : "border-ink/10 bg-white/40 opacity-75"
+                  }`}
+                >
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="flex items-center gap-3">
+                      <div className="grid size-11 place-items-center rounded-2xl bg-sky-500/10 text-brand font-bold text-sm">
+                        {pm.name.slice(0, 2).toUpperCase()}
+                      </div>
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <h4 className="font-display font-bold text-base text-ink">{pm.name}</h4>
+                          <span
+                            className={`rounded-full px-2 py-0.5 text-[10px] font-bold ${
+                              pm.is_active
+                                ? "bg-emerald-500/15 text-emerald-700"
+                                : "bg-ink/10 text-ink/50"
+                            }`}
+                          >
+                            {pm.is_active ? "Active" : "Paused"}
+                          </span>
+                        </div>
+                        {pm.account_name && (
+                          <p className="text-xs text-ink/60 mt-0.5">
+                            Account: <strong>{pm.account_name}</strong>
+                          </p>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-1">
+                      <button
+                        onClick={() => handleTogglePaymentActive(pm)}
+                        className={`rounded-xl px-2.5 py-1 text-xs font-semibold transition-colors ${
+                          pm.is_active
+                            ? "bg-amber-50 text-amber-700 hover:bg-amber-100"
+                            : "bg-emerald-50 text-emerald-700 hover:bg-emerald-100"
+                        }`}
+                        title={pm.is_active ? "Pause this method" : "Activate this method"}
+                      >
+                        {pm.is_active ? "Pause" : "Enable"}
+                      </button>
+                      <button
+                        onClick={() => handleOpenEditPayment(pm)}
+                        className="rounded-xl p-1.5 text-brand hover:bg-sky-50 transition-colors"
+                        title="Edit method"
+                      >
+                        <Edit className="size-4" />
+                      </button>
+                      <button
+                        onClick={() => handleDeletePaymentMethod(pm.id)}
+                        className="rounded-xl p-1.5 text-rose-500 hover:bg-rose-50 transition-colors"
+                        title="Delete method"
+                      >
+                        <Trash2 className="size-4" />
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="mt-4 rounded-2xl bg-white/80 p-3.5 border border-ink/5 text-xs space-y-1">
+                    <p className="text-[10px] font-bold uppercase tracking-wider text-ink/40">
+                      Account / Address
+                    </p>
+                    <p className="font-mono font-semibold text-ink break-all">
+                      {pm.account_number}
+                    </p>
+                  </div>
+
+                  {pm.instructions && (
+                    <p className="mt-3 text-xs text-ink/60 line-clamp-2 leading-relaxed">
+                      {pm.instructions}
+                    </p>
+                  )}
+
+                  {pm.qr_code_url && (
+                    <div className="mt-3 flex items-center gap-2 text-xs font-medium text-brand">
+                      <QrCode className="size-3.5" /> Includes Scan-to-Pay QR Code
+                    </div>
+                  )}
+                </div>
+              ))}
+
+              {paymentMethods.length === 0 && !loading && (
+                <div className="col-span-2 rounded-3xl border border-white/60 bg-white/55 p-12 text-center text-sm text-ink/50">
+                  No payment methods configured. Click &quot;Add Payment Method&quot; to configure your first option.
+                </div>
+              )}
+            </div>
+          </div>
+        )}
       </main>
 
       {/* CREATE / EDIT PROPERTY MODAL */}
@@ -981,6 +1206,135 @@ export default function AdminPage() {
                   className="gradient-brand rounded-2xl px-6 py-2.5 text-sm font-semibold text-white shadow-lg shadow-sky-500/25 hover:opacity-95 disabled:opacity-50"
                 >
                   {saving ? "Saving..." : editingId ? "Update Listing" : "Create Listing"}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* CREATE / EDIT PAYMENT METHOD MODAL */}
+      {paymentModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="relative max-h-[90vh] w-full max-w-xl overflow-y-auto rounded-3xl border border-white/80 bg-white p-8 shadow-2xl">
+            <button
+              onClick={() => setPaymentModalOpen(false)}
+              className="absolute right-6 top-6 grid size-8 place-items-center rounded-full bg-ink/5 text-ink/60 hover:bg-ink/10"
+            >
+              <X className="size-4" />
+            </button>
+
+            <h2 className="font-display text-2xl font-bold">
+              {editingPaymentId ? "Edit Payment Method" : "Add Payment Method"}
+            </h2>
+            <p className="mt-1 text-xs text-ink/50">
+              Provide the account details and instructions clients will see when completing a tour verification.
+            </p>
+
+            <form onSubmit={handleSavePaymentMethod} className="mt-6 space-y-4">
+              <div>
+                <label className="block text-xs font-semibold text-ink/70 uppercase tracking-wider mb-1">
+                  Method Name *
+                </label>
+                <input
+                  required
+                  value={paymentForm.name}
+                  onChange={(e) => setPaymentForm({ ...paymentForm, name: e.target.value })}
+                  placeholder="e.g. Zelle, Bank Wire / ACH, Cash App, Bitcoin"
+                  className="w-full rounded-2xl border border-ink/10 bg-white px-4 py-2.5 text-sm outline-none focus:border-brand"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-ink/70 uppercase tracking-wider mb-1">
+                  Account Name / Beneficiary
+                </label>
+                <input
+                  value={paymentForm.account_name}
+                  onChange={(e) => setPaymentForm({ ...paymentForm, account_name: e.target.value })}
+                  placeholder="e.g. AetherHomes Realty Escrow LLC"
+                  className="w-full rounded-2xl border border-ink/10 bg-white px-4 py-2.5 text-sm outline-none focus:border-brand"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-ink/70 uppercase tracking-wider mb-1">
+                  Account Number / ID / Address / Tag *
+                </label>
+                <input
+                  required
+                  value={paymentForm.account_number}
+                  onChange={(e) =>
+                    setPaymentForm({ ...paymentForm, account_number: e.target.value })
+                  }
+                  placeholder="e.g. payments@aetherhomes.com or Routing: 121000... Acct: 8839..."
+                  className="w-full font-mono rounded-2xl border border-ink/10 bg-white px-4 py-2.5 text-sm outline-none focus:border-brand"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-ink/70 uppercase tracking-wider mb-1">
+                  Instructions for Client
+                </label>
+                <textarea
+                  rows={2}
+                  value={paymentForm.instructions}
+                  onChange={(e) =>
+                    setPaymentForm({ ...paymentForm, instructions: e.target.value })
+                  }
+                  placeholder="e.g. Please put your Tour Reference ID in the memo or transfer note..."
+                  className="w-full resize-none rounded-2xl border border-ink/10 bg-white px-4 py-2.5 text-sm outline-none focus:border-brand"
+                />
+              </div>
+
+              {/* QR Code Upload using Cloudinary ImageUploader */}
+              <div>
+                <label className="block text-xs font-semibold text-ink/70 uppercase tracking-wider mb-1">
+                  Scan-to-Pay QR Code (Optional)
+                </label>
+                <ImageUploader
+                  value={paymentForm.qr_code_url}
+                  onChange={(url) => setPaymentForm({ ...paymentForm, qr_code_url: url })}
+                  disabled={savingPayment}
+                />
+              </div>
+
+              <div className="flex items-center gap-3 pt-2">
+                <input
+                  type="checkbox"
+                  id="active-payment-check"
+                  checked={paymentForm.is_active}
+                  onChange={(e) =>
+                    setPaymentForm({ ...paymentForm, is_active: e.target.checked })
+                  }
+                  className="size-5 rounded-lg text-brand"
+                />
+                <label
+                  htmlFor="active-payment-check"
+                  className="text-sm font-semibold text-ink cursor-pointer"
+                >
+                  Active & visible to clients on payment page
+                </label>
+              </div>
+
+              <div className="flex justify-end gap-3 pt-4 border-t border-ink/10">
+                <button
+                  type="button"
+                  onClick={() => setPaymentModalOpen(false)}
+                  className="rounded-2xl border border-ink/10 px-5 py-2.5 text-sm font-semibold text-ink/70 hover:bg-ink/5"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={savingPayment}
+                  className="gradient-brand rounded-2xl px-6 py-2.5 text-sm font-semibold text-white shadow-lg shadow-sky-500/25 hover:opacity-95 disabled:opacity-50"
+                >
+                  {savingPayment
+                    ? "Saving..."
+                    : editingPaymentId
+                      ? "Update Method"
+                      : "Add Method"}
                 </button>
               </div>
             </form>

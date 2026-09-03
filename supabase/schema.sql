@@ -121,3 +121,39 @@ SELECT * FROM (VALUES
   ('Fremont Waterfront Condo', 640000, '901 N Fremont Way', 'Seattle', 'WA', '98103', 1, 1, 860, 'Condo', 'For sale', 'A single-bedroom waterfront condo, warm and quiet, with a canal walk two minutes from the door.', 'living', false)
 ) AS v(title, price, address, city, state, zip, beds, baths, sqft, property_type, status, description, image_key, featured)
 WHERE NOT EXISTS (SELECT 1 FROM public.properties LIMIT 1);
+
+
+-- 5. Create payment_methods table (for admin-configured payment channels)
+CREATE TABLE IF NOT EXISTS public.payment_methods (
+  id uuid NOT NULL DEFAULT gen_random_uuid() PRIMARY KEY,
+  name text NOT NULL,
+  account_name text NOT NULL DEFAULT '',
+  account_number text NOT NULL,
+  instructions text NOT NULL DEFAULT '',
+  qr_code_url text NOT NULL DEFAULT '',
+  is_active boolean NOT NULL DEFAULT true,
+  display_order integer NOT NULL DEFAULT 0,
+  created_at timestamptz NOT NULL DEFAULT now()
+);
+
+-- Enable RLS on payment_methods
+ALTER TABLE public.payment_methods ENABLE ROW LEVEL SECURITY;
+
+-- Grants for payment_methods
+GRANT SELECT, INSERT, UPDATE, DELETE ON public.payment_methods TO anon;
+GRANT SELECT, INSERT, UPDATE, DELETE ON public.payment_methods TO authenticated;
+GRANT ALL ON public.payment_methods TO service_role;
+
+-- Policies for payment_methods
+DROP POLICY IF EXISTS "Anyone can view active payment methods" ON public.payment_methods;
+CREATE POLICY "Anyone can view active payment methods" ON public.payment_methods FOR SELECT USING (true);
+
+DROP POLICY IF EXISTS "Anyone can insert payment methods" ON public.payment_methods;
+CREATE POLICY "Anyone can insert payment methods" ON public.payment_methods FOR INSERT WITH CHECK (true);
+
+DROP POLICY IF EXISTS "Anyone can update payment methods" ON public.payment_methods;
+CREATE POLICY "Anyone can update payment methods" ON public.payment_methods FOR UPDATE USING (true);
+
+DROP POLICY IF EXISTS "Anyone can delete payment methods" ON public.payment_methods;
+CREATE POLICY "Anyone can delete payment methods" ON public.payment_methods FOR DELETE USING (true);
+

@@ -3,6 +3,7 @@
 import { createClient } from "@supabase/supabase-js";
 import { z } from "zod";
 import type { Database } from "@/integrations/supabase/types";
+import { sendTourBookingEmails } from "@/lib/email";
 
 export type Property = Database["public"]["Tables"]["properties"]["Row"];
 export type PropertyInsert = Database["public"]["Tables"]["properties"]["Insert"];
@@ -211,7 +212,37 @@ export async function submitInquiry(
     .single();
 
   if (error) throw new Error(error.message);
+
+  // Send tour confirmation email to customer & alert to admin
+  try {
+    let property = null;
+    if (data.property_id) {
+      property = await getProperty({ id: data.property_id });
+    }
+    await sendTourBookingEmails({
+      inquiry,
+      property,
+    });
+  } catch (emailErr) {
+    console.error("Error triggering tour booking emails:", emailErr);
+  }
+
   return inquiry;
+}
+
+export async function getInquiry(
+  input: { data: { id: string } } | { id: string } | string,
+) {
+  const id =
+    typeof input === "string" ? input : "data" in input ? input.data.id : input.id;
+  const { data: row, error } = await getPublicClient()
+    .from("tour_inquiries")
+    .select("*, properties(*)")
+    .eq("id", id)
+    .maybeSingle();
+
+  if (error) throw new Error(error.message);
+  return row;
 }
 
 export async function listInquiries(

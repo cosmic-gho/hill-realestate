@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { submitInquiry, type Property } from "@/actions/properties";
 import { GlassBackdrop } from "@/components/glass-backdrop";
@@ -14,6 +15,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Share2, Check, ArrowLeft, Bookmark } from "lucide-react";
 
 export function PropertyClient({ property }: { property: Property }) {
+  const router = useRouter();
   const { user } = useAuth();
   const [saved, setSaved] = useState(false);
   const [active, setActive] = useState(property.image_key);
@@ -72,7 +74,7 @@ export function PropertyClient({ property }: { property: Property }) {
     }
     setSubmittingInquiry(true);
     try {
-      await submitInquiry({
+      const inquiry = await submitInquiry({
         data: {
           property_id: property.id,
           name: form.name,
@@ -83,9 +85,10 @@ export function PropertyClient({ property }: { property: Property }) {
         },
       });
       toast.success(
-        `Tour request submitted to ${property.agent_name}! They will contact you shortly.`,
+        `Tour request submitted! Confirmation email sent. Redirecting to payment...`,
       );
       setForm({ name: "", email: "", phone: "", preferred_date: "", message: "" });
+      router.push(`/payment?inquiryId=${inquiry.id}&propertyId=${property.id}`);
     } catch {
       toast.error("Could not send tour request. Please try again.");
     } finally {

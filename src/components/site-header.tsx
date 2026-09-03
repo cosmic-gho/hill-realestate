@@ -51,16 +51,14 @@ export function SiteHeader() {
         >
           <Bookmark className="size-3.5 text-brand" /> Saved
         </Link>
-        <Link
-          href="/admin"
-          className={`transition-colors hover:text-ink font-semibold flex items-center gap-1.5 rounded-full px-3 py-1 text-xs ${
-            isAdmin
-              ? "bg-emerald-500/15 border border-emerald-500/30 text-emerald-700"
-              : "bg-sky-500/10 text-brand"
-          }`}
-        >
-          <Shield className="size-3" /> Admin
-        </Link>
+        {isAdmin && (
+          <Link
+            href="/admin"
+            className="transition-colors hover:text-ink font-semibold flex items-center gap-1.5 rounded-full px-3 py-1 text-xs bg-emerald-500/15 border border-emerald-500/30 text-emerald-700"
+          >
+            <Shield className="size-3" /> Admin
+          </Link>
+        )}
       </nav>
 
       {/* Desktop action buttons */}
@@ -71,9 +69,13 @@ export function SiteHeader() {
               <User className="size-3 text-brand" />
               {user.email?.split("@")[0]}
               {isAdmin && (
-                <span className="ml-1 rounded-md bg-emerald-500/20 px-1.5 py-0.5 text-[10px] font-bold text-emerald-700">
+                <Link
+                  href="/admin"
+                  className="ml-1 rounded-md bg-emerald-500/20 px-1.5 py-0.5 text-[10px] font-bold text-emerald-700 hover:bg-emerald-500/30 transition-colors"
+                  title="Open Admin Portal"
+                >
                   ADMIN
-                </span>
+                </Link>
               )}
             </span>
             <button
@@ -135,13 +137,15 @@ export function SiteHeader() {
             >
               <Bookmark className="size-4 text-brand" /> Saved Homes
             </Link>
-            <Link
-              href="/admin"
-              onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center gap-2 rounded-2xl p-3 text-brand hover:bg-brand/10"
-            >
-              <Shield className="size-4" /> Admin Portal
-            </Link>
+            {isAdmin && (
+              <Link
+                href="/admin"
+                onClick={() => setMobileMenuOpen(false)}
+                className="flex items-center gap-2 rounded-2xl p-3 text-emerald-700 bg-emerald-500/10 hover:bg-emerald-500/20"
+              >
+                <Shield className="size-4" /> Admin Portal
+              </Link>
+            )}
           </nav>
 
           <div className="mt-4 border-t border-ink/10 pt-4 flex flex-col gap-2">
