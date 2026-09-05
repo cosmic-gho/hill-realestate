@@ -2,99 +2,89 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
+import { Search } from "lucide-react";
 
-const quickFilters = [
-  { label: "Condos", href: "/search?type=Condo" },
-  { label: "New build", href: "/search?q=Cedar" },
-  { label: "Waterfront", href: "/search?q=Harborview" },
-  { label: "Under $650k", href: "/search?maxPrice=650000" },
+const tabs = [
+  { label: "Buy", value: "buy" },
+  { label: "Rent", value: "rent" },
+  { label: "Sell", value: "sell" },
 ] as const;
 
-export function HomeSearch({ listingCount }: { listingCount: number }) {
+export function HomeSearch() {
   const router = useRouter();
+  const [activeTab, setActiveTab] = useState<string>("buy");
   const [q, setQ] = useState("");
-  const [maxPrice, setMaxPrice] = useState("");
-  const [beds, setBeds] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const params = new URLSearchParams();
     if (q) params.set("q", q);
-    if (maxPrice) params.set("maxPrice", maxPrice);
-    if (beds) params.set("beds", beds);
+    if (activeTab === "rent") params.set("status", "Rental");
     router.push(`/search?${params.toString()}`);
   };
 
   return (
-    <div>
-      <span className="inline-flex items-center gap-2 rounded-full border border-white/60 bg-white/50 px-4 py-1.5 text-xs font-semibold tracking-[0.15em] text-brand uppercase backdrop-blur-xl">
-        <span className="size-1.5 rounded-full bg-accent-cyan" /> {listingCount * 800} live
-        listings in Portland
-      </span>
-      <h1 className="mt-6 font-display text-5xl leading-[1.02] font-bold tracking-tight sm:text-6xl">
-        Find the home that{" "}
-        <span className="gradient-brand bg-clip-text text-transparent">moves</span> with you.
-      </h1>
-      <p className="mt-6 max-w-md text-lg leading-relaxed text-ink/60">
-        Search, save, and tour verified homes across the Pacific Northwest — with live listing data.
-      </p>
+    <section className="relative w-full">
+      {/* Full-width hero background */}
+      <div className="relative h-[520px] sm:h-[540px] lg:h-[580px] overflow-hidden">
+        <img
+          src="/assets/hero-zillow.png"
+          alt="Real estate agent showing a home to buyers"
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+        {/* Dark overlay for text contrast */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/50" />
 
-      <form
-        onSubmit={handleSubmit}
-        className="mt-8 flex flex-col gap-3 rounded-3xl border border-white/60 bg-white/45 p-4 shadow-xl shadow-sky-900/10 backdrop-blur-2xl sm:flex-row sm:items-center"
-      >
-        <div className="flex flex-1 items-center gap-3 rounded-2xl bg-white/70 px-4 py-3">
-          <span className="text-brand">⌕</span>
-          <input
-            value={q}
-            onChange={(e) => setQ(e.target.value)}
-            className="w-full bg-transparent text-sm outline-none placeholder:text-ink/40"
-            placeholder="City, neighborhood, or ZIP"
-            aria-label="City, neighborhood, or ZIP"
-          />
-        </div>
-        <select
-          value={maxPrice}
-          onChange={(e) => setMaxPrice(e.target.value)}
-          aria-label="Max price"
-          className="rounded-2xl bg-white/70 px-4 py-3 text-sm font-medium text-ink/60 outline-none"
-        >
-          <option value="">Any price</option>
-          <option value="600000">Up to $600k</option>
-          <option value="800000">Up to $800k</option>
-          <option value="1200000">Up to $1.2M</option>
-        </select>
-        <select
-          value={beds}
-          onChange={(e) => setBeds(e.target.value)}
-          aria-label="Minimum beds"
-          className="rounded-2xl bg-white/70 px-4 py-3 text-sm font-medium text-ink/60 outline-none"
-        >
-          <option value="">Any beds</option>
-          <option value="2">2+ beds</option>
-          <option value="3">3+ beds</option>
-          <option value="4">4+ beds</option>
-        </select>
-        <button
-          type="submit"
-          className="gradient-brand rounded-2xl px-6 py-3 text-sm font-semibold text-primary-foreground shadow-lg shadow-sky-500/30 hover:opacity-95"
-        >
-          Search
-        </button>
-      </form>
-
-      <div className="mt-4 flex flex-wrap gap-2 text-xs font-medium text-ink/50">
-        {quickFilters.map((f) => (
-          <Link
-            key={f.label}
-            href={f.href}
-            className="rounded-full border border-white/60 bg-white/40 px-3 py-1.5 backdrop-blur-xl hover:text-ink"
+        {/* Hero content */}
+        <div className="relative z-10 flex h-full flex-col items-center justify-center px-4">
+          {/* Bold headline */}
+          <h1
+            className="text-center text-4xl font-bold leading-tight text-white sm:text-5xl lg:text-6xl"
+            style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
           >
-            {f.label}
-          </Link>
-        ))}
+            Rentals. Homes.
+            <br />
+            Agents. Loans.
+          </h1>
+
+          {/* Search bar */}
+          <div className="mt-8 w-full max-w-[600px]">
+            {/* Tabs */}
+            <div className="flex">
+              {tabs.map((tab) => (
+                <button
+                  key={tab.value}
+                  onClick={() => setActiveTab(tab.value)}
+                  className={`px-5 py-2.5 text-sm font-bold transition-all rounded-t-lg ${activeTab === tab.value
+                      ? "bg-white text-gray-900"
+                      : "bg-white/30 text-white hover:bg-white/50 backdrop-blur-sm"
+                    }`}
+                >
+                  {tab.label}
+                </button>
+              ))}
+            </div>
+
+            {/* Search input */}
+            <form onSubmit={handleSubmit} className="relative">
+              <input
+                value={q}
+                onChange={(e) => setQ(e.target.value)}
+                placeholder="Enter an address, neighborhood, city, or ZIP code"
+                className="w-full rounded-b-lg rounded-tr-lg bg-white py-4 pl-5 pr-14 text-sm text-gray-800 placeholder:text-gray-400 outline-none shadow-lg"
+                aria-label="Search address"
+              />
+              <button
+                type="submit"
+                className="absolute right-2 top-1/2 -translate-y-1/2 grid size-10 place-items-center rounded-lg bg-[#006AFF] text-white hover:bg-[#0052cc] transition-colors"
+                aria-label="Search"
+              >
+                <Search className="size-5" />
+              </button>
+            </form>
+          </div>
+        </div>
       </div>
-    </div>
+    </section>
   );
 }

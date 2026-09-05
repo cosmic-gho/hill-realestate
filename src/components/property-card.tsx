@@ -1,41 +1,76 @@
+"use client";
+
 import Link from "next/link";
 import type { Property } from "@/actions/properties";
 import { formatPrice, imageFor } from "@/lib/property-images";
+import { Heart } from "lucide-react";
 
 export function PropertyCard({ property }: { property: Property }) {
   const isNew = property.status !== "For sale";
+
   return (
     <Link
       href={`/property/${property.id}`}
-      className="group block overflow-hidden rounded-3xl border border-white/60 bg-white/55 shadow-xl shadow-sky-900/5 backdrop-blur-2xl transition-transform hover:-translate-y-1"
+      className="group block overflow-hidden rounded-xl bg-white border border-gray-200 zillow-shadow hover:zillow-shadow-lg transition-all duration-200 hover:-translate-y-0.5"
     >
-      <div className="relative">
+      {/* Image */}
+      <div className="relative overflow-hidden">
         <img
           src={imageFor(property.image_key)}
           alt={`${property.title} in ${property.city}, ${property.state}`}
           loading="lazy"
           width={800}
           height={600}
-          className="aspect-[4/3] w-full object-cover"
+          className="aspect-[4/3] w-full object-cover group-hover:scale-105 transition-transform duration-300"
         />
+        {/* Status badge */}
         <span
-          className={`absolute left-3 top-3 rounded-full px-3 py-1 text-xs font-semibold text-primary-foreground backdrop-blur ${
-            isNew ? "bg-brand/90" : "bg-ink/85"
-          }`}
+          className={`absolute left-3 top-3 rounded-full px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide ${isNew
+            ? "bg-[#006AFF] text-white"
+            : "bg-white text-gray-800 shadow-sm"
+            }`}
         >
           {property.status}
         </span>
+        {/* Save heart */}
+        <button
+          className="absolute right-3 top-3 grid size-8 place-items-center rounded-full bg-white/90 text-gray-500 shadow-sm hover:text-red-500 transition-colors"
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+          }}
+          aria-label="Save property"
+        >
+          <Heart className="size-4" />
+        </button>
       </div>
-      <div className="p-5">
-        <div className="flex items-baseline justify-between">
-          <p className="font-display text-xl font-bold">{formatPrice(property.price)}</p>
-          <p className="text-xs text-ink/45">
-            {property.city}, {property.state}
-          </p>
-        </div>
-        <p className="mt-1 text-sm font-medium text-ink/70">{property.title}</p>
-        <p className="mt-3 text-xs text-ink/50">
-          {property.beds} bd · {property.baths} ba · {property.sqft.toLocaleString()} sqft
+
+      {/* Details */}
+      <div className="p-4">
+        {/* Price */}
+        <p className="text-xl font-bold text-gray-900">
+          {formatPrice(property.price)}
+        </p>
+
+        {/* Specs */}
+        <p className="mt-1 text-sm text-gray-600">
+          <span className="font-semibold">{property.beds}</span> bd
+          <span className="mx-1 text-gray-300">|</span>
+          <span className="font-semibold">{property.baths}</span> ba
+          <span className="mx-1 text-gray-300">|</span>
+          <span className="font-semibold">{property.sqft.toLocaleString()}</span> sqft
+          <span className="mx-1 text-gray-300">|</span>
+          <span className="text-gray-500">House for Sale</span>
+        </p>
+
+        {/* Address */}
+        <p className="mt-1.5 text-sm text-gray-500 truncate">
+          {property.address}, {property.city}, {property.state}
+        </p>
+
+        {/* Agent */}
+        <p className="mt-2 text-xs text-gray-400 uppercase tracking-wide">
+          {property.agent_name}
         </p>
       </div>
     </Link>

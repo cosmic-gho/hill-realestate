@@ -9,24 +9,24 @@ const siteUrl =
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "AetherHomes — Homes for Sale & Rent in the Pacific Northwest",
+    default: "AetherHomes: Real Estate, Apartments, Mortgages & Home Values",
     template: "%s | AetherHomes",
   },
   description:
-    "Explore verified MLS real estate listings across Portland, Seattle, and the Pacific Northwest. Schedule private home tours, view floor plans, and find your dream home with AetherHomes.",
+    "The leading real estate marketplace. Search millions of for-sale and rental listings, compare home values and connect with local professionals.",
   keywords: [
     "real estate",
     "homes for sale",
-    "Portland real estate",
-    "Seattle homes for sale",
-    "Pacific Northwest homes",
-    "MLS listings",
+    "apartments for rent",
+    "real estate listings",
+    "home values",
+    "mortgage",
     "buy a house",
-    "luxury condominiums",
-    "property tour",
+    "sell your home",
+    "find an agent",
     "AetherHomes",
   ],
-  authors: [{ name: "AetherHomes Realty" }],
+  authors: [{ name: "AetherHomes" }],
   creator: "AetherHomes",
   publisher: "AetherHomes",
   formatDetection: {
@@ -38,28 +38,28 @@ export const metadata: Metadata = {
     canonical: "/",
   },
   openGraph: {
-    title: "AetherHomes — Find the Home That Moves With You",
+    title: "AetherHomes: Real Estate, Apartments, Mortgages & Home Values",
     description:
-      "Search, save, and tour verified homes across Portland, Seattle, and the Pacific Northwest with live MLS listings.",
+      "The leading real estate marketplace. Search millions of for-sale and rental listings, compare home values and connect with local professionals.",
     url: "/",
     siteName: "AetherHomes",
     type: "website",
     locale: "en_US",
     images: [
       {
-        url: "/assets/hero-home.jpg",
+        url: "/assets/hero-zillow.png",
         width: 1200,
         height: 630,
-        alt: "AetherHomes Modern Pacific Northwest Architecture",
+        alt: "AetherHomes Real Estate Marketplace",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "AetherHomes — Verified Homes for Sale & Rent",
+    title: "AetherHomes: Real Estate, Apartments, Mortgages & Home Values",
     description:
-      "Explore luxury homes, condos, and townhouses with live MLS listings in Portland & Seattle.",
-    images: ["/assets/hero-home.jpg"],
+      "Search for-sale and rental listings, compare home values, and connect with local real estate professionals.",
+    images: ["/assets/hero-zillow.png"],
     creator: "@aetherhomes",
   },
   robots: {
@@ -86,7 +86,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="min-h-screen bg-background font-body text-ink antialiased">
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap"
+          rel="stylesheet"
+        />
+      </head>
+      <body className="min-h-screen bg-white font-body text-ink antialiased">
         {children}
         <Toaster position="top-right" richColors />
       </body>
