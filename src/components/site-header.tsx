@@ -45,7 +45,7 @@ export function SiteHeader() {
             { label: "Rent", href: "/search?status=Rental" },
             { label: "Sell", href: "/search?status=For+sale" },
             { label: "Home Buying Plan", href: "/plan" },
-            { label: "Home Loans", href: "/plan" },
+            { label: "Home Loans", href: "/home-loans" },
             { label: "Find an Agent", href: "/search" },
           ].map((item) => (
             <Link
@@ -161,7 +161,7 @@ export function SiteHeader() {
               { label: "Rent", href: "/search?status=Rental" },
               { label: "Sell", href: "/search?status=For+sale" },
               { label: "Home Buying Plan", href: "/plan" },
-              { label: "Home Loans", href: "/plan" },
+              { label: "Home Loans", href: "/home-loans" },
               { label: "Find an Agent", href: "/search" },
               { label: "Manage Rentals", href: "/admin" },
             ].map((item) => (

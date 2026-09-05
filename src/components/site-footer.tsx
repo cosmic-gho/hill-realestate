@@ -15,10 +15,10 @@ const footerLinks = {
     { label: "Manage Rentals", href: "/admin" },
   ],
   Resources: [
+    { label: "Home Loans Hub", href: "/home-loans" },
     { label: "Home Buying Plan", href: "/plan" },
     { label: "BuyAbility™ Calculator", href: "/plan#buyability-calc" },
-    { label: "5-Step Buyer Roadmap", href: "/plan#buying-roadmap" },
-    { label: "Find an Agent", href: "/search" },
+    { label: "Mortgage Calculator", href: "/home-loans#loan-comparison" },
   ],
   About: [
     { label: "About AetherHomes", href: "/" },
