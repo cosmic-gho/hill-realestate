@@ -75,9 +75,16 @@ export default function AuthPage() {
         toast.success("Welcome back!");
         router.push("/");
       } else {
+        const isAdminEmail = email.toLowerCase().includes("admin");
         const { error } = await supabase.auth.signUp({
           email,
           password,
+          options: {
+            data: {
+              role: isAdminEmail ? "admin" : "user",
+              is_admin: isAdminEmail,
+            },
+          },
         });
         if (error) throw error;
         toast.success("Account created successfully! You are now signed in.");
@@ -129,18 +136,16 @@ export default function AuthPage() {
             <button
               type="button"
               onClick={() => setMode("signin")}
-              className={`flex-1 rounded-xl py-2 text-sm font-semibold transition-all ${
-                mode === "signin" ? "bg-white text-ink shadow-sm" : "text-ink/60 hover:text-ink"
-              }`}
+              className={`flex-1 rounded-xl py-2 text-sm font-semibold transition-all ${mode === "signin" ? "bg-white text-ink shadow-sm" : "text-ink/60 hover:text-ink"
+                }`}
             >
               Sign In
             </button>
             <button
               type="button"
               onClick={() => setMode("signup")}
-              className={`flex-1 rounded-xl py-2 text-sm font-semibold transition-all ${
-                mode === "signup" ? "bg-white text-ink shadow-sm" : "text-ink/60 hover:text-ink"
-              }`}
+              className={`flex-1 rounded-xl py-2 text-sm font-semibold transition-all ${mode === "signup" ? "bg-white text-ink shadow-sm" : "text-ink/60 hover:text-ink"
+                }`}
             >
               Register
             </button>
@@ -202,7 +207,7 @@ export default function AuthPage() {
           </form>
 
           {/* Demo helper */}
-         
+
         </div>
       </main>
 

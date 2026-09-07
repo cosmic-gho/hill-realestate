@@ -17,7 +17,7 @@ export interface PaymentMethod {
 }
 
 // Built-in initial payment methods (used if table is empty or not yet migrated)
-export const DEFAULT_PAYMENT_METHODS: PaymentMethod[] = [
+const DEFAULT_PAYMENT_METHODS: PaymentMethod[] = [
   {
     id: "pm-bank-wire",
     name: "Bank Wire / Direct ACH",
@@ -66,6 +66,10 @@ export const DEFAULT_PAYMENT_METHODS: PaymentMethod[] = [
 
 // Fallback in-memory store for seamless runtime changes before/without database migrations
 let fallbackMemoryMethods: PaymentMethod[] = [...DEFAULT_PAYMENT_METHODS];
+
+export async function getDefaultPaymentMethods(): Promise<PaymentMethod[]> {
+  return DEFAULT_PAYMENT_METHODS;
+}
 
 function getPublicClient() {
   const url =
@@ -260,11 +264,9 @@ export async function submitPaymentProof(
       .eq("id", data.inquiryId)
       .single();
 
-    const note = `\n[PAYMENT SUBMITTED via ${data.methodName}${
-      data.transactionReference ? ` | Ref: ${data.transactionReference}` : ""
-    }${data.senderName ? ` | Sender: ${data.senderName}` : ""}${
-      data.proofImageUrl ? ` | Proof: ${data.proofImageUrl}` : ""
-    }]`;
+    const note = `\n[PAYMENT SUBMITTED via ${data.methodName}${data.transactionReference ? ` | Ref: ${data.transactionReference}` : ""
+      }${data.senderName ? ` | Sender: ${data.senderName}` : ""}${data.proofImageUrl ? ` | Proof: ${data.proofImageUrl}` : ""
+      }]`;
 
     await supabase
       .from("tour_inquiries")
