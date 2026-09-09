@@ -2,11 +2,12 @@
 
 import Link from "next/link";
 import type { Property } from "@/actions/properties";
-import { formatPrice, imageFor } from "@/lib/property-images";
-import { Heart } from "lucide-react";
+import { formatPrice, imageFor, getPropertyImages } from "@/lib/property-images";
+import { Heart, Images } from "lucide-react";
 
 export function PropertyCard({ property }: { property: Property }) {
   const isNew = property.status !== "For sale";
+  const imageList = getPropertyImages(property.image_key);
 
   return (
     <Link
@@ -25,10 +26,11 @@ export function PropertyCard({ property }: { property: Property }) {
         />
         {/* Status badge */}
         <span
-          className={`absolute left-3 top-3 rounded-full px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide ${isNew
-            ? "bg-[#006AFF] text-white"
-            : "bg-white text-gray-800 shadow-sm"
-            }`}
+          className={`absolute left-3 top-3 rounded-full px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide ${
+            isNew
+              ? "bg-[#006AFF] text-white"
+              : "bg-white text-gray-800 shadow-sm"
+          }`}
         >
           {property.status}
         </span>
@@ -43,6 +45,14 @@ export function PropertyCard({ property }: { property: Property }) {
         >
           <Heart className="size-4" />
         </button>
+
+        {/* Photos count badge */}
+        {imageList.length > 1 && (
+          <span className="absolute bottom-3 right-3 rounded-lg bg-black/60 px-2 py-0.5 text-[11px] font-semibold text-white backdrop-blur-md flex items-center gap-1 shadow-sm">
+            <Images className="size-3" />
+            {imageList.length}
+          </span>
+        )}
       </div>
 
       {/* Details */}

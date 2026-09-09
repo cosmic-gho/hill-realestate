@@ -9,16 +9,23 @@ import { GlassBackdrop } from "@/components/glass-backdrop";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { MortgageCalculator } from "@/components/mortgage-calculator";
-import { formatPrice, imageFor, propertyImages } from "@/lib/property-images";
+import {
+  formatPrice,
+  imageFor,
+  propertyImages,
+  getPropertyImages,
+  isExternalImage,
+} from "@/lib/property-images";
 import { useAuth } from "@/hooks/use-auth";
 import { supabase } from "@/integrations/supabase/client";
-import { Share2, Check, ArrowLeft, Bookmark } from "lucide-react";
+import { Share2, Check, ArrowLeft, Bookmark, Images } from "lucide-react";
 
 export function PropertyClient({ property }: { property: Property }) {
   const router = useRouter();
   const { user } = useAuth();
   const [saved, setSaved] = useState(false);
-  const [active, setActive] = useState(property.image_key);
+  const allImages = getPropertyImages(property.image_key);
+  const [active, setActive] = useState(allImages[0] || "living");
   const [copied, setCopied] = useState(false);
 
   // Tour booking form state
@@ -106,13 +113,8 @@ export function PropertyClient({ property }: { property: Property }) {
   }
 
   const standardKeys = ["living", "kitchen", "bedroom", "hero"];
-  const gallery =
-    property.image_key && !standardKeys.includes(property.image_key)
-      ? [property.image_key, ...standardKeys]
-      : [
-          property.image_key || "living",
-          ...standardKeys.filter((k) => k !== (property.image_key || "living")),
-        ];
+  const hasCustomImages = allImages.some(isExternalImage);
+  const gallery = hasCustomImages ? allImages : standardKeys;
 
   return (
     <div className="relative min-h-screen w-full overflow-hidden font-body text-ink">
@@ -144,28 +146,35 @@ export function PropertyClient({ property }: { property: Property }) {
         <div className="mt-6 grid grid-cols-1 gap-8 lg:grid-cols-[1.35fr_1fr]">
           {/* Main content column */}
           <div>
-            <img
-              src={imageFor(active)}
-              alt={`${property.title} interior`}
-              width={1088}
-              height={720}
-              className="aspect-[3/2] w-full rounded-[30px] border border-white/60 object-cover shadow-2xl shadow-sky-900/15"
-            />
-            <div className="mt-4 flex gap-3">
-              {gallery.map((key) => (
+            <div className="relative">
+              <img
+                src={imageFor(active)}
+                alt={`${property.title} interior`}
+                width={1088}
+                height={720}
+                className="aspect-[3/2] w-full rounded-[30px] border border-white/60 object-cover shadow-2xl shadow-sky-900/15"
+              />
+              <div className="absolute bottom-4 right-4 rounded-xl bg-ink/70 px-3 py-1 text-xs font-semibold text-white backdrop-blur-md flex items-center gap-1.5">
+                <Images className="size-3.5" />
+                {gallery.indexOf(active) + 1} of {gallery.length}
+              </div>
+            </div>
+
+            <div className="mt-4 flex gap-3 overflow-x-auto pb-2 scrollbar-thin">
+              {gallery.map((key, idx) => (
                 <button
-                  key={key}
+                  key={`${key}-${idx}`}
                   onClick={() => setActive(key)}
-                  className={`overflow-hidden rounded-2xl border transition-opacity ${
+                  className={`shrink-0 overflow-hidden rounded-2xl border transition-opacity ${
                     active === key
-                      ? "border-brand ring-2 ring-brand/30"
+                      ? "border-brand ring-2 ring-brand/30 opacity-100"
                       : "border-white/60 opacity-70 hover:opacity-100"
                   }`}
-                  aria-label={`View ${key} photo`}
+                  aria-label={`View photo ${idx + 1}`}
                 >
                   <img
                     src={imageFor(key)}
-                    alt={`${property.title} ${key}`}
+                    alt={`${property.title} photo ${idx + 1}`}
                     loading="lazy"
                     width={160}
                     height={120}

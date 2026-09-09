@@ -26,7 +26,7 @@ import { GlassBackdrop } from "@/components/glass-backdrop";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { ImageUploader } from "@/components/image-uploader";
-import { formatPrice, imageFor } from "@/lib/property-images";
+import { formatPrice, imageFor, getPropertyImages } from "@/lib/property-images";
 import { useAuth } from "@/hooks/use-auth";
 import { supabase } from "@/integrations/supabase/client";
 import {
@@ -662,11 +662,18 @@ export default function AdminPage() {
                       <tr key={p.id} className="hover:bg-white/40 transition-colors">
                         <td className="px-6 py-4">
                           <div className="flex items-center gap-3">
-                            <img
-                              src={imageFor(p.image_key)}
-                              alt={p.title}
-                              className="size-12 rounded-xl object-cover border border-white/80 shadow-sm"
-                            />
+                            <div className="relative shrink-0">
+                              <img
+                                src={imageFor(p.image_key)}
+                                alt={p.title}
+                                className="size-12 rounded-xl object-cover border border-white/80 shadow-sm"
+                              />
+                              {getPropertyImages(p.image_key).length > 1 && (
+                                <span className="absolute -bottom-1 -right-1 rounded-md bg-ink/80 px-1 py-0.2 text-[9px] font-bold text-white shadow-xs">
+                                  +{getPropertyImages(p.image_key).length - 1}
+                                </span>
+                              )}
+                            </div>
                             <div>
                               <p className="font-semibold text-ink">{p.title}</p>
                               <p className="text-xs text-ink/50">
@@ -1158,6 +1165,7 @@ export default function AdminPage() {
               </div>
 
               <ImageUploader
+                multiple
                 value={form.image_key}
                 onChange={(image_key) => setForm({ ...form, image_key })}
                 disabled={saving}

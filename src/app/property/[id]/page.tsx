@@ -1,7 +1,7 @@
 import { getProperty } from "@/actions/properties";
 import { notFound } from "next/navigation";
 import { PropertyClient } from "./property-client";
-import { formatPrice, imageFor } from "@/lib/property-images";
+import { formatPrice, imageFor, getPropertyImages } from "@/lib/property-images";
 import type { Metadata } from "next";
 
 export const dynamic = "force-dynamic";
@@ -21,7 +21,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     };
   }
 
-  const imageUrl = imageFor(property.image_key);
+  const allImages = getPropertyImages(property.image_key).map((img) => imageFor(img));
+  const primaryImageUrl = allImages[0] || imageFor(property.image_key);
   const formattedPrice = formatPrice(property.price);
   const pageTitle = `${property.title} — ${formattedPrice} | ${property.beds} Bed, ${property.baths} Bath in ${property.city}, ${property.state}`;
   const pageDescription = `${property.title} for sale in ${property.city}, ${property.state}. Offered at ${formattedPrice}. Features ${property.beds} bedrooms, ${property.baths} bathrooms, and ${property.sqft.toLocaleString()} sqft. ${property.description.slice(0, 120)}`;
@@ -37,20 +38,18 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description: pageDescription,
       url: `/property/${id}`,
       type: "website",
-      images: [
-        {
-          url: imageUrl,
-          width: 1200,
-          height: 800,
-          alt: `${property.title} in ${property.city}, ${property.state}`,
-        },
-      ],
+      images: allImages.map((url) => ({
+        url,
+        width: 1200,
+        height: 800,
+        alt: `${property.title} in ${property.city}, ${property.state}`,
+      })),
     },
     twitter: {
       card: "summary_large_image",
       title: `${property.title} — ${formattedPrice}`,
       description: pageDescription,
-      images: [imageUrl],
+      images: [primaryImageUrl],
     },
   };
 }
@@ -69,7 +68,7 @@ export default async function PropertyDetailPage({ params }: Props) {
     "@type": "SingleFamilyResidence",
     name: property.title,
     description: property.description,
-    image: imageFor(property.image_key),
+    image: getPropertyImages(property.image_key).map((img) => imageFor(img)),
     numberOfRooms: property.beds,
     numberOfBedrooms: property.beds,
     numberOfBathroomsTotal: property.baths,
