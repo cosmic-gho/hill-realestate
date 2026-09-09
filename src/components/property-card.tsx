@@ -24,16 +24,28 @@ export function PropertyCard({ property }: { property: Property }) {
           height={600}
           className="aspect-[4/3] w-full object-cover group-hover:scale-105 transition-transform duration-300"
         />
-        {/* Status badge */}
-        <span
-          className={`absolute left-3 top-3 rounded-full px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide ${
-            isNew
-              ? "bg-[#006AFF] text-white"
-              : "bg-white text-gray-800 shadow-sm"
-          }`}
-        >
-          {property.status}
-        </span>
+        {/* Status & Type badge */}
+        <div className="absolute left-3 top-3 flex items-center gap-1.5">
+          <span
+            className={`rounded-full px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide shadow-sm ${
+              property.status === "Airbnb" || property.property_type === "Airbnb"
+                ? "bg-[#FF385C] text-white"
+                : property.status === "For rent" || property.status === "Rental"
+                ? "bg-purple-600 text-white"
+                : property.status === "New"
+                ? "bg-[#006AFF] text-white"
+                : "bg-white text-gray-800"
+            }`}
+          >
+            {property.status}
+          </span>
+          {property.property_type && property.property_type !== "House" && (
+            <span className="rounded-full bg-white/90 backdrop-blur-md px-2 py-1 text-[10px] font-semibold text-gray-800 shadow-sm">
+              {property.property_type}
+            </span>
+          )}
+        </div>
+
         {/* Save heart */}
         <button
           className="absolute right-3 top-3 grid size-8 place-items-center rounded-full bg-white/90 text-gray-500 shadow-sm hover:text-red-500 transition-colors"
@@ -59,7 +71,7 @@ export function PropertyCard({ property }: { property: Property }) {
       <div className="p-4">
         {/* Price */}
         <p className="text-xl font-bold text-gray-900">
-          {formatPrice(property.price)}
+          {formatPrice(property.price, property.property_type, property.status)}
         </p>
 
         {/* Specs */}

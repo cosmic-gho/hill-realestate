@@ -180,9 +180,12 @@ export function SearchClient() {
             <option value="">Type: All</option>
             <option value="House">House</option>
             <option value="Condo">Condo</option>
-            <option value="Duplex">Duplex</option>
-            <option value="Cottage">Cottage</option>
+            <option value="Airbnb">Airbnb / Vacation</option>
+            <option value="Rental">Rental Apartment</option>
+            <option value="Villa">Luxury Villa</option>
             <option value="Townhouse">Townhouse</option>
+            <option value="Cottage">Cottage</option>
+            <option value="Duplex">Duplex</option>
           </select>
 
           {/* Status */}
@@ -194,6 +197,8 @@ export function SearchClient() {
           >
             <option value="">Status: All</option>
             <option value="For sale">For sale</option>
+            <option value="For rent">For rent</option>
+            <option value="Airbnb">Airbnb</option>
             <option value="New">New</option>
             <option value="Price drop">Price drop</option>
             <option value="Open house">Open house</option>
@@ -222,7 +227,7 @@ export function SearchClient() {
                     left: `${10 + ((i * 23) % 75)}%`,
                   }}
                 >
-                  {formatPrice(p.price)}
+                  {formatPrice(p.price, p.property_type, p.status)}
                 </button>
               );
             })}
@@ -238,7 +243,7 @@ export function SearchClient() {
                   <div className="flex-1">
                     <div className="flex items-baseline justify-between">
                       <p className="font-display text-lg font-bold text-ink">
-                        {formatPrice(selectedProperty.price)}
+                        {formatPrice(selectedProperty.price, selectedProperty.property_type, selectedProperty.status)}
                       </p>
                       <span className="rounded-full bg-brand/10 px-2 py-0.5 text-[10px] font-semibold text-brand">
                         {selectedProperty.status}

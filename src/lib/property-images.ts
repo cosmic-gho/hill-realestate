@@ -63,6 +63,34 @@ export function imageFor(key: string | null | undefined): string {
   return typeof img === "string" ? img : img.src;
 }
 
-export function formatPrice(price: number) {
-  return `$${price.toLocaleString("en-US")}`;
+export function formatPrice(
+  price: number,
+  propertyType?: string,
+  status?: string,
+): string {
+  const formatted = `$${price.toLocaleString("en-US")}`;
+  const t = (propertyType || "").toLowerCase();
+  const s = (status || "").toLowerCase();
+
+  if (
+    t.includes("airbnb") ||
+    s.includes("airbnb") ||
+    t.includes("vacation") ||
+    s.includes("vacation") ||
+    s.includes("night") ||
+    t.includes("short-term")
+  ) {
+    return `${formatted} / night`;
+  }
+
+  if (
+    t.includes("rent") ||
+    s.includes("rent") ||
+    s.includes("month") ||
+    (price <= 15000 && (t.includes("apartment") || s.includes("rental")))
+  ) {
+    return `${formatted} / mo`;
+  }
+
+  return formatted;
 }

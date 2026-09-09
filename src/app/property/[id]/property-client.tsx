@@ -187,6 +187,22 @@ export function PropertyClient({ property }: { property: Property }) {
             <div className="mt-8 rounded-3xl border border-white/60 bg-white/55 p-7 shadow-xl shadow-sky-900/5 backdrop-blur-2xl">
               <div className="flex flex-wrap items-end justify-between gap-4">
                 <div>
+                  <div className="flex items-center gap-2 mb-2">
+                    <span
+                      className={`rounded-full px-2.5 py-0.5 text-xs font-semibold ${
+                        property.status === "Airbnb" || property.property_type === "Airbnb"
+                          ? "bg-[#FF385C]/15 text-[#FF385C]"
+                          : property.status === "For rent" || property.status === "Rental"
+                          ? "bg-purple-100 text-purple-700"
+                          : "bg-brand/10 text-brand"
+                      }`}
+                    >
+                      {property.status}
+                    </span>
+                    <span className="rounded-full bg-ink/5 px-2.5 py-0.5 text-xs font-semibold text-ink/70">
+                      {property.property_type}
+                    </span>
+                  </div>
                   <h1 className="font-display text-3xl font-bold tracking-tight">
                     {property.title}
                   </h1>
@@ -195,7 +211,7 @@ export function PropertyClient({ property }: { property: Property }) {
                   </p>
                 </div>
                 <p className="font-display text-3xl font-bold text-ink">
-                  {formatPrice(property.price)}
+                  {formatPrice(property.price, property.property_type, property.status)}
                 </p>
               </div>
 

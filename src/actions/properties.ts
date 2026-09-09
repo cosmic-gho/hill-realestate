@@ -71,7 +71,7 @@ export async function listProperties(
   if (data.q) {
     const term = `%${data.q}%`;
     query = query.or(
-      `city.ilike.${term},address.ilike.${term},zip.ilike.${term},title.ilike.${term}`,
+      `city.ilike.${term},address.ilike.${term},zip.ilike.${term},title.ilike.${term},property_type.ilike.${term},status.ilike.${term},description.ilike.${term}`,
     );
   }
 

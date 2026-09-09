@@ -1142,9 +1142,12 @@ export default function AdminPage() {
                   >
                     <option value="House">House</option>
                     <option value="Condo">Condo</option>
-                    <option value="Duplex">Duplex</option>
-                    <option value="Cottage">Cottage</option>
+                    <option value="Airbnb">Airbnb / Vacation Rental</option>
+                    <option value="Rental">Rental Apartment</option>
+                    <option value="Villa">Luxury Villa</option>
                     <option value="Townhouse">Townhouse</option>
+                    <option value="Cottage">Cottage</option>
+                    <option value="Duplex">Duplex</option>
                   </select>
                 </div>
                 <div>
@@ -1157,6 +1160,8 @@ export default function AdminPage() {
                     className="w-full rounded-2xl border border-ink/10 bg-white px-4 py-2.5 text-sm outline-none focus:border-brand"
                   >
                     <option value="For sale">For sale</option>
+                    <option value="For rent">For rent</option>
+                    <option value="Airbnb">Airbnb</option>
                     <option value="New">New</option>
                     <option value="Price drop">Price drop</option>
                     <option value="Open house">Open house</option>

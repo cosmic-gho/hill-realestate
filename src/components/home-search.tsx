@@ -7,7 +7,8 @@ import { Search } from "lucide-react";
 const tabs = [
   { label: "Buy", value: "buy" },
   { label: "Rent", value: "rent" },
-  { label: "Sell", value: "sell" },
+  { label: "Airbnb", value: "airbnb" },
+  { label: "Condos", value: "condo" },
 ] as const;
 
 export function HomeSearch() {
@@ -19,7 +20,9 @@ export function HomeSearch() {
     e.preventDefault();
     const params = new URLSearchParams();
     if (q) params.set("q", q);
-    if (activeTab === "rent") params.set("status", "Rental");
+    if (activeTab === "rent") params.set("status", "For rent");
+    if (activeTab === "airbnb") params.set("type", "Airbnb");
+    if (activeTab === "condo") params.set("type", "Condo");
     router.push(`/search?${params.toString()}`);
   };
 
