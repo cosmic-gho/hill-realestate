@@ -5,10 +5,9 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
-import { GlassBackdrop } from "@/components/glass-backdrop";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
-import { Lock, Mail, UserCheck, ArrowRight, Shield } from "lucide-react";
+import { Lock, Mail, UserCheck, Shield } from "lucide-react";
 
 export default function AuthPage() {
   const { user } = useAuth();
@@ -20,32 +19,31 @@ export default function AuthPage() {
 
   if (user) {
     return (
-      <div className="relative min-h-screen w-full overflow-hidden font-body text-ink">
-        <GlassBackdrop />
+      <div className="min-h-screen w-full bg-white font-body text-[#222222]">
         <SiteHeader />
-        <main className="relative z-20 mx-auto max-w-md px-6 py-20 text-center">
-          <div className="rounded-3xl border border-white/60 bg-white/60 p-8 shadow-2xl shadow-sky-900/10 backdrop-blur-2xl">
-            <div className="mx-auto mb-4 grid size-12 place-items-center rounded-2xl bg-brand/10 text-brand">
-              <UserCheck className="size-6" />
+        <main className="mx-auto max-w-md px-6 py-20 text-center">
+          <div className="rounded-3xl border border-[#DDDDDD] bg-white p-8 shadow-xl">
+            <div className="mx-auto mb-4 grid size-14 place-items-center rounded-full bg-[#FFF0F2] text-[#FF385C]">
+              <UserCheck className="size-7" />
             </div>
-            <h1 className="font-display text-2xl font-bold">You are already signed in</h1>
-            <p className="mt-2 text-sm text-ink/60">{user.email}</p>
-            <div className="mt-6 flex flex-col gap-2">
+            <h1 className="text-2xl font-bold text-[#222222]">You are signed in</h1>
+            <p className="mt-2 text-sm text-[#717171]">{user.email}</p>
+            <div className="mt-6 flex flex-col gap-2.5">
               <button
                 onClick={() => router.push("/saved")}
-                className="gradient-brand rounded-2xl px-5 py-3 text-sm font-semibold text-primary-foreground shadow-lg shadow-sky-500/25 hover:opacity-95"
+                className="gradient-brand rounded-xl py-3 text-sm font-bold text-white shadow-md hover:opacity-95"
               >
-                View Saved Homes
+                View Wishlists
               </button>
               <button
                 onClick={() => router.push("/admin")}
-                className="rounded-2xl border border-white/80 bg-white/70 px-5 py-2.5 text-sm font-semibold text-ink hover:bg-white"
+                className="rounded-xl border border-[#DDDDDD] bg-white py-2.5 text-sm font-semibold text-[#222222] hover:bg-[#F7F7F7]"
               >
-                Go to Admin Panel
+                Go to Admin Portal
               </button>
               <button
                 onClick={() => supabase.auth.signOut()}
-                className="text-xs font-semibold text-ink/50 hover:text-ink pt-2"
+                className="text-xs font-semibold text-[#717171] hover:text-rose-600 pt-2 transition-colors"
               >
                 Sign out of this account
               </button>
@@ -72,7 +70,7 @@ export default function AuthPage() {
           password,
         });
         if (error) throw error;
-        toast.success("Welcome back!");
+        toast.success("Welcome back to Airbnb!");
         router.push("/");
       } else {
         const isAdminEmail = email.toLowerCase().includes("admin");
@@ -87,7 +85,7 @@ export default function AuthPage() {
           },
         });
         if (error) throw error;
-        toast.success("Account created successfully! You are now signed in.");
+        toast.success("Account created successfully! Welcome to Airbnb.");
         router.push("/");
       }
     } catch (err: unknown) {
@@ -101,80 +99,78 @@ export default function AuthPage() {
     }
   }
 
-  function fillDemoUser(role: "admin" | "buyer") {
-    if (role === "admin") {
-      setEmail("admin@aetherhomes.com");
-      setPassword("Admin@123456");
-    } else {
-      setEmail("buyer@example.com");
-      setPassword("Buyer@123456");
-    }
-  }
-
   return (
-    <div className="relative min-h-screen w-full overflow-hidden font-body text-ink">
-      <GlassBackdrop />
+    <div className="min-h-screen w-full bg-white font-body text-[#222222]">
       <SiteHeader />
 
-      <main className="relative z-20 mx-auto max-w-lg px-6 py-12">
-        <div className="rounded-3xl border border-white/60 bg-white/55 p-8 shadow-2xl shadow-sky-900/10 backdrop-blur-2xl sm:p-10">
+      <main className="mx-auto max-w-[520px] px-4 py-16 sm:px-6">
+        <div className="rounded-3xl border border-[#DDDDDD] bg-white p-8 shadow-[0_8px_24px_rgba(0,0,0,0.08)] sm:p-10">
+          {/* Header */}
           <div className="text-center">
-            <span className="inline-flex items-center gap-2 rounded-full border border-white/60 bg-white/60 px-3.5 py-1 text-xs font-semibold tracking-wider text-brand uppercase backdrop-blur-xl">
-              <Shield className="size-3.5" /> Secure Access
-            </span>
-            <h1 className="mt-4 font-display text-3xl font-bold tracking-tight">
-              {mode === "signin" ? "Welcome back" : "Create your account"}
+            <svg
+              viewBox="0 0 32 32"
+              className="mx-auto h-10 w-10 fill-[#FF385C] mb-3"
+              aria-hidden="true"
+            >
+              <path d="M16 1c2.008 0 3.463.963 4.751 3.269l.533 1.025c1.954 3.83 6.114 12.54 7.1 14.836l.145.353c.667 1.591.91 2.472.96 3.396l.011.315c0 4.34-3.35 7.806-7.75 7.806-2.618 0-4.839-1.282-6.195-3.238l-.555-.838-.555.838C12.589 30.718 10.368 32 7.75 32 3.35 32 0 28.534 0 24.194c0-.987.242-1.892.909-3.483l.207-.481c.986-2.296 5.146-11.006 7.1-14.836l.533-1.025C10.037 2.037 11.992 1 16 1zm0 2c-1.239 0-2.344.664-3.447 2.656l-.544 1.047C10.05 10.536 5.9 19.227 4.92 21.514l-.19.44C4.15 23.36 4 23.957 4 24.194 4 26.332 5.688 28 7.75 28c1.688 0 3.2-1.096 4.14-2.82l.485-.92 1.488 2.247c1.077 1.624 2.872 2.64 4.887 2.64 2.062 0 3.75-1.668 3.75-3.806 0-.294-.17-.962-.777-2.399l-.168-.415c-.98-2.287-5.13-10.978-7.089-14.811l-.544-1.047C16.827 3.718 16.544 3 16 3zm0 15c2.209 0 4 1.791 4 4s-1.791 4-4 4-4-1.791-4-4 1.791-4 4-4zm0 2c-1.105 0-2 .895-2 2s.895 2 2 2 2-.895 2-2-.895-2-2-2z" />
+            </svg>
+            <h1 className="text-2xl font-extrabold text-[#222222]">
+              {mode === "signin" ? "Welcome back to Airbnb" : "Create an Airbnb account"}
             </h1>
-            <p className="mt-2 text-sm text-ink/60">
+            <p className="mt-1.5 text-sm text-[#717171]">
               {mode === "signin"
-                ? "Sign in to view saved homes and tour appointments"
-                : "Sign up to unlock favorite tracking, alerts, and agent tours"}
+                ? "Sign in to manage your bookings, wishlists, and host properties"
+                : "Sign up to start booking unique stays and experiences worldwide"}
             </p>
           </div>
 
-          <div className="mt-6 flex rounded-2xl bg-white/60 p-1 backdrop-blur-xl border border-white/60">
+          {/* Mode Switcher */}
+          <div className="mt-6 flex rounded-xl bg-[#F7F7F7] p-1 border border-[#EBEBEB]">
             <button
               type="button"
               onClick={() => setMode("signin")}
-              className={`flex-1 rounded-xl py-2 text-sm font-semibold transition-all ${mode === "signin" ? "bg-white text-ink shadow-sm" : "text-ink/60 hover:text-ink"
-                }`}
+              className={`flex-1 rounded-lg py-2 text-sm font-bold transition-all ${
+                mode === "signin" ? "bg-white text-[#222222] shadow-sm" : "text-[#717171] hover:text-[#222222]"
+              }`}
             >
-              Sign In
+              Log in
             </button>
             <button
               type="button"
               onClick={() => setMode("signup")}
-              className={`flex-1 rounded-xl py-2 text-sm font-semibold transition-all ${mode === "signup" ? "bg-white text-ink shadow-sm" : "text-ink/60 hover:text-ink"
-                }`}
+              className={`flex-1 rounded-lg py-2 text-sm font-bold transition-all ${
+                mode === "signup" ? "bg-white text-[#222222] shadow-sm" : "text-[#717171] hover:text-[#222222]"
+              }`}
             >
-              Register
+              Sign up
             </button>
           </div>
 
+          {/* Form */}
           <form onSubmit={handleSubmit} className="mt-6 space-y-4">
             <div>
-              <label className="block text-xs font-semibold tracking-wider text-ink/70 uppercase mb-1.5">
-                Email Address
+              <label className="block text-xs font-bold text-[#222222] mb-1.5 uppercase tracking-wider">
+                Email
               </label>
-              <div className="flex items-center gap-3 rounded-2xl bg-white/75 px-4 py-3 border border-white/80 focus-within:border-brand">
-                <Mail className="size-4 text-ink/40" />
+              <div className="flex items-center gap-3 rounded-xl border border-[#DDDDDD] bg-white px-3.5 py-3 focus-within:border-[#222222]">
+                <Mail className="size-4 text-[#717171]" />
                 <input
                   type="email"
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="name@example.com"
-                  className="w-full bg-transparent text-sm outline-none placeholder:text-ink/40 text-ink"
+                  className="w-full bg-transparent text-sm text-[#222222] outline-none placeholder:text-[#717171]"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-semibold tracking-wider text-ink/70 uppercase mb-1.5">
+              <label className="block text-xs font-bold text-[#222222] mb-1.5 uppercase tracking-wider">
                 Password
               </label>
-              <div className="flex items-center gap-3 rounded-2xl bg-white/75 px-4 py-3 border border-white/80 focus-within:border-brand">
-                <Lock className="size-4 text-ink/40" />
+              <div className="flex items-center gap-3 rounded-xl border border-[#DDDDDD] bg-white px-3.5 py-3 focus-within:border-[#222222]">
+                <Lock className="size-4 text-[#717171]" />
                 <input
                   type="password"
                   required
@@ -182,7 +178,7 @@ export default function AuthPage() {
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••••••"
                   minLength={6}
-                  className="w-full bg-transparent text-sm outline-none placeholder:text-ink/40 text-ink"
+                  className="w-full bg-transparent text-sm text-[#222222] outline-none placeholder:text-[#717171]"
                 />
               </div>
             </div>
@@ -190,24 +186,15 @@ export default function AuthPage() {
             <button
               type="submit"
               disabled={loading}
-              className="mt-2 flex w-full items-center justify-center gap-2 gradient-brand rounded-2xl py-3.5 text-sm font-semibold text-primary-foreground shadow-lg shadow-sky-500/30 hover:opacity-95 disabled:opacity-50 transition-opacity"
+              className="mt-2 w-full gradient-brand rounded-xl py-3.5 text-[15px] font-bold text-white shadow-md hover:opacity-95 active:scale-[0.99] disabled:opacity-50 transition-all cursor-pointer"
             >
-              {loading ? (
-                "Processing..."
-              ) : mode === "signin" ? (
-                <>
-                  Sign In <ArrowRight className="size-4" />
-                </>
-              ) : (
-                <>
-                  Create Free Account <ArrowRight className="size-4" />
-                </>
-              )}
+              {loading ? "Please wait..." : mode === "signin" ? "Log in" : "Agree and continue"}
             </button>
           </form>
 
-          {/* Demo helper */}
-
+          <p className="mt-4 text-center text-[11px] text-[#717171] leading-relaxed">
+            By continuing, you agree to Airbnb's Terms of Service and acknowledge the Privacy Policy.
+          </p>
         </div>
       </main>
 

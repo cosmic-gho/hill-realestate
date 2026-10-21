@@ -1,19 +1,22 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
-import Link from "next/link";
+import { useSearchParams, useRouter } from "next/navigation";
 import { listProperties, type Property } from "@/actions/properties";
-import { GlassBackdrop } from "@/components/glass-backdrop";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { PropertyCard } from "@/components/property-card";
 import { formatPrice, imageFor } from "@/lib/property-images";
-import { RotateCcw, MapPin } from "lucide-react";
+import { RotateCcw, MapPin, Search } from "lucide-react";
+import Link from "next/link";
 
 export function SearchClient() {
-  const router = useRouter();
   const searchParams = useSearchParams();
+  const router = useRouter();
+
+  const [results, setResults] = useState<Property[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [selectedPinId, setSelectedPinId] = useState<string | null>(null);
 
   const q = searchParams.get("q") ?? "";
   const minPrice = searchParams.get("minPrice") ? Number(searchParams.get("minPrice")) : undefined;
@@ -22,10 +25,6 @@ export function SearchClient() {
   const baths = searchParams.get("baths") ? Number(searchParams.get("baths")) : undefined;
   const type = searchParams.get("type") ?? "";
   const status = searchParams.get("status") ?? "";
-
-  const [results, setResults] = useState<Property[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [selectedPinId, setSelectedPinId] = useState<string | null>(null);
 
   const fetchResults = useCallback(async () => {
     setLoading(true);
@@ -76,42 +75,42 @@ export function SearchClient() {
   const selectedProperty = results.find((p) => p.id === selectedPinId);
 
   return (
-    <div className="relative min-h-screen w-full overflow-hidden font-body text-ink">
-      <GlassBackdrop />
+    <div className="min-h-screen w-full bg-white font-body text-[#222222]">
       <SiteHeader />
 
-      <main className="relative z-20 mx-auto max-w-7xl px-8 pb-24">
-        <div className="flex flex-wrap items-end justify-between gap-4">
+      <main className="mx-auto max-w-[1280px] px-4 pt-6 pb-24 sm:px-6 lg:px-8">
+        {/* Results title and reset button */}
+        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#EBEBEB] pb-5">
           <div>
-            <h1 className="font-display text-3xl font-bold tracking-tight sm:text-4xl">
-              {loading ? "Searching..." : `${results.length} home${results.length === 1 ? "" : "s"} available`}
+            <h1 className="text-xl sm:text-2xl font-extrabold text-[#222222]">
+              {loading ? "Searching..." : `${results.length} stay${results.length === 1 ? "" : "s"} & properties available`}
             </h1>
-            <p className="mt-1 text-sm text-ink/55">
-              {q ? `Matching “${q}”` : "Across the Pacific Northwest"}
+            <p className="mt-1 text-sm text-[#717171]">
+              {q ? `Matching “${q}”` : "Explore vacation homes, apartments, and luxury villas"}
             </p>
           </div>
 
           {activeFiltersCount > 0 && (
             <button
               onClick={resetFilters}
-              className="flex items-center gap-1.5 rounded-2xl border border-white/80 bg-white/70 px-4 py-2 text-xs font-semibold text-ink/70 hover:bg-white hover:text-ink transition-colors shadow-sm"
+              className="flex items-center gap-1.5 rounded-full border border-[#DDDDDD] bg-white px-4 py-2 text-xs font-semibold text-[#222222] hover:bg-[#F7F7F7] shadow-xs transition-colors"
             >
               <RotateCcw className="size-3.5" /> Reset {activeFiltersCount} filters
             </button>
           )}
         </div>
 
-        {/* Filter controls */}
-        <div className="mt-6 flex flex-wrap gap-2.5 rounded-3xl border border-white/60 bg-white/45 p-4 shadow-xl shadow-sky-900/10 backdrop-blur-2xl">
+        {/* Filter controls row */}
+        <div className="mt-5 flex flex-wrap items-center gap-3">
           {/* Search text input */}
-          <div className="flex min-w-[200px] flex-1 items-center gap-2.5 rounded-2xl bg-white/75 px-4 py-2.5 border border-white/80">
-            <span className="text-brand font-bold">⌕</span>
+          <div className="flex min-w-[220px] flex-1 items-center gap-2.5 rounded-full border border-[#DDDDDD] bg-white px-4 py-2 text-sm shadow-xs focus-within:border-[#222222]">
+            <Search className="size-4 text-[#717171]" />
             <input
               value={q}
               onChange={(e) => updateParam("q", e.target.value)}
-              className="w-full bg-transparent text-sm outline-none placeholder:text-ink/40"
-              placeholder="City, neighborhood, or ZIP"
-              aria-label="City, neighborhood, or ZIP"
+              className="w-full bg-transparent text-sm text-[#222222] outline-none placeholder:text-[#717171]"
+              placeholder="City, neighborhood, or keyword"
+              aria-label="City, neighborhood, or keyword"
             />
           </div>
 
@@ -120,12 +119,13 @@ export function SearchClient() {
             aria-label="Min price"
             value={minPrice ? String(minPrice) : ""}
             onChange={(e) => updateParam("minPrice", e.target.value)}
-            className="rounded-2xl bg-white/75 px-3.5 py-2.5 text-xs font-semibold text-ink/70 outline-none border border-white/80 hover:bg-white"
+            className="rounded-full border border-[#DDDDDD] bg-white px-4 py-2 text-xs font-semibold text-[#222222] shadow-xs outline-none hover:border-[#222222] cursor-pointer"
           >
-            <option value="">Min Price</option>
-            <option value="400000">$400k+</option>
-            <option value="600000">$600k+</option>
-            <option value="800000">$800k+</option>
+            <option value="">Price: Min</option>
+            <option value="200">$200+</option>
+            <option value="400">$400+</option>
+            <option value="600">$600+</option>
+            <option value="500000">$500k+</option>
             <option value="1000000">$1M+</option>
           </select>
 
@@ -134,12 +134,13 @@ export function SearchClient() {
             aria-label="Max price"
             value={maxPrice ? String(maxPrice) : ""}
             onChange={(e) => updateParam("maxPrice", e.target.value)}
-            className="rounded-2xl bg-white/75 px-3.5 py-2.5 text-xs font-semibold text-ink/70 outline-none border border-white/80 hover:bg-white"
+            className="rounded-full border border-[#DDDDDD] bg-white px-4 py-2 text-xs font-semibold text-[#222222] shadow-xs outline-none hover:border-[#222222] cursor-pointer"
           >
-            <option value="">Max Price</option>
-            <option value="650000">Up to $650k</option>
-            <option value="850000">Up to $850k</option>
-            <option value="1100000">Up to $1.1M</option>
+            <option value="">Price: Max</option>
+            <option value="350">Up to $350</option>
+            <option value="500">Up to $500</option>
+            <option value="1000">Up to $1k</option>
+            <option value="800000">Up to $800k</option>
             <option value="1500000">Up to $1.5M</option>
           </select>
 
@@ -148,7 +149,7 @@ export function SearchClient() {
             aria-label="Minimum beds"
             value={beds ? String(beds) : ""}
             onChange={(e) => updateParam("beds", e.target.value)}
-            className="rounded-2xl bg-white/75 px-3.5 py-2.5 text-xs font-semibold text-ink/70 outline-none border border-white/80 hover:bg-white"
+            className="rounded-full border border-[#DDDDDD] bg-white px-4 py-2 text-xs font-semibold text-[#222222] shadow-xs outline-none hover:border-[#222222] cursor-pointer"
           >
             <option value="">Beds: Any</option>
             <option value="1">1+ beds</option>
@@ -162,7 +163,7 @@ export function SearchClient() {
             aria-label="Minimum baths"
             value={baths ? String(baths) : ""}
             onChange={(e) => updateParam("baths", e.target.value)}
-            className="rounded-2xl bg-white/75 px-3.5 py-2.5 text-xs font-semibold text-ink/70 outline-none border border-white/80 hover:bg-white"
+            className="rounded-full border border-[#DDDDDD] bg-white px-4 py-2 text-xs font-semibold text-[#222222] shadow-xs outline-none hover:border-[#222222] cursor-pointer"
           >
             <option value="">Baths: Any</option>
             <option value="1">1+ baths</option>
@@ -175,17 +176,16 @@ export function SearchClient() {
             aria-label="Property type"
             value={type}
             onChange={(e) => updateParam("type", e.target.value)}
-            className="rounded-2xl bg-white/75 px-3.5 py-2.5 text-xs font-semibold text-ink/70 outline-none border border-white/80 hover:bg-white"
+            className="rounded-full border border-[#DDDDDD] bg-white px-4 py-2 text-xs font-semibold text-[#222222] shadow-xs outline-none hover:border-[#222222] cursor-pointer"
           >
             <option value="">Type: All</option>
-            <option value="House">House</option>
-            <option value="Condo">Condo</option>
             <option value="Airbnb">Airbnb / Vacation</option>
+            <option value="Condo">Condo / Loft</option>
             <option value="Rental">Rental Apartment</option>
             <option value="Villa">Luxury Villa</option>
+            <option value="House">House</option>
             <option value="Townhouse">Townhouse</option>
             <option value="Cottage">Cottage</option>
-            <option value="Duplex">Duplex</option>
           </select>
 
           {/* Status */}
@@ -193,23 +193,22 @@ export function SearchClient() {
             aria-label="Listing status"
             value={status}
             onChange={(e) => updateParam("status", e.target.value)}
-            className="rounded-2xl bg-white/75 px-3.5 py-2.5 text-xs font-semibold text-ink/70 outline-none border border-white/80 hover:bg-white"
+            className="rounded-full border border-[#DDDDDD] bg-white px-4 py-2 text-xs font-semibold text-[#222222] shadow-xs outline-none hover:border-[#222222] cursor-pointer"
           >
             <option value="">Status: All</option>
-            <option value="For sale">For sale</option>
-            <option value="For rent">For rent</option>
             <option value="Airbnb">Airbnb</option>
+            <option value="For rent">For rent</option>
+            <option value="For sale">For sale</option>
             <option value="New">New</option>
             <option value="Price drop">Price drop</option>
-            <option value="Open house">Open house</option>
           </select>
         </div>
 
-        {/* Results layout: Interactive Map on left, Cards on right */}
-        <div className="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-[1fr_1.15fr]">
-          {/* Map view */}
-          <div className="relative h-[600px] overflow-hidden rounded-3xl border border-white/60 bg-white/40 shadow-xl shadow-sky-900/10 backdrop-blur-2xl lg:sticky lg:top-6">
-            <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(14,165,233,0.14)_1px,transparent_1px),linear-gradient(to_bottom,rgba(14,165,233,0.14)_1px,transparent_1px)] bg-[size:44px_44px]" />
+        {/* Results layout: Map on left, Cards on right */}
+        <div className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-[1fr_1.15fr]">
+          {/* Interactive Map View with Airbnb Style Map Pins */}
+          <div className="relative h-[620px] overflow-hidden rounded-3xl border border-[#EBEBEB] bg-[#F7F7F7] shadow-sm lg:sticky lg:top-24">
+            <div className="absolute inset-0 bg-[radial-gradient(#DDDDDD_1px,transparent_1px)] [background-size:24px_24px] opacity-70" />
 
             {results.map((p, i) => {
               const isSelected = selectedPinId === p.id;
@@ -217,54 +216,55 @@ export function SearchClient() {
                 <button
                   key={p.id}
                   onClick={() => setSelectedPinId(isSelected ? null : p.id)}
-                  className={`absolute rounded-2xl px-3 py-1.5 font-display text-xs font-bold shadow-lg backdrop-blur transition-all duration-200 ${
+                  className={`absolute rounded-full px-3 py-1 text-xs font-bold transition-all duration-200 cursor-pointer shadow-md ${
                     isSelected
-                      ? "bg-brand text-white ring-4 ring-sky-400/40 scale-110 z-30"
-                      : "bg-ink/85 text-primary-foreground hover:bg-brand hover:scale-105 z-10"
+                      ? "bg-[#222222] text-white scale-110 z-30 ring-2 ring-white"
+                      : "bg-white text-[#222222] hover:scale-105 hover:bg-[#222222] hover:text-white border border-[#DDDDDD] z-10"
                   }`}
                   style={{
                     top: `${14 + ((i * 11) % 72)}%`,
                     left: `${10 + ((i * 23) % 75)}%`,
                   }}
+                  aria-label={`View listing ${p.title}`}
                 >
                   {formatPrice(p.price, p.property_type, p.status)}
                 </button>
               );
             })}
 
+            {/* Selected property popup card */}
             {selectedProperty && (
-              <div className="absolute bottom-16 left-6 right-6 z-20 overflow-hidden rounded-3xl border border-white/80 bg-white/95 p-4 shadow-2xl backdrop-blur-xl animate-in fade-in slide-in-from-bottom-3 duration-200">
-                <div className="flex gap-4">
+              <div className="absolute bottom-16 left-6 right-6 z-20 overflow-hidden rounded-2xl border border-[#EBEBEB] bg-white p-3 shadow-2xl animate-in fade-in slide-in-from-bottom-2 duration-150">
+                <div className="flex gap-3">
                   <img
                     src={imageFor(selectedProperty.image_key)}
                     alt={selectedProperty.title}
-                    className="size-20 rounded-2xl object-cover"
+                    className="size-20 rounded-xl object-cover shrink-0"
                   />
-                  <div className="flex-1">
-                    <div className="flex items-baseline justify-between">
-                      <p className="font-display text-lg font-bold text-ink">
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-baseline justify-between gap-1">
+                      <p className="text-base font-bold text-[#222222] truncate">
                         {formatPrice(selectedProperty.price, selectedProperty.property_type, selectedProperty.status)}
                       </p>
-                      <span className="rounded-full bg-brand/10 px-2 py-0.5 text-[10px] font-semibold text-brand">
+                      <span className="rounded-full bg-emerald-50 px-2 py-0.5 text-[10px] font-bold text-emerald-700">
                         {selectedProperty.status}
                       </span>
                     </div>
-                    <p className="text-xs font-semibold text-ink/80 mt-0.5">
+                    <p className="text-xs font-semibold text-[#222222] truncate mt-0.5">
                       {selectedProperty.title}
                     </p>
-                    <p className="text-[11px] text-ink/50">
-                      {selectedProperty.address}, {selectedProperty.city}
+                    <p className="text-[12px] text-[#717171] truncate">
+                      {selectedProperty.city}, {selectedProperty.state}
                     </p>
                     <div className="mt-2 flex items-center justify-between">
-                      <span className="text-[11px] text-ink/60">
-                        {selectedProperty.beds} bd · {selectedProperty.baths} ba ·{" "}
-                        {selectedProperty.sqft} sqft
+                      <span className="text-[11px] text-[#717171]">
+                        {selectedProperty.beds} bd · {selectedProperty.baths} ba
                       </span>
                       <Link
                         href={`/property/${selectedProperty.id}`}
-                        className="text-xs font-semibold text-brand hover:underline"
+                        className="text-xs font-bold text-[#FF385C] hover:underline"
                       >
-                        View details →
+                        View stay →
                       </Link>
                     </div>
                   </div>
@@ -272,35 +272,35 @@ export function SearchClient() {
               </div>
             )}
 
-            <div className="absolute bottom-4 left-4 flex items-center gap-2 rounded-full border border-white/60 bg-white/70 px-3.5 py-1 text-xs font-medium text-ink/60 backdrop-blur-xl shadow-sm">
-              <MapPin className="size-3 text-brand" /> Interactive map pins
+            <div className="absolute bottom-4 left-4 flex items-center gap-1.5 rounded-full border border-[#DDDDDD] bg-white/95 px-3 py-1 text-xs font-medium text-[#717171] shadow-xs">
+              <MapPin className="size-3 text-[#FF385C]" /> Map view
             </div>
           </div>
 
           {/* Cards list */}
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+          <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2">
             {results.map((p) => (
               <div
                 key={p.id}
-                className={`transition-all duration-200 rounded-3xl ${
-                  selectedPinId === p.id ? "ring-2 ring-brand scale-[1.01]" : ""
+                className={`transition-all duration-200 ${
+                  selectedPinId === p.id ? "ring-2 ring-[#222222] rounded-2xl p-1" : ""
                 }`}
               >
                 <PropertyCard property={p} />
               </div>
             ))}
+
             {!loading && results.length === 0 && (
-              <div className="col-span-full rounded-3xl border border-white/60 bg-white/50 p-12 text-center text-sm text-ink/60 backdrop-blur-2xl">
-                <p className="font-display text-lg font-bold text-ink mb-1">
-                  No matching homes found
+              <div className="col-span-full rounded-2xl border border-[#EBEBEB] bg-[#F7F7F7] p-12 text-center text-sm text-[#717171]">
+                <p className="text-base font-bold text-[#222222] mb-1">
+                  No matching stays found
                 </p>
                 <p className="max-w-sm mx-auto">
-                  Try broadening your price range, beds, or clearing filter criteria to view more
-                  listings.
+                  Try broadening your price range, beds, or clearing filter criteria to view more listings.
                 </p>
                 <button
                   onClick={resetFilters}
-                  className="mt-5 rounded-2xl bg-ink px-5 py-2.5 text-xs font-semibold text-white"
+                  className="mt-5 rounded-full bg-[#222222] px-6 py-2.5 text-xs font-bold text-white shadow-sm hover:opacity-90"
                 >
                   Clear all filters
                 </button>

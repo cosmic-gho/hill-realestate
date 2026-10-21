@@ -1,0 +1,5 @@
+__d(function(g,r,i,a,m,e,d){"use strict";'function'==typeof TouchList&&'function'!=typeof TouchList.prototype[Symbol.iterator]&&(TouchList.prototype[Symbol.iterator]=Array.prototype[Symbol.iterator])},572368498629325,[]);
+__d(function(g,r,i,a,m,e,d){"use strict";r(d[0]),r(d[1])},2542895627952608,[6981878824023735,572368498629325]);
+__d(function(g,r,i,a,m,e,d){"use strict";Object.defineProperty(e,"__esModule",{value:!0}),e.fallback=void 0;const l=e.fallback=function(l){return setTimeout(function(){const t=Date.now();l({didTimeout:!1,timeRemaining:()=>Math.max(0,50-(Date.now()-t))})},1)},t='undefined'!=typeof requestIdleCallback;g.requestIdleCallback=t?requestIdleCallback:l,g.cancelIdleCallback=t?cancelIdleCallback:clearTimeout},6981878824023735,[]);
+__r(2542895627952608);
+//# sourceMappingURL=https://sourcemaps.d.musta.ch/airbnb/static/packages/web/common/frontend/hyperloop-browser/shims_post_modules.ba21201612.js.map

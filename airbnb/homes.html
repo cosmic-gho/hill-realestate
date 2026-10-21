@@ -1,0 +1,1859 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stays & Vacation Rentals | Airbnb</title>
+  <link rel="stylesheet" href="static/css/client.f7824fa9cc.css">
+  <link rel="stylesheet" href="static/css/airbnb-pages.css">
+</head>
+<body>
+
+
+<header class="ab-header">
+  <div class="ab-nav-container">
+    <a href="index.html" class="ab-logo" aria-label="Airbnb homepage">
+      <svg viewBox="0 0 32 32" style="display:inline-block; height:32px; width:32px; fill:#FF385C;">
+        <path d="M16 1c2.008 0 3.463.963 4.751 3.269l.533 1.025c1.954 3.83 6.114 12.54 7.1 14.836l.145.353c.667 1.591.91 2.472.96 3.396l.011.315c0 4.34-3.35 7.806-7.75 7.806-2.618 0-4.839-1.282-6.195-3.238l-.555-.838-.555.838C12.589 30.718 10.368 32 7.75 32 3.35 32 0 28.534 0 24.194c0-.987.242-1.892.909-3.483l.207-.481c.986-2.296 5.146-11.006 7.1-14.836l.533-1.025C10.037 2.037 11.992 1 16 1zm0 2c-1.239 0-2.344.664-3.447 2.656l-.544 1.047C10.05 10.536 5.9 19.227 4.92 21.514l-.19.44C4.15 23.36 4 23.957 4 24.194 4 26.332 5.688 28 7.75 28c1.688 0 3.2-1.096 4.14-2.82l.485-.92 1.488 2.247c1.077 1.624 2.872 2.64 4.887 2.64 2.062 0 3.75-1.668 3.75-3.806 0-.294-.17-.962-.777-2.399l-.168-.415c-.98-2.287-5.13-10.978-7.089-14.811l-.544-1.047C16.827 3.718 16.544 3 16 3zm0 15c2.209 0 4 1.791 4 4s-1.791 4-4 4-4-1.791-4-4 1.791-4 4-4zm0 2c-1.105 0-2 .895-2 2s.895 2 2 2 2-.895 2-2-.895-2-2-2z"></path>
+      </svg>
+      <span style="margin-left: 8px; font-weight: 800; font-size: 20px; color:#FF385C;">airbnb</span>
+    </a>
+
+    <div class="ab-center-tabs">
+      <a href="index.html" class="ab-tab-link ">All</a>
+      <a href="homes.html" class="ab-tab-link active">Stays</a>
+      <a href="experiences.html" class="ab-tab-link ">Experiences</a>
+      <a href="services.html" class="ab-tab-link ">Services</a>
+    </div>
+
+    <div class="ab-nav-right">
+      <a href="host.html" class="ab-host-link">Airbnb your home</a>
+      <button class="ab-globe-btn" aria-label="Language & Currency">🌐</button>
+      <button class="ab-user-btn" aria-label="Main navigation menu">
+        <span style="font-size: 16px;">☰</span>
+        <div class="ab-user-avatar">👤</div>
+      </button>
+    </div>
+  </div>
+</header>
+
+
+<!-- Search Bar -->
+<div style="padding: 16px 24px; background: #fff;">
+  <div class="ab-hero-search">
+    <div class="ab-search-section">
+      <span class="ab-search-label">Where</span>
+      <span class="ab-search-placeholder">Search destinations</span>
+    </div>
+    <div class="ab-search-section">
+      <span class="ab-search-label">Check in / out</span>
+      <span class="ab-search-placeholder">Add dates</span>
+    </div>
+    <div class="ab-search-section">
+      <span class="ab-search-label">Who</span>
+      <span class="ab-search-placeholder">Add guests</span>
+    </div>
+    <button class="ab-search-btn" aria-label="Search">🔍</button>
+  </div>
+</div>
+
+<!-- Category Filter Scrollbar -->
+<div class="ab-category-bar">
+  <div class="ab-category-scroll">
+    <div class="ab-category-item active" onclick="filterCategory('all', this)">
+      <div class="ab-category-icon">✨</div>
+      <div class="ab-category-label">All Stays</div>
+    </div>
+    <div class="ab-category-item" onclick="filterCategory('beachfront', this)">
+      <div class="ab-category-icon">🏖️</div>
+      <div class="ab-category-label">Beachfront</div>
+    </div>
+    <div class="ab-category-item" onclick="filterCategory('cabins', this)">
+      <div class="ab-category-icon">🪵</div>
+      <div class="ab-category-label">Cabins</div>
+    </div>
+    <div class="ab-category-item" onclick="filterCategory('mansions', this)">
+      <div class="ab-category-icon">🏰</div>
+      <div class="ab-category-label">Mansions</div>
+    </div>
+    <div class="ab-category-item" onclick="filterCategory('views', this)">
+      <div class="ab-category-icon">🌄</div>
+      <div class="ab-category-label">Amazing views</div>
+    </div>
+    <div class="ab-category-item" onclick="filterCategory('pools', this)">
+      <div class="ab-category-icon">🏊</div>
+      <div class="ab-category-label">Amazing pools</div>
+    </div>
+    <div class="ab-category-item" onclick="filterCategory('lakefront', this)">
+      <div class="ab-category-icon">⛵</div>
+      <div class="ab-category-label">Lakefront</div>
+    </div>
+    <div class="ab-category-item" onclick="filterCategory('iconic', this)">
+      <div class="ab-category-icon">⭐</div>
+      <div class="ab-category-label">Icons</div>
+    </div>
+  </div>
+</div>
+
+<!-- Content Grid -->
+<div class="ab-content-container">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 16px; border-bottom: 1px solid var(--border-light); padding-bottom: 16px;">
+    <div>
+      <h1 style="font-size: 24px; font-weight: 800; margin: 0 0 4px 0;">Stays across Las Vegas, California & beyond</h1>
+      <p id="propertyCount" style="color: var(--text-light); margin: 0; font-size: 14px;">Showing 104 vacation rentals & homes</p>
+    </div>
+    <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+      <select id="priceFilter" onchange="applyFilters()" style="padding: 9px 16px; border-radius: 24px; border: 1px solid var(--border-dark); font-size: 14px; font-weight: 600; background: #fff; cursor: pointer; outline: none;">
+        <option value="all">Any price</option>
+        <option value="under250">Under $250</option>
+        <option value="250to400">$250 - $400</option>
+        <option value="400to600">$400 - $600</option>
+        <option value="over600">$600+</option>
+      </select>
+      <select id="sortFilter" onchange="applyFilters()" style="padding: 9px 16px; border-radius: 24px; border: 1px solid var(--border-dark); font-size: 14px; font-weight: 600; background: #fff; cursor: pointer; outline: none;">
+        <option value="recommended">Recommended</option>
+        <option value="priceLow">Price: Low to High</option>
+        <option value="priceHigh">Price: High to Low</option>
+        <option value="rating">Top Rated</option>
+      </select>
+    </div>
+  </div>
+  <div class="ab-grid" id="homesGrid"></div>
+  <div id="loadMoreWrap" style="text-align: center; margin: 48px 0 24px 0;">
+    <button id="loadMoreBtn" onclick="loadMore()" style="background: #222; color: #fff; border: none; padding: 14px 28px; border-radius: 8px; font-size: 15px; font-weight: 700; cursor: pointer; transition: opacity 0.2s;">Show more stays</button>
+  </div>
+</div>
+
+<!-- Modal -->
+<div id="bookingModal" class="ab-modal-overlay" onclick="closeBookingModal(event)">
+  <div class="ab-modal-box" onclick="event.stopPropagation()">
+    <button class="ab-modal-close" onclick="closeBookingModalDirect()">&times;</button>
+    <div style="height: 280px; overflow: hidden; position: relative;">
+      <img id="mImg" src="" alt="Property" style="width: 100%; height: 100%; object-fit: cover;">
+      <span id="mBadge" class="ab-guest-fav-badge">Guest favorite</span>
+    </div>
+    <div style="padding: 24px;">
+      <div style="display: flex; justify-content: space-between; align-items: baseline;">
+        <h3 id="mTitle" style="margin: 0; font-size: 22px;">Villa Sunset</h3>
+        <div id="mPrice" style="font-size: 22px; font-weight: 700; color: var(--rausch);">$280 / night</div>
+      </div>
+      <p id="mSubtitle" style="color: var(--text-light); margin: 4px 0 16px 0; font-size: 15px;">Entire villa hosted by Marie</p>
+      
+      <div style="border-top: 1px solid var(--border-light); border-bottom: 1px solid var(--border-light); padding: 14px 0; margin-bottom: 18px;">
+        <div style="display: flex; gap: 24px; font-size: 14px;">
+          <span>⭐ <strong id="mRating">4.96</strong> (124 reviews)</span>
+          <span>🏆 Superhost</span>
+          <span>📍 <span id="mLocation">Las Vegas, Nevada</span></span>
+        </div>
+      </div>
+
+      <h4 style="margin: 0 0 12px 0;">Reserve Your Stay</h4>
+      <form onsubmit="handleReserve(event)" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+        <div>
+          <label style="font-size: 12px; font-weight: 700; display: block; margin-bottom: 4px;">Check-In</label>
+          <input type="date" required style="width: 100%; padding: 10px; border: 1px solid var(--border-dark); border-radius: 8px;">
+        </div>
+        <div>
+          <label style="font-size: 12px; font-weight: 700; display: block; margin-bottom: 4px;">Checkout</label>
+          <input type="date" required style="width: 100%; padding: 10px; border: 1px solid var(--border-dark); border-radius: 8px;">
+        </div>
+        <div style="grid-column: span 2;">
+          <label style="font-size: 12px; font-weight: 700; display: block; margin-bottom: 4px;">Guests</label>
+          <select style="width: 100%; padding: 10px; border: 1px solid var(--border-dark); border-radius: 8px;">
+            <option>1 guest</option>
+            <option>2 guests</option>
+            <option>3 guests</option>
+            <option>4+ guests</option>
+          </select>
+        </div>
+        <div style="grid-column: span 2; margin-top: 10px;">
+          <button type="submit" class="ab-btn-primary">Reserve Now</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+const stays = [
+  {
+    "id": 1,
+    "title": "The Strip Luxury Sky Villa & Bellagio View",
+    "location": "Las Vegas, Nevada, US",
+    "dates": "Nov 4 - 9",
+    "category": "views",
+    "price": "$495",
+    "rawPrice": 495,
+    "rating": "4.99",
+    "reviews": 164,
+    "badge": "Top 1%",
+    "subtitle": "Entire penthouse hosted by Dominic \u2022 2 beds \u2022 2 baths",
+    "img": "static/images/0b9246fe-0d76-4841-b1e2-a3cdd559aa3f.jpeg"
+  },
+  {
+    "id": 2,
+    "title": "Malibu Oceanfront Architectural Glass Villa",
+    "location": "Malibu, California, US",
+    "dates": "Dec 7 - 12",
+    "category": "beachfront",
+    "price": "$780",
+    "rawPrice": 780,
+    "rating": "5.0",
+    "reviews": 114,
+    "badge": "Luxe stay",
+    "subtitle": "Entire villa hosted by Brooke \u2022 4 beds \u2022 4 baths",
+    "img": "static/images/1655f353-9d59-41ec-9829-1b869cff0d35.jpeg"
+  },
+  {
+    "id": 3,
+    "title": "Miami South Beach Ocean Drive Art Deco Penthouse",
+    "location": "Miami Beach, Florida, US",
+    "dates": "Oct 10 - 15",
+    "category": "beachfront",
+    "price": "$420",
+    "rawPrice": 420,
+    "rating": "4.97",
+    "reviews": 182,
+    "badge": "Guest favorite",
+    "subtitle": "Entire penthouse hosted by Marco \u2022 2 beds \u2022 2 baths",
+    "img": "static/images/1ae59289-9afd-43ab-b5fa-0573461a2aa9.jpeg"
+  },
+  {
+    "id": 4,
+    "title": "Scottsdale Sonoran Desert Modern Villa & Pool",
+    "location": "Scottsdale, Arizona, US",
+    "dates": "Nov 13 - 18",
+    "category": "pools",
+    "price": "$385",
+    "rawPrice": 385,
+    "rating": "4.98",
+    "reviews": 145,
+    "badge": "Guest favorite",
+    "subtitle": "Entire villa hosted by Wyatt \u2022 3 beds \u2022 3 baths",
+    "img": "static/images/22f33420-86a0-4f4a-ac09-1f4213ec3b71.jpeg"
+  },
+  {
+    "id": 5,
+    "title": "Hollywood Hills Mid-Century with Skyline Pool",
+    "location": "Hollywood Hills, California, US",
+    "dates": "Dec 16 - 21",
+    "category": "pools",
+    "price": "$560",
+    "rawPrice": 560,
+    "rating": "4.98",
+    "reviews": 142,
+    "badge": "Guest favorite",
+    "subtitle": "Entire home hosted by Jason \u2022 3 beds \u2022 3 baths",
+    "img": "static/images/272da3ad-3ada-4df2-90cc-850a2418c3b5.jpeg"
+  },
+  {
+    "id": 6,
+    "title": "Modern Resort Oasis with Waterfall Pool & Cabana",
+    "location": "Las Vegas, Nevada, US",
+    "dates": "Oct 19 - 24",
+    "category": "pools",
+    "price": "$390",
+    "rawPrice": 390,
+    "rating": "4.97",
+    "reviews": 128,
+    "badge": "Guest favorite",
+    "subtitle": "Entire home hosted by Brandon \u2022 4 beds \u2022 3 baths",
+    "img": "static/images/3717948b-fec8-4703-b01d-c35fc3f4d60b.jpeg"
+  },
+  {
+    "id": 7,
+    "title": "Kensington Victorian Garden Maisonette",
+    "location": "Kensington, London, UK",
+    "dates": "Nov 2 - 7",
+    "category": "mansions",
+    "price": "$340",
+    "rawPrice": 340,
+    "rating": "4.98",
+    "reviews": 152,
+    "badge": "Guest favorite",
+    "subtitle": "Entire maisonette hosted by Beatrice \u2022 2 beds \u2022 2 baths",
+    "img": "static/images/3b68f085-d5ee-4e42-b6c0-cee5d8bbcb74.jpeg"
+  },
+  {
+    "id": 8,
+    "title": "Aspen Mountain Ski-In / Ski-Out Luxury Chalet",
+    "location": "Aspen, Colorado, US",
+    "dates": "Dec 5 - 10",
+    "category": "mansions",
+    "price": "$920",
+    "rawPrice": 920,
+    "rating": "5.0",
+    "reviews": 88,
+    "badge": "Luxe stay",
+    "subtitle": "Entire chalet hosted by Sterling \u2022 5 beds \u2022 5 baths",
+    "img": "static/images/41d552b8-26c6-4ef2-b1e0-43ca7340fdec.jpeg"
+  },
+  {
+    "id": 9,
+    "title": "Venice Beach Walk-Street Designer Bungalow",
+    "location": "Venice Beach, California, US",
+    "dates": "Oct 8 - 13",
+    "category": "beachfront",
+    "price": "$310",
+    "rawPrice": 310,
+    "rating": "4.95",
+    "reviews": 168,
+    "badge": "Guest favorite",
+    "subtitle": "Entire bungalow hosted by Mia \u2022 2 beds \u2022 1 bath",
+    "img": "static/images/4573ca97-eadf-41d6-8caa-b791126be732.jpeg"
+  },
+  {
+    "id": 10,
+    "title": "Palm Springs Desert Modern Oasis & Spa",
+    "location": "Palm Springs, California, US",
+    "dates": "Nov 11 - 16",
+    "category": "pools",
+    "price": "$365",
+    "rawPrice": 365,
+    "rating": "4.97",
+    "reviews": 195,
+    "badge": "Guest favorite",
+    "subtitle": "Entire home hosted by Lauren \u2022 3 beds \u2022 2 baths",
+    "img": "static/images/45834231-3b32-44a1-b1ee-089e14536db3.jpeg"
+  },
+  {
+    "id": 11,
+    "title": "Maui Wailea Oceanfront Villa with Plunge Pool",
+    "location": "Wailea, Maui, Hawaii, US",
+    "dates": "Dec 14 - 19",
+    "category": "pools",
+    "price": "$880",
+    "rawPrice": 880,
+    "rating": "5.0",
+    "reviews": 134,
+    "badge": "Luxe stay",
+    "subtitle": "Entire villa hosted by Keanu \u2022 3 beds \u2022 3.5 baths",
+    "img": "static/images/4d4daac7-cfae-479d-bf2a-96c5dbb3b87c.jpeg"
+  },
+  {
+    "id": 12,
+    "title": "Red Rock Canyon Modern Desert Villa",
+    "location": "Summerlin, Las Vegas, NV",
+    "dates": "Oct 17 - 22",
+    "category": "views",
+    "price": "$430",
+    "rawPrice": 430,
+    "rating": "4.96",
+    "reviews": 96,
+    "badge": "Rare find",
+    "subtitle": "Entire villa hosted by Derek \u2022 3 beds \u2022 3 baths",
+    "img": "static/images/4f903adb-0dd6-44d5-bdcd-7337cc7cfc95.jpeg"
+  },
+  {
+    "id": 13,
+    "title": "Lake Tahoe Lakefront Alpine Chalet & Private Pier",
+    "location": "Lake Tahoe, California, US",
+    "dates": "Nov 20 - 25",
+    "category": "lakefront",
+    "price": "$510",
+    "rawPrice": 510,
+    "rating": "4.97",
+    "reviews": 132,
+    "badge": "Guest favorite",
+    "subtitle": "Entire chalet hosted by Brett \u2022 4 beds \u2022 3 baths",
+    "img": "static/images/52f7c15f-4f38-416d-be82-66b803954b2b.jpeg"
+  },
+  {
+    "id": 14,
+    "title": "Austin Lake Travis Cliffside Villa with Pool",
+    "location": "Austin, Texas, US",
+    "dates": "Dec 3 - 8",
+    "category": "pools",
+    "price": "$460",
+    "rawPrice": 460,
+    "rating": "4.97",
+    "reviews": 102,
+    "badge": "Guest favorite",
+    "subtitle": "Entire villa hosted by Travis \u2022 4 beds \u2022 3.5 baths",
+    "img": "static/images/59efe62a-a7ae-47c7-a128-53477e8b2791.jpeg"
+  },
+  {
+    "id": 15,
+    "title": "Luxury Soho Designer Loft with Terrace",
+    "location": "Soho, New York, US",
+    "dates": "Oct 6 - 11",
+    "category": "mansions",
+    "price": "$380",
+    "rawPrice": 380,
+    "rating": "4.98",
+    "reviews": 128,
+    "badge": "Guest favorite",
+    "subtitle": "Entire loft hosted by Julian \u2022 2 beds \u2022 2 baths",
+    "img": "static/images/7f74292a-5ebb-4899-8f86-a9894fcedbba.jpeg"
+  },
+  {
+    "id": 16,
+    "title": "San Francisco Pacific Heights Victorian Flat",
+    "location": "San Francisco, California, US",
+    "dates": "Nov 9 - 14",
+    "category": "iconic",
+    "price": "$315",
+    "rawPrice": 315,
+    "rating": "4.94",
+    "reviews": 140,
+    "badge": "Guest favorite",
+    "subtitle": "Entire flat hosted by Claire \u2022 2 beds \u2022 1.5 baths",
+    "img": "static/images/817c98a6-540d-4a2a-8524-5ff69b3f1a9d.jpeg"
+  },
+  {
+    "id": 17,
+    "title": "Sedona Red Rock Vortex Panoramic Home",
+    "location": "Sedona, Arizona, US",
+    "dates": "Dec 12 - 17",
+    "category": "views",
+    "price": "$370",
+    "rawPrice": 370,
+    "rating": "4.99",
+    "reviews": 156,
+    "badge": "Top 1%",
+    "subtitle": "Entire home hosted by Sierra \u2022 3 beds \u2022 2 baths",
+    "img": "static/images/82cf12f3-43df-4719-87d3-0efee3ea167a.jpeg"
+  },
+  {
+    "id": 18,
+    "title": "Beverly Hills Private Estate with Tennis Court",
+    "location": "Beverly Hills, California, US",
+    "dates": "Oct 15 - 20",
+    "category": "mansions",
+    "price": "$1150",
+    "rawPrice": 1150,
+    "rating": "4.99",
+    "reviews": 64,
+    "badge": "Top 1%",
+    "subtitle": "Entire estate hosted by Sebastian \u2022 6 beds \u2022 6.5 baths",
+    "img": "static/images/93113e22-a2a4-4336-8dee-e05ad6060251.jpeg"
+  },
+  {
+    "id": 19,
+    "title": "Mediterranean Estate with Heated Pool & Spa",
+    "location": "Henderson, Las Vegas, NV",
+    "dates": "Nov 18 - 23",
+    "category": "pools",
+    "price": "$345",
+    "rawPrice": 345,
+    "rating": "4.95",
+    "reviews": 84,
+    "badge": "Guest favorite",
+    "subtitle": "Entire estate hosted by Anthony \u2022 4 beds \u2022 3 baths",
+    "img": "static/images/9460960d-dd60-430e-b081-94ec27694b94.jpeg"
+  },
+  {
+    "id": 20,
+    "title": "Lake Windermere Luxury Boathouse & Spa",
+    "location": "Lake District, United Kingdom",
+    "dates": "Dec 1 - 6",
+    "category": "lakefront",
+    "price": "$420",
+    "rawPrice": 420,
+    "rating": "5.0",
+    "reviews": 115,
+    "badge": "Top 1%",
+    "subtitle": "Entire boathouse hosted by Alistair \u2022 1 bed \u2022 1 bath",
+    "img": "static/images/9b5267e5-41e1-4a22-9496-f601a4475b50.jpeg"
+  },
+  {
+    "id": 21,
+    "title": "Park City Main Street Historic Ski Chalet",
+    "location": "Park City, Utah, US",
+    "dates": "Oct 4 - 9",
+    "category": "cabins",
+    "price": "$450",
+    "rawPrice": 450,
+    "rating": "4.96",
+    "reviews": 118,
+    "badge": "Top 5%",
+    "subtitle": "Entire chalet hosted by Tanner \u2022 4 beds \u2022 3 baths",
+    "img": "static/images/9f53d10b-8cd0-4166-8a92-233d43a54c70.jpeg"
+  },
+  {
+    "id": 22,
+    "title": "Key West Historic Conch House & Lagoon Pool",
+    "location": "Key West, Florida, US",
+    "dates": "Nov 7 - 12",
+    "category": "pools",
+    "price": "$395",
+    "rawPrice": 395,
+    "rating": "4.96",
+    "reviews": 145,
+    "badge": "Guest favorite",
+    "subtitle": "Entire home hosted by Daisy \u2022 3 beds \u2022 2 baths",
+    "img": "static/images/a43df998-2f0f-4ee7-a673-08787a722361.jpeg"
+  },
+  {
+    "id": 23,
+    "title": "Historic Brownstone Suite in Brooklyn",
+    "location": "Brooklyn, New York, US",
+    "dates": "Dec 10 - 15",
+    "category": "iconic",
+    "price": "$195",
+    "rawPrice": 195,
+    "rating": "4.96",
+    "reviews": 94,
+    "badge": "Top 5%",
+    "subtitle": "Entire floor hosted by Marcus \u2022 1 bed \u2022 1 bath",
+    "img": "static/images/c59a171a-1c89-4185-bf02-120fd8dfff92.jpeg"
+  },
+  {
+    "id": 24,
+    "title": "La Jolla Cove Oceanfront Sunset Villa",
+    "location": "San Diego, California, US",
+    "dates": "Oct 13 - 18",
+    "category": "beachfront",
+    "price": "$475",
+    "rawPrice": 475,
+    "rating": "4.98",
+    "reviews": 110,
+    "badge": "Guest favorite",
+    "subtitle": "Entire villa hosted by Natalie \u2022 3 beds \u2022 2.5 baths",
+    "img": "static/images/d6d08978-a515-43ea-8079-b54b4e2ad04b.jpeg"
+  },
+  {
+    "id": 25,
+    "title": "Contemporary Glass Pavilion in The Ridges",
+    "location": "Summerlin, Las Vegas, NV",
+    "dates": "Nov 16 - 21",
+    "category": "mansions",
+    "price": "$620",
+    "rawPrice": 620,
+    "rating": "4.99",
+    "reviews": 78,
+    "badge": "Top 1%",
+    "subtitle": "Entire residence hosted by Harrison \u2022 4 beds \u2022 4.5 baths",
+    "img": "static/images/d70b161c-70e5-4fcf-8614-bbdd4c2e25d8.jpg"
+  },
+  {
+    "id": 26,
+    "title": "Joshua Tree Stargazer Off-Grid Minimalist Cabin",
+    "location": "Joshua Tree, California, US",
+    "dates": "Dec 19 - 24",
+    "category": "cabins",
+    "price": "$295",
+    "rawPrice": 295,
+    "rating": "4.99",
+    "reviews": 220,
+    "badge": "Top 1%",
+    "subtitle": "Entire cabin hosted by Silas \u2022 1 bed \u2022 1 bath",
+    "img": "static/images/daf938e8-7f85-4e5f-9cd4-b03f9dba8995.jpeg"
+  },
+  {
+    "id": 27,
+    "title": "Napa Valley Vineyard Estate & Tasting Room",
+    "location": "St Helena, Napa Valley, US",
+    "dates": "Oct 2 - 7",
+    "category": "mansions",
+    "price": "$740",
+    "rawPrice": 740,
+    "rating": "4.99",
+    "reviews": 94,
+    "badge": "Top 1%",
+    "subtitle": "Entire estate hosted by Robert \u2022 4 beds \u2022 4 baths",
+    "img": "static/images/ed60979b-ab8f-4e97-9977-10fe395454ae.jpeg"
+  },
+  {
+    "id": 28,
+    "title": "Seattle Pike Place Waterfront Penthouse",
+    "location": "Seattle, Washington, US",
+    "dates": "Nov 5 - 10",
+    "category": "views",
+    "price": "$365",
+    "rawPrice": 365,
+    "rating": "4.98",
+    "reviews": 138,
+    "badge": "Guest favorite",
+    "subtitle": "Entire penthouse hosted by Nathan \u2022 2 beds \u2022 2 baths",
+    "img": "static/images/f874da88-49ea-49e6-8bb6-7bbc4e03f312.jpeg"
+  },
+  {
+    "id": 29,
+    "title": "High-Roller Strip View Sky Villa",
+    "location": "Las Vegas, Nevada, US",
+    "dates": "Dec 8 - 13",
+    "category": "mansions",
+    "price": "$750",
+    "rawPrice": 750,
+    "rating": "4.98",
+    "reviews": 62,
+    "badge": "Luxe stay",
+    "subtitle": "Sky villa hosted by Victor \u2022 3 beds \u2022 3.5 baths",
+    "img": "static/images/04c9815d-231a-497a-a125-319ba01d667c.jpeg"
+  },
+  {
+    "id": 30,
+    "title": "Big Sur Cliffside Redwood Sanctuary",
+    "location": "Big Sur, California, US",
+    "dates": "Oct 11 - 16",
+    "category": "views",
+    "price": "$620",
+    "rawPrice": 620,
+    "rating": "4.98",
+    "reviews": 86,
+    "badge": "Luxe stay",
+    "subtitle": "Entire home hosted by Cedar \u2022 2 beds \u2022 2 baths",
+    "img": "static/images/brick_townhome_exterior_1789837432232.jpg"
+  },
+  {
+    "id": 31,
+    "title": "Honolulu Diamond Head Skyline & Surf Residence",
+    "location": "Waikiki, Honolulu, Hawaii, US",
+    "dates": "Nov 14 - 19",
+    "category": "views",
+    "price": "$410",
+    "rawPrice": 410,
+    "rating": "4.96",
+    "reviews": 152,
+    "badge": "Guest favorite",
+    "subtitle": "Entire condo hosted by Kai \u2022 2 beds \u2022 2 baths",
+    "img": "static/images/luxury_highrise_apartment_1789837416281.jpg"
+  },
+  {
+    "id": 32,
+    "title": "Chic Downtown Arts District Designer Loft",
+    "location": "Downtown Las Vegas, Nevada, US",
+    "dates": "Dec 17 - 22",
+    "category": "iconic",
+    "price": "$185",
+    "rawPrice": 185,
+    "rating": "4.93",
+    "reviews": 112,
+    "badge": "Guest favorite",
+    "subtitle": "Entire loft hosted by Leo \u2022 1 bed \u2022 1 bath",
+    "img": "static/images/modern_lakeside_home_1789837450539.jpg"
+  },
+  {
+    "id": 33,
+    "title": "Santa Barbara Spanish Colonial Villa",
+    "location": "Santa Barbara, California, US",
+    "dates": "Oct 20 - 25",
+    "category": "mansions",
+    "price": "$580",
+    "rawPrice": 580,
+    "rating": "4.97",
+    "reviews": 78,
+    "badge": "Guest favorite",
+    "subtitle": "Entire villa hosted by Carmen \u2022 3 beds \u2022 3 baths",
+    "img": "static/images/modern_suburban_house_1789837402178.jpg"
+  },
+  {
+    "id": 34,
+    "title": "Notting Hill Pastel Townhouse & Patio",
+    "location": "Notting Hill, London, UK",
+    "dates": "Nov 3 - 8",
+    "category": "iconic",
+    "price": "$280",
+    "rawPrice": 280,
+    "rating": "4.96",
+    "reviews": 188,
+    "badge": "Guest favorite",
+    "subtitle": "Entire townhouse hosted by Oliver \u2022 3 beds \u2022 2 baths",
+    "img": "static/images/rent_brick_townhome.jpg"
+  },
+  {
+    "id": 35,
+    "title": "Carmel-by-the-Sea Fairytale Storybook Cottage",
+    "location": "Carmel, California, US",
+    "dates": "Dec 6 - 11",
+    "category": "iconic",
+    "price": "$390",
+    "rawPrice": 390,
+    "rating": "4.98",
+    "reviews": 120,
+    "badge": "Guest favorite",
+    "subtitle": "Entire cottage hosted by Penelope \u2022 2 beds \u2022 2 baths",
+    "img": "static/images/rent_lakeside_villa.jpg"
+  },
+  {
+    "id": 36,
+    "title": "Lake Las Vegas Waterfront Tuscan Villa",
+    "location": "Lake Las Vegas, Nevada, US",
+    "dates": "Oct 9 - 14",
+    "category": "lakefront",
+    "price": "$480",
+    "rawPrice": 480,
+    "rating": "4.96",
+    "reviews": 74,
+    "badge": "Rare find",
+    "subtitle": "Entire villa hosted by Gianna \u2022 4 beds \u2022 3.5 baths",
+    "img": "static/images/rent_luxury_highrise.jpg"
+  },
+  {
+    "id": 37,
+    "title": "Vail Village Heated Pool & Spa Alpine Home",
+    "location": "Vail, Colorado, US",
+    "dates": "Nov 12 - 17",
+    "category": "pools",
+    "price": "$670",
+    "rawPrice": 670,
+    "rating": "4.98",
+    "reviews": 78,
+    "badge": "Top 1%",
+    "subtitle": "Entire chalet hosted by Heidi \u2022 4 beds \u2022 4 baths",
+    "img": "static/images/rent_suburban_home.jpg"
+  },
+  {
+    "id": 38,
+    "title": "Laguna Beach Cliffside Ocean View Studio",
+    "location": "Laguna Beach, California, US",
+    "dates": "Dec 15 - 20",
+    "category": "beachfront",
+    "price": "$350",
+    "rawPrice": 350,
+    "rating": "4.96",
+    "reviews": 88,
+    "badge": "Rare find",
+    "subtitle": "Entire studio hosted by Kendall \u2022 1 bed \u2022 1 bath",
+    "img": "static/images/2017_ZillowExteriors_218-1.jpg"
+  },
+  {
+    "id": 39,
+    "title": "Moab Red Rock Desert Glass Villa",
+    "location": "Moab, Utah, US",
+    "dates": "Oct 18 - 23",
+    "category": "views",
+    "price": "$390",
+    "rawPrice": 390,
+    "rating": "4.97",
+    "reviews": 89,
+    "badge": "Guest favorite",
+    "subtitle": "Entire villa hosted by Austin \u2022 2 beds \u2022 2 baths",
+    "img": "static/images/GettyImages-472069091-Edit.jpg"
+  },
+  {
+    "id": 40,
+    "title": "Desert Stargazer Luxury Mountain Retreat",
+    "location": "Mount Charleston, Nevada, US",
+    "dates": "Nov 1 - 6",
+    "category": "cabins",
+    "price": "$270",
+    "rawPrice": 270,
+    "rating": "4.95",
+    "reviews": 98,
+    "badge": "Rare find",
+    "subtitle": "Entire cabin hosted by Cody \u2022 2 beds \u2022 1 bath",
+    "img": "static/images/image2-xl@1x.jpg"
+  },
+  {
+    "id": 41,
+    "title": "Russian Hill Bay & Golden Gate Views",
+    "location": "San Francisco, California, US",
+    "dates": "Dec 4 - 9",
+    "category": "views",
+    "price": "$430",
+    "rawPrice": 430,
+    "rating": "4.98",
+    "reviews": 112,
+    "badge": "Guest favorite",
+    "subtitle": "Entire apartment hosted by Evan \u2022 2 beds \u2022 2 baths",
+    "img": "static/images/0b9246fe-0d76-4841-b1e2-a3cdd559aa3f.jpeg"
+  },
+  {
+    "id": 42,
+    "title": "St Ives Coastal Haven overlooking Porthmeor",
+    "location": "St Ives, Cornwall, UK",
+    "dates": "Oct 7 - 12",
+    "category": "beachfront",
+    "price": "$235",
+    "rawPrice": 235,
+    "rating": "4.96",
+    "reviews": 148,
+    "badge": "Guest favorite",
+    "subtitle": "Entire cottage hosted by Lowenna \u2022 2 beds \u2022 1 bath",
+    "img": "static/images/1655f353-9d59-41ec-9829-1b869cff0d35.jpeg"
+  },
+  {
+    "id": 43,
+    "title": "Palms Place Panoramic Strip View Suite",
+    "location": "Las Vegas, Nevada, US",
+    "dates": "Nov 10 - 15",
+    "category": "views",
+    "price": "$260",
+    "rawPrice": 260,
+    "rating": "4.94",
+    "reviews": 180,
+    "badge": "Guest favorite",
+    "subtitle": "Entire suite hosted by Justin \u2022 1 bed \u2022 1.5 baths",
+    "img": "static/images/1ae59289-9afd-43ab-b5fa-0573461a2aa9.jpeg"
+  },
+  {
+    "id": 44,
+    "title": "Newport Beach Balboa Island Waterfront Home",
+    "location": "Newport Beach, California, US",
+    "dates": "Dec 13 - 18",
+    "category": "beachfront",
+    "price": "$510",
+    "rawPrice": 510,
+    "rating": "4.93",
+    "reviews": 76,
+    "badge": "Rare find",
+    "subtitle": "Entire home hosted by Paige \u2022 3 beds \u2022 2.5 baths",
+    "img": "static/images/22f33420-86a0-4f4a-ac09-1f4213ec3b71.jpeg"
+  },
+  {
+    "id": 45,
+    "title": "Kauai Hanalei Bay Tropical Surf House",
+    "location": "Hanalei, Kauai, Hawaii, US",
+    "dates": "Oct 16 - 21",
+    "category": "beachfront",
+    "price": "$650",
+    "rawPrice": 650,
+    "rating": "4.98",
+    "reviews": 116,
+    "badge": "Guest favorite",
+    "subtitle": "Entire home hosted by Leilani \u2022 3 beds \u2022 2 baths",
+    "img": "static/images/272da3ad-3ada-4df2-90cc-850a2418c3b5.jpeg"
+  },
+  {
+    "id": 46,
+    "title": "Private Golf Club Estate with Resort Pool",
+    "location": "Summerlin, Las Vegas, NV",
+    "dates": "Nov 19 - 24",
+    "category": "pools",
+    "price": "$530",
+    "rawPrice": 530,
+    "rating": "4.98",
+    "reviews": 92,
+    "badge": "Guest favorite",
+    "subtitle": "Entire estate hosted by Mitchell \u2022 4 beds \u2022 4 baths",
+    "img": "static/images/3717948b-fec8-4703-b01d-c35fc3f4d60b.jpeg"
+  },
+  {
+    "id": 47,
+    "title": "Yosemite High Sierra Timber Lodge",
+    "location": "Yosemite, California, US",
+    "dates": "Dec 2 - 7",
+    "category": "cabins",
+    "price": "$340",
+    "rawPrice": 340,
+    "rating": "4.95",
+    "reviews": 150,
+    "badge": "Top 5%",
+    "subtitle": "Entire lodge hosted by Luke \u2022 3 beds \u2022 2 baths",
+    "img": "static/images/3b68f085-d5ee-4e42-b6c0-cee5d8bbcb74.jpeg"
+  },
+  {
+    "id": 48,
+    "title": "Cotswolds Honey-Stone Thatched Cottage",
+    "location": "Castle Combe, Cotswolds, UK",
+    "dates": "Oct 5 - 10",
+    "category": "iconic",
+    "price": "$295",
+    "rawPrice": 295,
+    "rating": "4.99",
+    "reviews": 210,
+    "badge": "Top 1%",
+    "subtitle": "Entire cottage hosted by Giles \u2022 2 beds \u2022 2 baths",
+    "img": "static/images/41d552b8-26c6-4ef2-b1e0-43ca7340fdec.jpeg"
+  },
+  {
+    "id": 49,
+    "title": "Green Valley Luxury Villa with Jacuzzi",
+    "location": "Henderson, Las Vegas, NV",
+    "dates": "Nov 8 - 13",
+    "category": "mansions",
+    "price": "$380",
+    "rawPrice": 380,
+    "rating": "4.96",
+    "reviews": 82,
+    "badge": "Guest favorite",
+    "subtitle": "Entire villa hosted by Nicole \u2022 3 beds \u2022 2.5 baths",
+    "img": "static/images/4573ca97-eadf-41d6-8caa-b791126be732.jpeg"
+  },
+  {
+    "id": 50,
+    "title": "Pasadena Mid-Century Craft Compound",
+    "location": "Pasadena, California, US",
+    "dates": "Dec 11 - 16",
+    "category": "pools",
+    "price": "$330",
+    "rawPrice": 330,
+    "rating": "4.94",
+    "reviews": 82,
+    "badge": "Guest favorite",
+    "subtitle": "Entire home hosted by Alan \u2022 3 beds \u2022 2 baths",
+    "img": "static/images/45834231-3b32-44a1-b1ee-089e14536db3.jpeg"
+  },
+  {
+    "id": 51,
+    "title": "Paradise Valley Mountain View Luxury Compound",
+    "location": "Paradise Valley, Arizona, US",
+    "dates": "Oct 14 - 19",
+    "category": "mansions",
+    "price": "$690",
+    "rawPrice": 690,
+    "rating": "4.99",
+    "reviews": 86,
+    "badge": "Top 1%",
+    "subtitle": "Entire compound hosted by Bradley \u2022 5 beds \u2022 5 baths",
+    "img": "static/images/4d4daac7-cfae-479d-bf2a-96c5dbb3b87c.jpeg"
+  },
+  {
+    "id": 52,
+    "title": "Coronado Island Historic Beach Cottage",
+    "location": "San Diego, California, US",
+    "dates": "Nov 17 - 22",
+    "category": "beachfront",
+    "price": "$390",
+    "rawPrice": 390,
+    "rating": "4.96",
+    "reviews": 104,
+    "badge": "Guest favorite",
+    "subtitle": "Entire cottage hosted by Samantha \u2022 2 beds \u2022 2 baths",
+    "img": "static/images/4f903adb-0dd6-44d5-bdcd-7337cc7cfc95.jpeg"
+  },
+  {
+    "id": 53,
+    "title": "Neon Skyline Penthouse & Private Balcony",
+    "location": "Las Vegas, Nevada, US",
+    "dates": "Dec 20 - 25",
+    "category": "views",
+    "price": "$310",
+    "rawPrice": 310,
+    "rating": "4.93",
+    "reviews": 144,
+    "badge": "Guest favorite",
+    "subtitle": "Entire penthouse hosted by Chad \u2022 2 beds \u2022 2 baths",
+    "img": "static/images/52f7c15f-4f38-416d-be82-66b803954b2b.jpeg"
+  },
+  {
+    "id": 54,
+    "title": "Santa Monica Ocean Avenue Luxury High-Rise",
+    "location": "Santa Monica, California, US",
+    "dates": "Oct 3 - 8",
+    "category": "beachfront",
+    "price": "$440",
+    "rawPrice": 440,
+    "rating": "4.96",
+    "reviews": 98,
+    "badge": "Guest favorite",
+    "subtitle": "Entire condo hosted by Tyler \u2022 2 beds \u2022 2 baths",
+    "img": "static/images/59efe62a-a7ae-47c7-a128-53477e8b2791.jpeg"
+  },
+  {
+    "id": 55,
+    "title": "Edinburgh Royal Mile Historic Penthouse",
+    "location": "Edinburgh, Scotland, UK",
+    "dates": "Nov 6 - 11",
+    "category": "iconic",
+    "price": "$240",
+    "rawPrice": 240,
+    "rating": "4.97",
+    "reviews": 190,
+    "badge": "Guest favorite",
+    "subtitle": "Entire penthouse hosted by Callum \u2022 2 beds \u2022 2 baths",
+    "img": "static/images/7f74292a-5ebb-4899-8f86-a9894fcedbba.jpeg"
+  },
+  {
+    "id": 56,
+    "title": "Texas Hill Country Modern Dark Sky Ranch",
+    "location": "Fredericksburg, Texas, US",
+    "dates": "Dec 9 - 14",
+    "category": "views",
+    "price": "$295",
+    "rawPrice": 295,
+    "rating": "4.96",
+    "reviews": 114,
+    "badge": "Guest favorite",
+    "subtitle": "Entire ranch hosted by Wyatt \u2022 3 beds \u2022 2 baths",
+    "img": "static/images/817c98a6-540d-4a2a-8524-5ff69b3f1a9d.jpeg"
+  },
+  {
+    "id": 57,
+    "title": "Modern Desert Hacienda with Pool & Fire Pit",
+    "location": "Las Vegas, Nevada, US",
+    "dates": "Oct 12 - 17",
+    "category": "pools",
+    "price": "$350",
+    "rawPrice": 350,
+    "rating": "4.95",
+    "reviews": 106,
+    "badge": "Guest favorite",
+    "subtitle": "Entire home hosted by Sergio \u2022 3 beds \u2022 2 baths",
+    "img": "static/images/82cf12f3-43df-4719-87d3-0efee3ea167a.jpeg"
+  },
+  {
+    "id": 58,
+    "title": "Sonoma Valley Farmhouse & Olive Grove",
+    "location": "Sonoma, California, US",
+    "dates": "Nov 15 - 20",
+    "category": "mansions",
+    "price": "$540",
+    "rawPrice": 540,
+    "rating": "4.97",
+    "reviews": 84,
+    "badge": "Guest favorite",
+    "subtitle": "Entire farmhouse hosted by Gabrielle \u2022 3 beds \u2022 3 baths",
+    "img": "static/images/93113e22-a2a4-4336-8dee-e05ad6060251.jpeg"
+  },
+  {
+    "id": 59,
+    "title": "Zion National Park Canyon Edge Lodge",
+    "location": "Springdale, Utah, US",
+    "dates": "Dec 18 - 23",
+    "category": "views",
+    "price": "$420",
+    "rawPrice": 420,
+    "rating": "4.98",
+    "reviews": 124,
+    "badge": "Top 5%",
+    "subtitle": "Entire lodge hosted by Dallas \u2022 3 beds \u2022 2 baths",
+    "img": "static/images/9460960d-dd60-430e-b081-94ec27694b94.jpeg"
+  },
+  {
+    "id": 60,
+    "title": "Cannon Beach Oceanfront Cedar Shake Retreat",
+    "location": "Cannon Beach, Oregon, US",
+    "dates": "Oct 1 - 6",
+    "category": "beachfront",
+    "price": "$385",
+    "rawPrice": 385,
+    "rating": "4.97",
+    "reviews": 126,
+    "badge": "Guest favorite",
+    "subtitle": "Entire home hosted by Scott \u2022 3 beds \u2022 2 baths",
+    "img": "static/images/9b5267e5-41e1-4a22-9496-f601a4475b50.jpeg"
+  },
+  {
+    "id": 61,
+    "title": "Mammoth Lakes Alpine Ski Chalet",
+    "location": "Mammoth Lakes, California, US",
+    "dates": "Nov 4 - 9",
+    "category": "cabins",
+    "price": "$310",
+    "rawPrice": 310,
+    "rating": "4.94",
+    "reviews": 95,
+    "badge": "Guest favorite",
+    "subtitle": "Entire chalet hosted by Trevor \u2022 3 beds \u2022 2 baths",
+    "img": "static/images/9f53d10b-8cd0-4166-8a92-233d43a54c70.jpeg"
+  },
+  {
+    "id": 62,
+    "title": "Fort Lauderdale Yacht Basin Luxury Villa",
+    "location": "Fort Lauderdale, Florida, US",
+    "dates": "Dec 7 - 12",
+    "category": "lakefront",
+    "price": "$580",
+    "rawPrice": 580,
+    "rating": "4.98",
+    "reviews": 92,
+    "badge": "Luxe stay",
+    "subtitle": "Entire villa hosted by Anthony \u2022 4 beds \u2022 3.5 baths",
+    "img": "static/images/a43df998-2f0f-4ee7-a673-08787a722361.jpeg"
+  },
+  {
+    "id": 63,
+    "title": "Silver Lake Hillside Mid-Century View Home",
+    "location": "Los Angeles, California, US",
+    "dates": "Oct 10 - 15",
+    "category": "views",
+    "price": "$280",
+    "rawPrice": 280,
+    "rating": "4.95",
+    "reviews": 130,
+    "badge": "Guest favorite",
+    "subtitle": "Entire home hosted by Ryan \u2022 2 beds \u2022 1 bath",
+    "img": "static/images/c59a171a-1c89-4185-bf02-120fd8dfff92.jpeg"
+  },
+  {
+    "id": 64,
+    "title": "Tucson Saguaro Desert Architectural Sanctuary",
+    "location": "Tucson, Arizona, US",
+    "dates": "Nov 13 - 18",
+    "category": "views",
+    "price": "$260",
+    "rawPrice": 260,
+    "rating": "4.95",
+    "reviews": 108,
+    "badge": "Guest favorite",
+    "subtitle": "Entire home hosted by Mateo \u2022 2 beds \u2022 2 baths",
+    "img": "static/images/d6d08978-a515-43ea-8079-b54b4e2ad04b.jpeg"
+  },
+  {
+    "id": 65,
+    "title": "Isle of Skye Dramatic Oceanfront Croft",
+    "location": "Isle of Skye, Scotland, UK",
+    "dates": "Dec 16 - 21",
+    "category": "views",
+    "price": "$310",
+    "rawPrice": 310,
+    "rating": "4.98",
+    "reviews": 164,
+    "badge": "Top 5%",
+    "subtitle": "Entire croft hosted by Eilidh \u2022 2 beds \u2022 1 bath",
+    "img": "static/images/d70b161c-70e5-4fcf-8614-bbdd4c2e25d8.jpg"
+  },
+  {
+    "id": 66,
+    "title": "Westminster Riverside View Penthouse",
+    "location": "Westminster, London, UK",
+    "dates": "Oct 19 - 24",
+    "category": "views",
+    "price": "$480",
+    "rawPrice": 480,
+    "rating": "4.99",
+    "reviews": 110,
+    "badge": "Top 1%",
+    "subtitle": "Entire penthouse hosted by Henry \u2022 3 beds \u2022 2.5 baths",
+    "img": "static/images/daf938e8-7f85-4e5f-9cd4-b03f9dba8995.jpeg"
+  },
+  {
+    "id": 67,
+    "title": "Point Reyes Coastal Glass Haven",
+    "location": "Inverness, California, US",
+    "dates": "Nov 2 - 7",
+    "category": "views",
+    "price": "$380",
+    "rawPrice": 380,
+    "rating": "4.97",
+    "reviews": 72,
+    "badge": "Rare find",
+    "subtitle": "Entire home hosted by Fiona \u2022 2 beds \u2022 2 baths",
+    "img": "static/images/ed60979b-ab8f-4e97-9977-10fe395454ae.jpeg"
+  },
+  {
+    "id": 68,
+    "title": "Jackson Hole Teton Range Panoramic Ranch",
+    "location": "Jackson Hole, Wyoming, US",
+    "dates": "Dec 5 - 10",
+    "category": "views",
+    "price": "$850",
+    "rawPrice": 850,
+    "rating": "5.0",
+    "reviews": 112,
+    "badge": "Luxe stay",
+    "subtitle": "Entire ranch hosted by Colton \u2022 4 beds \u2022 4 baths",
+    "img": "static/images/f874da88-49ea-49e6-8bb6-7bbc4e03f312.jpeg"
+  },
+  {
+    "id": 69,
+    "title": "Mount Hood Alpine Timber Cabin with Cedar Tub",
+    "location": "Government Camp, Oregon, US",
+    "dates": "Oct 8 - 13",
+    "category": "cabins",
+    "price": "$260",
+    "rawPrice": 260,
+    "rating": "4.98",
+    "reviews": 204,
+    "badge": "Guest favorite",
+    "subtitle": "Entire cabin hosted by Sierra \u2022 2 beds \u2022 1 bath",
+    "img": "static/images/04c9815d-231a-497a-a125-319ba01d667c.jpeg"
+  },
+  {
+    "id": 70,
+    "title": "Chelsea Designer Flat near King's Road",
+    "location": "Chelsea, London, UK",
+    "dates": "Nov 11 - 16",
+    "category": "mansions",
+    "price": "$310",
+    "rawPrice": 310,
+    "rating": "4.94",
+    "reviews": 96,
+    "badge": "Top 5%",
+    "subtitle": "Entire flat hosted by Charlotte \u2022 2 beds \u2022 1.5 baths",
+    "img": "static/images/brick_townhome_exterior_1789837432232.jpg"
+  },
+  {
+    "id": 71,
+    "title": "Bozeman Modern Meadow Lodge near Yellowstone",
+    "location": "Bozeman, Montana, US",
+    "dates": "Dec 14 - 19",
+    "category": "cabins",
+    "price": "$340",
+    "rawPrice": 340,
+    "rating": "4.96",
+    "reviews": 90,
+    "badge": "Guest favorite",
+    "subtitle": "Entire lodge hosted by Jesse \u2022 3 beds \u2022 2.5 baths",
+    "img": "static/images/luxury_highrise_apartment_1789837416281.jpg"
+  },
+  {
+    "id": 72,
+    "title": "Bath Georgian Crescent Architectural Suite",
+    "location": "Bath, Somerset, UK",
+    "dates": "Oct 17 - 22",
+    "category": "mansions",
+    "price": "$275",
+    "rawPrice": 275,
+    "rating": "4.95",
+    "reviews": 132,
+    "badge": "Guest favorite",
+    "subtitle": "Entire suite hosted by Rupert \u2022 2 beds \u2022 1.5 baths",
+    "img": "static/images/modern_lakeside_home_1789837450539.jpg"
+  },
+  {
+    "id": 73,
+    "title": "Breckenridge Mountain View Log Palace",
+    "location": "Breckenridge, Colorado, US",
+    "dates": "Nov 20 - 25",
+    "category": "cabins",
+    "price": "$450",
+    "rawPrice": 450,
+    "rating": "4.96",
+    "reviews": 164,
+    "badge": "Guest favorite",
+    "subtitle": "Entire lodge hosted by Tanner \u2022 4 beds \u2022 3.5 baths",
+    "img": "static/images/modern_suburban_house_1789837402178.jpg"
+  },
+  {
+    "id": 74,
+    "title": "Naples Gulf Coast Oceanfront Estate",
+    "location": "Naples, Florida, US",
+    "dates": "Dec 3 - 8",
+    "category": "mansions",
+    "price": "$620",
+    "rawPrice": 620,
+    "rating": "4.99",
+    "reviews": 74,
+    "badge": "Top 1%",
+    "subtitle": "Entire estate hosted by Kimberly \u2022 4 beds \u2022 4 baths",
+    "img": "static/images/rent_brick_townhome.jpg"
+  },
+  {
+    "id": 75,
+    "title": "Dallas Uptown Luxury High-Rise Penthouse",
+    "location": "Dallas, Texas, US",
+    "dates": "Oct 6 - 11",
+    "category": "views",
+    "price": "$340",
+    "rawPrice": 340,
+    "rating": "4.96",
+    "reviews": 92,
+    "badge": "Guest favorite",
+    "subtitle": "Entire penthouse hosted by Austin \u2022 2 beds \u2022 2 baths",
+    "img": "static/images/rent_lakeside_villa.jpg"
+  },
+  {
+    "id": 76,
+    "title": "Chicago Gold Coast Lake Michigan Residence",
+    "location": "Chicago, Illinois, US",
+    "dates": "Nov 9 - 14",
+    "category": "views",
+    "price": "$310",
+    "rawPrice": 310,
+    "rating": "4.95",
+    "reviews": 145,
+    "badge": "Guest favorite",
+    "subtitle": "Entire condo hosted by Danielle \u2022 2 beds \u2022 2 baths",
+    "img": "static/images/rent_luxury_highrise.jpg"
+  },
+  {
+    "id": 77,
+    "title": "San Juan Islands Whales & Sea View Lodge",
+    "location": "Orcas Island, Washington, US",
+    "dates": "Dec 12 - 17",
+    "category": "views",
+    "price": "$440",
+    "rawPrice": 440,
+    "rating": "4.99",
+    "reviews": 96,
+    "badge": "Top 1%",
+    "subtitle": "Entire lodge hosted by Astrid \u2022 3 beds \u2022 2 baths",
+    "img": "static/images/rent_suburban_home.jpg"
+  },
+  {
+    "id": 78,
+    "title": "Destin Emerald Coast White Sand Beach Villa",
+    "location": "Destin, Florida, US",
+    "dates": "Oct 15 - 20",
+    "category": "beachfront",
+    "price": "$430",
+    "rawPrice": 430,
+    "rating": "4.94",
+    "reviews": 118,
+    "badge": "Guest favorite",
+    "subtitle": "Entire villa hosted by Brad \u2022 4 beds \u2022 3 baths",
+    "img": "static/images/2017_ZillowExteriors_218-1.jpg"
+  },
+  {
+    "id": 79,
+    "title": "Scottish Highlands Lochside Glass Cabin",
+    "location": "Loch Lomond, Scotland, UK",
+    "dates": "Nov 18 - 23",
+    "category": "lakefront",
+    "price": "$260",
+    "rawPrice": 260,
+    "rating": "4.97",
+    "reviews": 125,
+    "badge": "Guest favorite",
+    "subtitle": "Entire cabin hosted by Hamish \u2022 1 bed \u2022 1 bath",
+    "img": "static/images/GettyImages-472069091-Edit.jpg"
+  },
+  {
+    "id": 80,
+    "title": "New Orleans French Quarter Balcony Residence",
+    "location": "New Orleans, Louisiana, US",
+    "dates": "Dec 1 - 6",
+    "category": "iconic",
+    "price": "$240",
+    "rawPrice": 240,
+    "rating": "4.95",
+    "reviews": 215,
+    "badge": "Guest favorite",
+    "subtitle": "Entire apartment hosted by Antoine \u2022 2 beds \u2022 1 bath",
+    "img": "static/images/image2-xl@1x.jpg"
+  },
+  {
+    "id": 81,
+    "title": "Savannah Historic Live Oak Manor",
+    "location": "Savannah, Georgia, US",
+    "dates": "Oct 4 - 9",
+    "category": "iconic",
+    "price": "$290",
+    "rawPrice": 290,
+    "rating": "4.98",
+    "reviews": 176,
+    "badge": "Top 5%",
+    "subtitle": "Entire manor hosted by Eleanor \u2022 3 beds \u2022 3 baths",
+    "img": "static/images/0b9246fe-0d76-4841-b1e2-a3cdd559aa3f.jpeg"
+  },
+  {
+    "id": 82,
+    "title": "Charleston Battery Harbor Waterfront Piazza Home",
+    "location": "Charleston, South Carolina, US",
+    "dates": "Nov 7 - 12",
+    "category": "views",
+    "price": "$460",
+    "rawPrice": 460,
+    "rating": "4.99",
+    "reviews": 130,
+    "badge": "Top 1%",
+    "subtitle": "Entire home hosted by Rhett \u2022 3 beds \u2022 2.5 baths",
+    "img": "static/images/1655f353-9d59-41ec-9829-1b869cff0d35.jpeg"
+  },
+  {
+    "id": 83,
+    "title": "Nashville Music Row Modern Loft",
+    "location": "Nashville, Tennessee, US",
+    "dates": "Dec 10 - 15",
+    "category": "iconic",
+    "price": "$225",
+    "rawPrice": 225,
+    "rating": "4.94",
+    "reviews": 158,
+    "badge": "Guest favorite",
+    "subtitle": "Entire loft hosted by Jackson \u2022 2 beds \u2022 1.5 baths",
+    "img": "static/images/1ae59289-9afd-43ab-b5fa-0573461a2aa9.jpeg"
+  },
+  {
+    "id": 84,
+    "title": "Great Smoky Mountains Treehouse Sanctuary",
+    "location": "Gatlinburg, Tennessee, US",
+    "dates": "Oct 13 - 18",
+    "category": "cabins",
+    "price": "$275",
+    "rawPrice": 275,
+    "rating": "4.99",
+    "reviews": 240,
+    "badge": "Top 1%",
+    "subtitle": "Entire treehouse hosted by Cody \u2022 1 bed \u2022 1 bath",
+    "img": "static/images/22f33420-86a0-4f4a-ac09-1f4213ec3b71.jpeg"
+  },
+  {
+    "id": 85,
+    "title": "Orlando Resort Villa with Private Waterpark",
+    "location": "Orlando, Florida, US",
+    "dates": "Nov 16 - 21",
+    "category": "pools",
+    "price": "$410",
+    "rawPrice": 410,
+    "rating": "4.94",
+    "reviews": 160,
+    "badge": "Guest favorite",
+    "subtitle": "Entire villa hosted by Carlos \u2022 4 beds \u2022 3 baths",
+    "img": "static/images/272da3ad-3ada-4df2-90cc-850a2418c3b5.jpeg"
+  },
+  {
+    "id": 86,
+    "title": "North Shore Oahu Banzai Pipeline Beach House",
+    "location": "Oahu, Hawaii, US",
+    "dates": "Dec 19 - 24",
+    "category": "beachfront",
+    "price": "$540",
+    "rawPrice": 540,
+    "rating": "4.97",
+    "reviews": 110,
+    "badge": "Guest favorite",
+    "subtitle": "Entire house hosted by Noah \u2022 3 beds \u2022 2 baths",
+    "img": "static/images/3717948b-fec8-4703-b01d-c35fc3f4d60b.jpeg"
+  },
+  {
+    "id": 87,
+    "title": "Flagstaff Ponderosa Pine Timber Cabin",
+    "location": "Flagstaff, Arizona, US",
+    "dates": "Oct 2 - 7",
+    "category": "cabins",
+    "price": "$220",
+    "rawPrice": 220,
+    "rating": "4.93",
+    "reviews": 88,
+    "badge": "Guest favorite",
+    "subtitle": "Entire cabin hosted by Cole \u2022 2 beds \u2022 1 bath",
+    "img": "static/images/3b68f085-d5ee-4e42-b6c0-cee5d8bbcb74.jpeg"
+  },
+  {
+    "id": 88,
+    "title": "Lake Havasu Waterfront Pool Paradise",
+    "location": "Lake Havasu, Arizona, US",
+    "dates": "Nov 5 - 10",
+    "category": "lakefront",
+    "price": "$330",
+    "rawPrice": 330,
+    "rating": "4.95",
+    "reviews": 94,
+    "badge": "Guest favorite",
+    "subtitle": "Entire villa hosted by Mason \u2022 3 beds \u2022 2 baths",
+    "img": "static/images/41d552b8-26c6-4ef2-b1e0-43ca7340fdec.jpeg"
+  },
+  {
+    "id": 89,
+    "title": "Telluride Box Canyon Mountain Penthouse",
+    "location": "Telluride, Colorado, US",
+    "dates": "Dec 8 - 13",
+    "category": "views",
+    "price": "$580",
+    "rawPrice": 580,
+    "rating": "4.98",
+    "reviews": 82,
+    "badge": "Top 1%",
+    "subtitle": "Entire penthouse hosted by Grant \u2022 3 beds \u2022 2.5 baths",
+    "img": "static/images/4573ca97-eadf-41d6-8caa-b791126be732.jpeg"
+  },
+  {
+    "id": 90,
+    "title": "Steamboat Springs Timber Creek Ranch",
+    "location": "Steamboat Springs, Colorado, US",
+    "dates": "Oct 11 - 16",
+    "category": "lakefront",
+    "price": "$410",
+    "rawPrice": 410,
+    "rating": "4.96",
+    "reviews": 90,
+    "badge": "Guest favorite",
+    "subtitle": "Entire ranch hosted by Wade \u2022 4 beds \u2022 3 baths",
+    "img": "static/images/45834231-3b32-44a1-b1ee-089e14536db3.jpeg"
+  },
+  {
+    "id": 91,
+    "title": "The Hamptons Oceanfront Summer Villa & Pool",
+    "location": "East Hampton, New York, US",
+    "dates": "Nov 14 - 19",
+    "category": "beachfront",
+    "price": "$780",
+    "rawPrice": 780,
+    "rating": "4.98",
+    "reviews": 68,
+    "badge": "Luxe stay",
+    "subtitle": "Entire villa hosted by Robert \u2022 5 beds \u2022 4 baths",
+    "img": "static/images/4d4daac7-cfae-479d-bf2a-96c5dbb3b87c.jpeg"
+  },
+  {
+    "id": 92,
+    "title": "Catskills A-Frame Mountain Sanctuary",
+    "location": "Catskills, New York, US",
+    "dates": "Dec 17 - 22",
+    "category": "cabins",
+    "price": "$230",
+    "rawPrice": 230,
+    "rating": "4.97",
+    "reviews": 175,
+    "badge": "Top 5%",
+    "subtitle": "Entire chalet hosted by Maya \u2022 2 beds \u2022 1 bath",
+    "img": "static/images/4f903adb-0dd6-44d5-bdcd-7337cc7cfc95.jpeg"
+  },
+  {
+    "id": 93,
+    "title": "TriBeCa Skyline Penthouse with Panoramic Views",
+    "location": "TriBeCa, New York, US",
+    "dates": "Oct 20 - 25",
+    "category": "views",
+    "price": "$650",
+    "rawPrice": 650,
+    "rating": "5.0",
+    "reviews": 82,
+    "badge": "Luxe stay",
+    "subtitle": "Penthouse hosted by Elena \u2022 3 beds \u2022 3 baths",
+    "img": "static/images/52f7c15f-4f38-416d-be82-66b803954b2b.jpeg"
+  },
+  {
+    "id": 94,
+    "title": "Boston Beacon Hill Historic Gaslit Townhouse",
+    "location": "Boston, Massachusetts, US",
+    "dates": "Nov 3 - 8",
+    "category": "iconic",
+    "price": "$320",
+    "rawPrice": 320,
+    "rating": "4.97",
+    "reviews": 168,
+    "badge": "Top 5%",
+    "subtitle": "Entire townhouse hosted by Harrison \u2022 2 beds \u2022 2 baths",
+    "img": "static/images/59efe62a-a7ae-47c7-a128-53477e8b2791.jpeg"
+  },
+  {
+    "id": 95,
+    "title": "Cape Cod Classic Shingle Beach Cottage",
+    "location": "Provincetown, Cape Cod, US",
+    "dates": "Dec 6 - 11",
+    "category": "beachfront",
+    "price": "$360",
+    "rawPrice": 360,
+    "rating": "4.94",
+    "reviews": 108,
+    "badge": "Guest favorite",
+    "subtitle": "Entire cottage hosted by Abigail \u2022 3 beds \u2022 2 baths",
+    "img": "static/images/7f74292a-5ebb-4899-8f86-a9894fcedbba.jpeg"
+  },
+  {
+    "id": 96,
+    "title": "Nantucket Historic Harborfront Captain's House",
+    "location": "Nantucket, Massachusetts, US",
+    "dates": "Oct 9 - 14",
+    "category": "beachfront",
+    "price": "$750",
+    "rawPrice": 750,
+    "rating": "4.99",
+    "reviews": 82,
+    "badge": "Luxe stay",
+    "subtitle": "Entire home hosted by Warren \u2022 4 beds \u2022 3.5 baths",
+    "img": "static/images/817c98a6-540d-4a2a-8524-5ff69b3f1a9d.jpeg"
+  },
+  {
+    "id": 97,
+    "title": "Oxford Historic Spire View Townhouse",
+    "location": "Oxford, Oxfordshire, UK",
+    "dates": "Nov 12 - 17",
+    "category": "iconic",
+    "price": "$225",
+    "rawPrice": 225,
+    "rating": "4.93",
+    "reviews": 98,
+    "badge": "Rare find",
+    "subtitle": "Entire townhouse hosted by Philippa \u2022 3 beds \u2022 2 baths",
+    "img": "static/images/82cf12f3-43df-4719-87d3-0efee3ea167a.jpeg"
+  },
+  {
+    "id": 98,
+    "title": "Cornwall Dramatic Cliff-Edge Eco Lodge",
+    "location": "Tintagel, Cornwall, UK",
+    "dates": "Dec 15 - 20",
+    "category": "beachfront",
+    "price": "$285",
+    "rawPrice": 285,
+    "rating": "4.96",
+    "reviews": 116,
+    "badge": "Guest favorite",
+    "subtitle": "Entire lodge hosted by Jago \u2022 2 beds \u2022 2 baths",
+    "img": "static/images/93113e22-a2a4-4336-8dee-e05ad6060251.jpeg"
+  },
+  {
+    "id": 99,
+    "title": "Bourton-on-the-Water Mill River House",
+    "location": "Cotswolds, Gloucestershire, UK",
+    "dates": "Oct 18 - 23",
+    "category": "lakefront",
+    "price": "$315",
+    "rawPrice": 315,
+    "rating": "4.98",
+    "reviews": 140,
+    "badge": "Top 5%",
+    "subtitle": "Entire home hosted by Rosamund \u2022 3 beds \u2022 2 baths",
+    "img": "static/images/9460960d-dd60-430e-b081-94ec27694b94.jpeg"
+  },
+  {
+    "id": 100,
+    "title": "Canary Wharf Sky Residence with Thames Views",
+    "location": "Canary Wharf, London, UK",
+    "dates": "Nov 1 - 6",
+    "category": "views",
+    "price": "$370",
+    "rawPrice": 370,
+    "rating": "4.96",
+    "reviews": 88,
+    "badge": "Luxe stay",
+    "subtitle": "Entire condo hosted by Daniel \u2022 2 beds \u2022 2 baths",
+    "img": "static/images/9b5267e5-41e1-4a22-9496-f601a4475b50.jpeg"
+  },
+  {
+    "id": 101,
+    "title": "Mayfair Elegance Luxury Suite",
+    "location": "Mayfair, London, UK",
+    "dates": "Dec 4 - 9",
+    "category": "mansions",
+    "price": "$590",
+    "rawPrice": 590,
+    "rating": "4.99",
+    "reviews": 76,
+    "badge": "Top 1%",
+    "subtitle": "Entire apartment hosted by Eleanor \u2022 2 beds \u2022 2.5 baths",
+    "img": "static/images/9f53d10b-8cd0-4166-8a92-233d43a54c70.jpeg"
+  },
+  {
+    "id": 102,
+    "title": "Shoreditch Warehouse Conversion & Rooftop",
+    "location": "Shoreditch, London, UK",
+    "dates": "Oct 7 - 12",
+    "category": "views",
+    "price": "$225",
+    "rawPrice": 225,
+    "rating": "4.92",
+    "reviews": 164,
+    "badge": "Guest favorite",
+    "subtitle": "Entire apartment hosted by Maya \u2022 2 beds \u2022 1 bath",
+    "img": "static/images/a43df998-2f0f-4ee7-a673-08787a722361.jpeg"
+  },
+  {
+    "id": 103,
+    "title": "Siesta Key Quartz Sand Beachfront Haven",
+    "location": "Sarasota, Florida, US",
+    "dates": "Nov 10 - 15",
+    "category": "beachfront",
+    "price": "$375",
+    "rawPrice": 375,
+    "rating": "4.96",
+    "reviews": 120,
+    "badge": "Guest favorite",
+    "subtitle": "Entire villa hosted by Vanessa \u2022 2 beds \u2022 2 baths",
+    "img": "static/images/c59a171a-1c89-4185-bf02-120fd8dfff92.jpeg"
+  },
+  {
+    "id": 104,
+    "title": "Sedona Canyon Creek Rustic Mountain Lodge",
+    "location": "Sedona, Arizona, US",
+    "dates": "Dec 13 - 18",
+    "category": "cabins",
+    "price": "$280",
+    "rawPrice": 280,
+    "rating": "4.95",
+    "reviews": 102,
+    "badge": "Guest favorite",
+    "subtitle": "Entire lodge hosted by Dustin \u2022 3 beds \u2022 2 baths",
+    "img": "static/images/d6d08978-a515-43ea-8079-b54b4e2ad04b.jpeg"
+  }
+];
+
+let currentCategory = 'all';
+let currentSearch = '';
+let visibleLimit = 24;
+let filteredList = [...stays];
+
+function getFilteredStays() {
+  const priceVal = document.getElementById('priceFilter') ? document.getElementById('priceFilter').value : 'all';
+  const sortVal = document.getElementById('sortFilter') ? document.getElementById('sortFilter').value : 'recommended';
+  
+  let list = stays.filter(item => {
+    const matchCat = (currentCategory === 'all' || item.category === currentCategory);
+    const matchSearch = (!currentSearch || 
+      item.location.toLowerCase().includes(currentSearch.toLowerCase()) || 
+      item.title.toLowerCase().includes(currentSearch.toLowerCase()));
+    let matchPrice = true;
+    const p = item.rawPrice || parseInt(item.price.replace(/[^0-9]/g, ''), 10) || 0;
+    if (priceVal === 'under250') matchPrice = (p < 250);
+    else if (priceVal === '250to400') matchPrice = (p >= 250 && p <= 400);
+    else if (priceVal === '400to600') matchPrice = (p > 400 && p <= 600);
+    else if (priceVal === 'over600') matchPrice = (p > 600);
+
+    return matchCat && matchSearch && matchPrice;
+  });
+
+  if (sortVal === 'priceLow') {
+    list.sort((a, b) => (a.rawPrice || 0) - (b.rawPrice || 0));
+  } else if (sortVal === 'priceHigh') {
+    list.sort((a, b) => (b.rawPrice || 0) - (a.rawPrice || 0));
+  } else if (sortVal === 'rating') {
+    list.sort((a, b) => parseFloat(b.rating) - parseFloat(a.rating));
+  }
+
+  return list;
+}
+
+function applyFilters() {
+  visibleLimit = 24;
+  filteredList = getFilteredStays();
+  renderGrid();
+}
+
+function loadMore() {
+  visibleLimit += 24;
+  renderGrid();
+}
+
+function renderGrid() {
+  const container = document.getElementById('homesGrid');
+  const countEl = document.getElementById('propertyCount');
+  const loadMoreBtn = document.getElementById('loadMoreWrap');
+
+  if (countEl) {
+    countEl.innerText = `Showing ${Math.min(visibleLimit, filteredList.length)} of ${filteredList.length} vacation rentals & homes`;
+  }
+
+  if (filteredList.length === 0) {
+    container.innerHTML = `
+      <div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px;">
+        <h3 style="font-size: 20px; margin-bottom: 8px;">No homes match your current filters</h3>
+        <p style="color: var(--text-light); margin-bottom: 20px;">Try clearing your filters or selecting a different category.</p>
+        <button onclick="resetFilters()" style="background: var(--rausch); color: #fff; border: none; padding: 12px 24px; border-radius: 8px; font-weight: 700; cursor: pointer;">Clear all filters</button>
+      </div>
+    `;
+    if (loadMoreBtn) loadMoreBtn.style.display = 'none';
+    return;
+  }
+
+  const slice = filteredList.slice(0, visibleLimit);
+  container.innerHTML = slice.map(item => `
+    <div class="ab-card" onclick="openBookingModal(${item.id})">
+      <div class="ab-card-img-wrap">
+        <img src="${item.img}" class="ab-card-img" alt="${item.title}" loading="lazy">
+        <span class="ab-guest-fav-badge">${item.badge}</span>
+        <span class="ab-card-heart" onclick="event.stopPropagation(); toggleHeart(this)">♡</span>
+      </div>
+      <div class="ab-card-header">
+        <span class="ab-card-title">${item.location}</span>
+        <span class="ab-card-rating">★ ${item.rating}</span>
+      </div>
+      <div class="ab-card-subtitle">${item.title}</div>
+      <div class="ab-card-dates">${item.dates}</div>
+      <div class="ab-card-price"><strong>${item.price}</strong> <span>night</span></div>
+    </div>
+  `).join('');
+
+  if (loadMoreBtn) {
+    loadMoreBtn.style.display = (visibleLimit < filteredList.length) ? 'block' : 'none';
+  }
+}
+
+function toggleHeart(el) {
+  const isFilled = el.innerText === '♥';
+  el.innerText = isFilled ? '♡' : '♥';
+  el.style.color = isFilled ? '#fff' : '#FF385C';
+}
+
+function filterCategory(cat, el) {
+  document.querySelectorAll('.ab-category-item').forEach(i => i.classList.remove('active'));
+  if (el) el.classList.add('active');
+  currentCategory = cat;
+  applyFilters();
+}
+
+function resetFilters() {
+  currentCategory = 'all';
+  currentSearch = '';
+  document.querySelectorAll('.ab-category-item').forEach((i, idx) => {
+    if (idx === 0) i.classList.add('active');
+    else i.classList.remove('active');
+  });
+  if (document.getElementById('priceFilter')) document.getElementById('priceFilter').value = 'all';
+  if (document.getElementById('sortFilter')) document.getElementById('sortFilter').value = 'recommended';
+  applyFilters();
+}
+
+function openBookingModal(id) {
+  const s = stays.find(x => x.id === id);
+  if (!s) return;
+  document.getElementById('mImg').src = s.img;
+  document.getElementById('mTitle').innerText = s.title;
+  document.getElementById('mPrice').innerText = s.price + ' / night';
+  document.getElementById('mSubtitle').innerText = s.subtitle || `Entire home in ${s.location}`;
+  document.getElementById('mLocation').innerText = s.location;
+  document.getElementById('mRating').innerText = s.rating;
+  document.getElementById('mBadge').innerText = s.badge;
+  document.getElementById('bookingModal').style.display = 'flex';
+}
+
+function closeBookingModal(e) {
+  if (e.target.id === 'bookingModal') {
+    document.getElementById('bookingModal').style.display = 'none';
+  }
+}
+
+function closeBookingModalDirect() {
+  document.getElementById('bookingModal').style.display = 'none';
+}
+
+function handleReserve(e) {
+  e.preventDefault();
+  alert('Reservation confirmed! Confirmation details and check-in instructions have been sent to your email.');
+  closeBookingModalDirect();
+}
+
+const params = new URLSearchParams(window.location.search);
+const regionParam = params.get('region');
+const catParam = params.get('category');
+const roomParam = params.get('room');
+
+if (regionParam) {
+  if (regionParam.includes('new-york')) currentSearch = 'New York';
+  else if (regionParam.includes('london')) currentSearch = 'London';
+  else if (regionParam.includes('california')) currentSearch = 'California';
+  else currentSearch = regionParam;
+}
+
+if (catParam) {
+  const catEl = document.querySelector(`.ab-category-item[onclick*="${catParam}"]`);
+  if (catEl) {
+    document.querySelectorAll('.ab-category-item').forEach(i => i.classList.remove('active'));
+    catEl.classList.add('active');
+    currentCategory = catParam;
+  }
+}
+
+applyFilters();
+
+if (roomParam) {
+  const rId = parseInt(roomParam, 10);
+  if (rId) openBookingModal(((rId - 1) % stays.length) + 1);
+}
+</script>
+
+
+<footer class="ab-footer">
+  <div class="ab-footer-container">
+    <div class="ab-footer-grid">
+      <div class="ab-footer-col">
+        <h4>Support</h4>
+        <ul>
+          <li><a href="help.html">Help Center</a></li>
+          <li><a href="help.html">AirCover</a></li>
+          <li><a href="help.html">Anti-discrimination</a></li>
+          <li><a href="help.html">Disability support</a></li>
+          <li><a href="help.html">Cancellation options</a></li>
+        </ul>
+      </div>
+      <div class="ab-footer-col">
+        <h4>Hosting</h4>
+        <ul>
+          <li><a href="host.html">Airbnb your home</a></li>
+          <li><a href="host.html">AirCover for Hosts</a></li>
+          <li><a href="host.html">Hosting resources</a></li>
+          <li><a href="host.html">Community forum</a></li>
+          <li><a href="host.html">Hosting responsibly</a></li>
+        </ul>
+      </div>
+      <div class="ab-footer-col">
+        <h4>Airbnb</h4>
+        <ul>
+          <li><a href="index.html">Newsroom</a></li>
+          <li><a href="experiences.html">New features</a></li>
+          <li><a href="index.html">Careers</a></li>
+          <li><a href="index.html">Investors</a></li>
+          <li><a href="services.html">Emergency stays</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="ab-footer-bottom">
+      <div>
+        © 2026 Airbnb, Inc. · <a href="#">Privacy</a> · <a href="#">Terms</a> · <a href="#">Sitemap</a> · <a href="#">Company details</a>
+      </div>
+      <div style="display: flex; gap: 18px; font-weight: 600;">
+        <span>🌐 English (US)</span>
+        <span>$ USD</span>
+      </div>
+    </div>
+  </div>
+</footer>
+<script src="static/js/airbnb-nav.js"></script>
+</body>
+</html>
+

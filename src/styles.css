@@ -4,15 +4,16 @@
 @custom-variant dark (&:is(.dark *));
 
 /*
- * Zillow-inspired design system.
+ * Airbnb Modern Design System
  *
- * Clean white backgrounds, Zillow blue (#006AFF) primary,
- * professional typography (Inter), minimal shadows.
+ * Rausch coral (#FF385C) primary, clean white background,
+ * Airbnb typography (-apple-system / Inter), pill search bar, and card grids.
  */
 
 @theme inline {
   --color-brand: var(--brand);
   --color-brand-dark: var(--brand-dark);
+  --color-brand-light: var(--brand-light);
   --color-accent-cyan: var(--accent-cyan);
   --color-ink: var(--ink);
   --font-display: var(--font-display-family);
@@ -61,49 +62,51 @@
 }
 
 :root {
-  --radius: 0.625rem;
-  --font-display-family: "Inter", sans-serif;
-  --font-body-family: "Inter", sans-serif;
+  --radius: 0.875rem;
+  --font-display-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-body-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   --font-serif-family: "Playfair Display", Georgia, serif;
-  /* Zillow blue */
-  --brand: #006AFF;
-  --brand-dark: #0052cc;
-  /* Cyan accent */
-  --accent-cyan: #06b6d4;
-  /* Dark text */
-  --ink: #2A2A33;
+  
+  /* Airbnb Rausch Coral & Accents */
+  --brand: #FF385C;
+  --brand-dark: #E00B41;
+  --brand-light: #FFF0F2;
+  --accent-cyan: #008489;
+  
+  /* Airbnb Typography & Neutral Tokens */
+  --ink: #222222;
   --background: #ffffff;
-  --foreground: #2A2A33;
+  --foreground: #222222;
   --card: #ffffff;
-  --card-foreground: #2A2A33;
+  --card-foreground: #222222;
   --popover: #ffffff;
-  --popover-foreground: #2A2A33;
-  --primary: #006AFF;
+  --popover-foreground: #222222;
+  --primary: #FF385C;
   --primary-foreground: #ffffff;
-  --secondary: #f4f4f5;
-  --secondary-foreground: #2A2A33;
-  --muted: #f4f4f5;
-  --muted-foreground: #71717a;
-  --accent: #f4f4f5;
-  --accent-foreground: #2A2A33;
-  --destructive: #ef4444;
+  --secondary: #F7F7F7;
+  --secondary-foreground: #222222;
+  --muted: #F7F7F7;
+  --muted-foreground: #717171;
+  --accent: #F7F7F7;
+  --accent-foreground: #222222;
+  --destructive: #C13515;
   --destructive-foreground: #ffffff;
-  --border: #e4e4e7;
-  --input: #e4e4e7;
-  --ring: #006AFF;
-  --chart-1: #006AFF;
-  --chart-2: #06b6d4;
+  --border: #EBEBEB;
+  --input: #DDDDDD;
+  --ring: #FF385C;
+  --chart-1: #FF385C;
+  --chart-2: #008489;
   --chart-3: #10b981;
-  --chart-4: #f59e0b;
-  --chart-5: #ef4444;
+  --chart-4: #FC642D;
+  --chart-5: #E00B41;
   --sidebar: #ffffff;
-  --sidebar-foreground: #2A2A33;
-  --sidebar-primary: #006AFF;
+  --sidebar-foreground: #222222;
+  --sidebar-primary: #FF385C;
   --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #f4f4f5;
-  --sidebar-accent-foreground: #2A2A33;
-  --sidebar-border: #e4e4e7;
-  --sidebar-ring: #006AFF;
+  --sidebar-accent: #F7F7F7;
+  --sidebar-accent-foreground: #222222;
+  --sidebar-border: #EBEBEB;
+  --sidebar-ring: #FF385C;
 }
 
 .dark {
@@ -113,32 +116,32 @@
   --card-foreground: #fafafa;
   --popover: #27272a;
   --popover-foreground: #fafafa;
-  --primary: #3b82f6;
+  --primary: #FF385C;
   --primary-foreground: #ffffff;
-  --secondary: #3f3f46;
+  --secondary: #27272a;
   --secondary-foreground: #fafafa;
-  --muted: #3f3f46;
+  --muted: #27272a;
   --muted-foreground: #a1a1aa;
-  --accent: #3f3f46;
+  --accent: #27272a;
   --accent-foreground: #fafafa;
   --destructive: #ef4444;
   --destructive-foreground: #ffffff;
-  --border: rgba(255, 255, 255, 0.1);
-  --input: rgba(255, 255, 255, 0.15);
-  --ring: #3b82f6;
-  --chart-1: #3b82f6;
+  --border: rgba(255, 255, 255, 0.12);
+  --input: rgba(255, 255, 255, 0.18);
+  --ring: #FF385C;
+  --chart-1: #FF385C;
   --chart-2: #22d3ee;
   --chart-3: #34d399;
   --chart-4: #fbbf24;
   --chart-5: #f87171;
   --sidebar: #27272a;
   --sidebar-foreground: #fafafa;
-  --sidebar-primary: #3b82f6;
+  --sidebar-primary: #FF385C;
   --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #3f3f46;
+  --sidebar-accent: #27272a;
   --sidebar-accent-foreground: #fafafa;
-  --sidebar-border: rgba(255, 255, 255, 0.1);
-  --sidebar-ring: #3b82f6;
+  --sidebar-border: rgba(255, 255, 255, 0.12);
+  --sidebar-ring: #FF385C;
 }
 
 @layer base {
@@ -153,22 +156,34 @@
   }
 }
 
-/* ─── Zillow utility classes ─── */
+/* ─── Airbnb utility classes ─── */
+
+@utility airbnb-shadow {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+@utility airbnb-shadow-hover {
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+}
+
+@utility airbnb-pill-shadow {
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+}
 
 @utility zillow-shadow {
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 @utility zillow-shadow-lg {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1), 0 1px 4px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
 }
 
 @utility zillow-shadow-xl {
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.16);
 }
 
 @utility gradient-brand {
-  background: linear-gradient(135deg, var(--brand), var(--brand-dark));
+  background: linear-gradient(to right, #E61E4D 0%, #E31C5F 50%, #D70466 100%);
 }
 
 /* Keep for backward compatibility on other pages */
@@ -200,6 +215,7 @@
 
 ::-webkit-scrollbar {
   width: 8px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-track {

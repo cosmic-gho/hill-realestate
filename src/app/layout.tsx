@@ -9,26 +9,25 @@ const siteUrl =
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "AetherHomes: Real Estate, Apartments, Mortgages & Home Values",
-    template: "%s | AetherHomes",
+    default: "Airbnb | Vacation Rentals, Cabins, Beach Houses & Unique Homes",
+    template: "%s | Airbnb",
   },
   description:
-    "The leading real estate marketplace. Search millions of for-sale and rental listings, compare home values and connect with local professionals.",
+    "Find vacation rentals, cabins, beach houses, unique homes and experiences around the world — all made possible by hosts on Airbnb.",
   keywords: [
-    "real estate",
-    "homes for sale",
-    "apartments for rent",
-    "real estate listings",
-    "home values",
-    "mortgage",
-    "buy a house",
-    "sell your home",
-    "find an agent",
-    "AetherHomes",
+    "airbnb",
+    "vacation rentals",
+    "cabins",
+    "beach houses",
+    "condos",
+    "stays",
+    "unique homes",
+    "experiences",
+    "villas",
   ],
-  authors: [{ name: "AetherHomes" }],
-  creator: "AetherHomes",
-  publisher: "AetherHomes",
+  authors: [{ name: "Airbnb" }],
+  creator: "Airbnb",
+  publisher: "Airbnb",
   formatDetection: {
     email: false,
     address: true,
@@ -38,29 +37,29 @@ export const metadata: Metadata = {
     canonical: "/",
   },
   openGraph: {
-    title: "AetherHomes: Real Estate, Apartments, Mortgages & Home Values",
+    title: "Airbnb | Vacation Rentals, Cabins, Beach Houses & Unique Homes",
     description:
-      "The leading real estate marketplace. Search millions of for-sale and rental listings, compare home values and connect with local professionals.",
+      "Find vacation rentals, cabins, beach houses, unique homes and experiences around the world.",
     url: "/",
-    siteName: "AetherHomes",
+    siteName: "Airbnb",
     type: "website",
     locale: "en_US",
     images: [
       {
-        url: "/assets/hero-zillow.png",
+        url: "/assets/hero-home.jpg",
         width: 1200,
         height: 630,
-        alt: "AetherHomes Real Estate Marketplace",
+        alt: "Airbnb Vacation Rentals",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "AetherHomes: Real Estate, Apartments, Mortgages & Home Values",
+    title: "Airbnb | Vacation Rentals, Cabins, Beach Houses & Unique Homes",
     description:
-      "Search for-sale and rental listings, compare home values, and connect with local real estate professionals.",
-    images: ["/assets/hero-zillow.png"],
-    creator: "@aetherhomes",
+      "Find vacation rentals, cabins, beach houses, unique homes and experiences around the world.",
+    images: ["/assets/hero-home.jpg"],
+    creator: "@airbnb",
   },
   robots: {
     index: true,
@@ -76,7 +75,7 @@ export const metadata: Metadata = {
   icons: {
     icon: "/favicon.ico",
   },
-  category: "real estate",
+  category: "travel & lodging",
 };
 
 export default function RootLayout({
@@ -90,11 +89,11 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
           rel="stylesheet"
         />
       </head>
-      <body className="min-h-screen bg-white font-body text-ink antialiased">
+      <body className="min-h-screen bg-white font-body text-[#222222] antialiased">
         {children}
         <Toaster position="top-right" richColors />
       </body>

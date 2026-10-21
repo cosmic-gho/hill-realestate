@@ -2,90 +2,144 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Search } from "lucide-react";
+import { Search, SlidersHorizontal, Sparkles } from "lucide-react";
 
-const tabs = [
-  { label: "Buy", value: "buy" },
-  { label: "Rent", value: "rent" },
-  { label: "Airbnb", value: "airbnb" },
-  { label: "Condos", value: "condo" },
-] as const;
+export const AIRBNB_CATEGORIES = [
+  { id: "all", label: "All Stays", icon: "✨", query: "" },
+  { id: "beachfront", label: "Beachfront", icon: "🏖️", query: "Beach" },
+  { id: "cabins", label: "Cabins", icon: "🪵", query: "Cabin" },
+  { id: "mansions", label: "Mansions", icon: "🏰", query: "Villa" },
+  { id: "views", label: "Amazing views", icon: "🌄", query: "View" },
+  { id: "pools", label: "Amazing pools", icon: "🏊", query: "Pool" },
+  { id: "lakefront", label: "Lakefront", icon: "⛵", query: "Lake" },
+  { id: "condos", label: "City lofts", icon: "🏙️", query: "Condo" },
+  { id: "iconic", label: "Icons", icon: "⭐", query: "Penthouse" },
+  { id: "ski", label: "Skiing", icon: "🎿", query: "Ski" },
+  { id: "tiny", label: "Cottages", icon: "🏡", query: "Cottage" },
+  { id: "luxe", label: "Luxe", icon: "💎", query: "Luxury" },
+];
 
-export function HomeSearch() {
+export function HomeSearch({
+  activeCategory = "all",
+  onSelectCategory,
+}: {
+  activeCategory?: string;
+  onSelectCategory?: (id: string, query: string) => void;
+}) {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState<string>("buy");
-  const [q, setQ] = useState("");
+  const [destination, setDestination] = useState("");
+  const [dates, setDates] = useState("");
+  const [guests, setGuests] = useState("");
+  const [selectedCat, setSelectedCat] = useState(activeCategory);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const params = new URLSearchParams();
-    if (q) params.set("q", q);
-    if (activeTab === "rent") params.set("status", "For rent");
-    if (activeTab === "airbnb") params.set("type", "Airbnb");
-    if (activeTab === "condo") params.set("type", "Condo");
+    if (destination.trim()) params.set("q", destination.trim());
+    if (dates.trim()) params.set("dates", dates.trim());
+    if (guests.trim()) params.set("guests", guests.trim());
     router.push(`/search?${params.toString()}`);
   };
 
+  const handleCategoryClick = (cat: typeof AIRBNB_CATEGORIES[0]) => {
+    setSelectedCat(cat.id);
+    if (onSelectCategory) {
+      onSelectCategory(cat.id, cat.query);
+    } else {
+      const params = new URLSearchParams();
+      if (cat.query) params.set("q", cat.query);
+      router.push(`/search?${params.toString()}`);
+    }
+  };
+
   return (
-    <section className="relative w-full">
-      {/* Full-width hero background */}
-      <div className="relative h-[520px] sm:h-[540px] lg:h-[580px] overflow-hidden">
-        <img
-          src="/assets/hero-zillow.png"
-          alt="Real estate agent showing a home to buyers"
-          className="absolute inset-0 h-full w-full object-cover"
-        />
-        {/* Dark overlay for text contrast */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/50" />
-
-        {/* Hero content */}
-        <div className="relative z-10 flex h-full flex-col items-center justify-center px-4">
-          {/* Bold headline */}
-          <h1
-            className="text-center text-4xl font-bold leading-tight text-white sm:text-5xl lg:text-6xl"
-            style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
-          >
-            Rentals. Homes.
-            <br />
-            Agents. Loans.
-          </h1>
-
-          {/* Search bar */}
-          <div className="mt-8 w-full max-w-[600px]">
-            {/* Tabs */}
-            <div className="flex">
-              {tabs.map((tab) => (
-                <button
-                  key={tab.value}
-                  onClick={() => setActiveTab(tab.value)}
-                  className={`px-5 py-2.5 text-sm font-bold transition-all rounded-t-lg ${activeTab === tab.value
-                      ? "bg-white text-gray-900"
-                      : "bg-white/30 text-white hover:bg-white/50 backdrop-blur-sm"
-                    }`}
-                >
-                  {tab.label}
-                </button>
-              ))}
-            </div>
-
-            {/* Search input */}
-            <form onSubmit={handleSubmit} className="relative">
-              <input
-                value={q}
-                onChange={(e) => setQ(e.target.value)}
-                placeholder="Enter an address, neighborhood, city, or ZIP code"
-                className="w-full rounded-b-lg rounded-tr-lg bg-white py-4 pl-5 pr-14 text-sm text-gray-800 placeholder:text-gray-400 outline-none shadow-lg"
-                aria-label="Search address"
-              />
-              <button
-                type="submit"
-                className="absolute right-2 top-1/2 -translate-y-1/2 grid size-10 place-items-center rounded-lg bg-[#006AFF] text-white hover:bg-[#0052cc] transition-colors"
-                aria-label="Search"
-              >
-                <Search className="size-5" />
-              </button>
-            </form>
+    <section className="w-full bg-white border-b border-[#EBEBEB]">
+      {/* Floating Airbnb Pill Search Bar */}
+      <div className="mx-auto max-w-[1280px] px-4 pt-4 pb-2 sm:px-6 lg:px-8">
+        <form
+          onSubmit={handleSearchSubmit}
+          className="mx-auto flex max-w-[850px] items-center rounded-full border border-[#DDDDDD] bg-white p-2 shadow-[0_3px_12px_rgba(0,0,0,0.08)] hover:shadow-[0_6px_20px_rgba(0,0,0,0.14)] transition-all"
+        >
+          {/* Section 1: Where */}
+          <div className="flex-1 px-4 py-1.5 rounded-full hover:bg-[#F7F7F7] cursor-pointer transition-colors">
+            <label className="block text-[11px] font-extrabold uppercase tracking-wider text-[#222222]">
+              Where
+            </label>
+            <input
+              type="text"
+              value={destination}
+              onChange={(e) => setDestination(e.target.value)}
+              placeholder="Search destinations, cities, or lakes"
+              className="w-full bg-transparent text-sm text-[#222222] placeholder:text-[#717171] outline-none font-medium truncate"
+            />
           </div>
+
+          <div className="h-8 w-[1px] bg-[#EBEBEB] hidden sm:block" />
+
+          {/* Section 2: When / Dates */}
+          <div className="flex-1 px-4 py-1.5 rounded-full hover:bg-[#F7F7F7] cursor-pointer transition-colors hidden sm:block">
+            <label className="block text-[11px] font-extrabold uppercase tracking-wider text-[#222222]">
+              Check in / out
+            </label>
+            <input
+              type="text"
+              value={dates}
+              onChange={(e) => setDates(e.target.value)}
+              placeholder="Add dates"
+              className="w-full bg-transparent text-sm text-[#222222] placeholder:text-[#717171] outline-none font-medium truncate"
+            />
+          </div>
+
+          <div className="h-8 w-[1px] bg-[#EBEBEB] hidden md:block" />
+
+          {/* Section 3: Who / Guests */}
+          <div className="flex-1 px-4 py-1.5 rounded-full hover:bg-[#F7F7F7] cursor-pointer transition-colors hidden md:block">
+            <label className="block text-[11px] font-extrabold uppercase tracking-wider text-[#222222]">
+              Who
+            </label>
+            <input
+              type="text"
+              value={guests}
+              onChange={(e) => setGuests(e.target.value)}
+              placeholder="Add guests"
+              className="w-full bg-transparent text-sm text-[#222222] placeholder:text-[#717171] outline-none font-medium truncate"
+            />
+          </div>
+
+          {/* Red/Coral Search Button */}
+          <button
+            type="submit"
+            className="grid size-12 shrink-0 place-items-center rounded-full bg-[#FF385C] text-white hover:bg-[#E00B41] transition-all hover:scale-105 active:scale-95 shadow-md ml-1"
+            aria-label="Search listings"
+          >
+            <Search className="size-4 stroke-[3]" />
+          </button>
+        </form>
+      </div>
+
+      {/* Horizontal Category Icons Scrollbar */}
+      <div className="mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center gap-7 overflow-x-auto scrollbar-none py-3 pt-4">
+          {AIRBNB_CATEGORIES.map((cat) => {
+            const isActive = selectedCat === cat.id;
+            return (
+              <button
+                key={cat.id}
+                type="button"
+                onClick={() => handleCategoryClick(cat)}
+                className={`flex shrink-0 flex-col items-center gap-1.5 pb-2.5 transition-all cursor-pointer border-b-2 ${
+                  isActive
+                    ? "border-[#222222] text-[#222222] font-semibold opacity-100"
+                    : "border-transparent text-[#717171] opacity-70 hover:opacity-100 hover:text-[#222222] hover:border-[#DDDDDD]"
+                }`}
+              >
+                <span className="text-2xl leading-none">{cat.icon}</span>
+                <span className="text-[12px] whitespace-nowrap tracking-tight">
+                  {cat.label}
+                </span>
+              </button>
+            );
+          })}
         </div>
       </div>
     </section>

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useAuth } from "@/hooks/use-auth";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
@@ -10,199 +10,296 @@ import {
   LogOut,
   Menu,
   X,
-  ChevronDown,
   User,
+  Globe,
+  Heart,
+  CreditCard,
+  HelpCircle,
+  Sparkles,
 } from "lucide-react";
 
 export function SiteHeader() {
   const { user, isAdmin } = useAuth();
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 40);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    function handleClickOutside(event: MouseEvent) {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setUserMenuOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   async function handleSignOut() {
     await supabase.auth.signOut();
+    setUserMenuOpen(false);
     toast.success("Signed out successfully");
   }
 
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled
-        ? "bg-white border-b border-gray-200 shadow-sm"
-        : "bg-transparent"
-        }`}
-    >
-      <nav className="mx-auto flex max-w-[1280px] items-center justify-between px-4 py-2 lg:px-6">
-        {/* Left nav links (desktop) */}
-        <div className="hidden lg:flex items-center gap-1">
-          {[
-            { label: "Buy", href: "/search" },
-            { label: "Rent", href: "/search?status=Rental" },
-            { label: "Sell", href: "/search?status=For+sale" },
-            { label: "Home Buying Plan", href: "/plan" },
-            { label: "Home Loans", href: "/home-loans" },
-            { label: "Find an Agent", href: "/search" },
-          ].map((item) => (
-            <Link
-              key={item.label}
-              href={item.href}
-              className={`px-3 py-2 text-sm font-semibold transition-colors rounded-lg hover:bg-black/5 ${scrolled ? "text-gray-800" : "text-white"
-                }`}
-            >
-              {item.label}
-            </Link>
-          ))}
-        </div>
-
-        {/* Center logo */}
-        <Link
-          href="/"
-          className="flex items-center gap-2"
-        >
-          <span
-            className={`text-2xl font-bold tracking-tight transition-colors ${scrolled ? "text-[#006AFF]" : "text-white"
-              }`}
+    <header className="sticky top-0 z-50 w-full bg-white border-b border-[#EBEBEB] transition-shadow duration-200">
+      <div className="mx-auto flex h-20 max-w-[1280px] items-center justify-between px-4 sm:px-6 lg:px-8">
+        {/* Left: Airbnb Bélo Logo */}
+        <Link href="/" className="flex items-center gap-2 group" aria-label="Airbnb homepage">
+          <svg
+            viewBox="0 0 32 32"
+            className="h-8 w-8 fill-[#FF385C] transition-transform group-hover:scale-105"
+            aria-hidden="true"
           >
-            Aether<span className={scrolled ? "text-gray-900" : "text-white"}>Homes</span>
+            <path d="M16 1c2.008 0 3.463.963 4.751 3.269l.533 1.025c1.954 3.83 6.114 12.54 7.1 14.836l.145.353c.667 1.591.91 2.472.96 3.396l.011.315c0 4.34-3.35 7.806-7.75 7.806-2.618 0-4.839-1.282-6.195-3.238l-.555-.838-.555.838C12.589 30.718 10.368 32 7.75 32 3.35 32 0 28.534 0 24.194c0-.987.242-1.892.909-3.483l.207-.481c.986-2.296 5.146-11.006 7.1-14.836l.533-1.025C10.037 2.037 11.992 1 16 1zm0 2c-1.239 0-2.344.664-3.447 2.656l-.544 1.047C10.05 10.536 5.9 19.227 4.92 21.514l-.19.44C4.15 23.36 4 23.957 4 24.194 4 26.332 5.688 28 7.75 28c1.688 0 3.2-1.096 4.14-2.82l.485-.92 1.488 2.247c1.077 1.624 2.872 2.64 4.887 2.64 2.062 0 3.75-1.668 3.75-3.806 0-.294-.17-.962-.777-2.399l-.168-.415c-.98-2.287-5.13-10.978-7.089-14.811l-.544-1.047C16.827 3.718 16.544 3 16 3zm0 15c2.209 0 4 1.791 4 4s-1.791 4-4 4-4-1.791-4-4 1.791-4 4-4zm0 2c-1.105 0-2 .895-2 2s.895 2 2 2 2-.895 2-2-.895-2-2-2z" />
+          </svg>
+          <span className="text-[20px] font-extrabold tracking-tight text-[#FF385C]">
+            airbnb
           </span>
         </Link>
 
-        {/* Right nav links + sign in (desktop) */}
-        <div className="hidden lg:flex items-center gap-1">
+        {/* Center: Airbnb Navigation Tabs */}
+        <nav className="hidden md:flex items-center gap-4">
           <Link
-            href="/admin"
-            className={`px-3 py-2 text-sm font-semibold transition-colors rounded-lg hover:bg-black/5 ${scrolled ? "text-gray-800" : "text-white"
-              }`}
+            href="/"
+            className="px-4 py-2 text-[15px] font-semibold text-[#222222] rounded-full hover:bg-[#F7F7F7] transition-colors relative"
           >
-            Manage Rentals
+            Stays
+            <span className="absolute bottom-0 left-4 right-4 h-0.5 bg-[#222222] rounded-full" />
+          </Link>
+          <Link
+            href="/search?type=Airbnb"
+            className="px-4 py-2 text-[15px] font-semibold text-[#717171] hover:text-[#222222] rounded-full hover:bg-[#F7F7F7] transition-colors"
+          >
+            Experiences
+          </Link>
+          <Link
+            href="/search?status=For+rent"
+            className="px-4 py-2 text-[15px] font-semibold text-[#717171] hover:text-[#222222] rounded-full hover:bg-[#F7F7F7] transition-colors"
+          >
+            Services & Rentals
           </Link>
           <Link
             href="/search"
-            className={`px-3 py-2 text-sm font-semibold transition-colors rounded-lg hover:bg-black/5 ${scrolled ? "text-gray-800" : "text-white"
-              }`}
+            className="px-4 py-2 text-[15px] font-semibold text-[#717171] hover:text-[#222222] rounded-full hover:bg-[#F7F7F7] transition-colors"
           >
-            Advertise
+            All Homes
           </Link>
+        </nav>
+
+        {/* Right: Host button + Globe + User Pill Menu */}
+        <div className="flex items-center gap-2">
+          {/* Host CTA */}
           <Link
-            href="/search"
-            className={`px-3 py-2 text-sm font-semibold transition-colors rounded-lg hover:bg-black/5 ${scrolled ? "text-gray-800" : "text-white"
-              }`}
+            href={isAdmin ? "/admin" : "/search?status=Airbnb"}
+            className="hidden sm:inline-flex px-3.5 py-2.5 text-sm font-semibold text-[#222222] rounded-full hover:bg-[#F7F7F7] transition-colors"
           >
-            Get help
+            Airbnb your home
           </Link>
 
-          {user ? (
-            <div className="flex items-center gap-1 ml-2">
-              <span
-                className={`flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-semibold ${scrolled
-                  ? "bg-gray-100 text-gray-700"
-                  : "bg-white/20 text-white backdrop-blur-sm"
-                  }`}
-              >
-                <User className="size-3" />
-                {user.email?.split("@")[0]}
-                {isAdmin && (
-                  <Link
-                    href="/admin"
-                    className="ml-1 rounded-md bg-emerald-500/20 px-1.5 py-0.5 text-[10px] font-bold text-emerald-700"
-                  >
-                    ADMIN
-                  </Link>
-                )}
-              </span>
-              <button
-                onClick={handleSignOut}
-                className={`flex items-center gap-1 rounded-full px-3 py-1.5 text-xs font-semibold transition-colors ${scrolled
-                  ? "text-gray-600 hover:bg-gray-100"
-                  : "text-white/80 hover:bg-white/20"
-                  }`}
-              >
-                <LogOut className="size-3" /> Sign out
-              </button>
-            </div>
-          ) : (
-            <Link
-              href="/auth"
-              className="ml-2 rounded-full bg-[#006AFF] px-5 py-2 text-sm font-bold text-white shadow-md hover:bg-[#0052cc] transition-colors"
+          {/* Language / Currency Globe */}
+          <button
+            type="button"
+            className="grid size-10 place-items-center rounded-full text-[#222222] hover:bg-[#F7F7F7] transition-colors"
+            aria-label="Language and currency"
+          >
+            <Globe className="size-4 text-[#222222]" />
+          </button>
+
+          {/* User Menu Pill Container */}
+          <div className="relative" ref={menuRef}>
+            <button
+              onClick={() => setUserMenuOpen(!userMenuOpen)}
+              className="flex items-center gap-3 rounded-full border border-[#DDDDDD] bg-white p-1.5 pl-3.5 shadow-sm hover:shadow-md transition-all"
+              aria-label="User navigation menu"
             >
-              Sign in
-            </Link>
-          )}
+              <Menu className="size-4 text-[#222222]" />
+              <div className="grid size-8 place-items-center rounded-full bg-[#717171] text-white font-semibold text-xs overflow-hidden">
+                {user?.email ? (
+                  user.email.charAt(0).toUpperCase()
+                ) : (
+                  <User className="size-4 fill-white" />
+                )}
+              </div>
+            </button>
+
+            {/* Airbnb Style Dropdown Menu */}
+            {userMenuOpen && (
+              <div className="absolute right-0 top-12 z-50 w-64 rounded-2xl border border-[#EBEBEB] bg-white py-2 shadow-2xl animate-in fade-in zoom-in-95 duration-150">
+                {user ? (
+                  <>
+                    <div className="px-4 py-2.5 border-b border-[#EBEBEB]">
+                      <p className="text-xs font-semibold text-[#717171]">Signed in as</p>
+                      <p className="text-sm font-bold text-[#222222] truncate">
+                        {user.email}
+                      </p>
+                      {isAdmin && (
+                        <span className="mt-1 inline-flex items-center gap-1 rounded-md bg-emerald-50 px-2 py-0.5 text-[10px] font-bold text-emerald-700 border border-emerald-200">
+                          <Shield className="size-3" /> HOST / ADMIN
+                        </span>
+                      )}
+                    </div>
+
+                    <Link
+                      href="/saved"
+                      onClick={() => setUserMenuOpen(false)}
+                      className="flex items-center gap-3 px-4 py-3 text-sm font-semibold text-[#222222] hover:bg-[#F7F7F7] transition-colors"
+                    >
+                      <Heart className="size-4 text-[#717171]" /> Wishlists
+                    </Link>
+
+                    <Link
+                      href="/payment"
+                      onClick={() => setUserMenuOpen(false)}
+                      className="flex items-center gap-3 px-4 py-3 text-sm font-semibold text-[#222222] hover:bg-[#F7F7F7] transition-colors"
+                    >
+                      <CreditCard className="size-4 text-[#717171]" /> Trips & Payments
+                    </Link>
+
+                    {isAdmin && (
+                      <Link
+                        href="/admin"
+                        onClick={() => setUserMenuOpen(false)}
+                        className="flex items-center gap-3 px-4 py-3 text-sm font-semibold text-[#FF385C] hover:bg-[#FFF0F2] transition-colors"
+                      >
+                        <Shield className="size-4 text-[#FF385C]" /> Manage Listings (Admin)
+                      </Link>
+                    )}
+
+                    <div className="my-1 border-t border-[#EBEBEB]" />
+
+                    <Link
+                      href="/search"
+                      onClick={() => setUserMenuOpen(false)}
+                      className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-[#222222] hover:bg-[#F7F7F7] transition-colors"
+                    >
+                      <HelpCircle className="size-4 text-[#717171]" /> Help Center
+                    </Link>
+
+                    <button
+                      onClick={handleSignOut}
+                      className="flex w-full items-center gap-3 px-4 py-3 text-left text-sm font-medium text-rose-600 hover:bg-rose-50 transition-colors"
+                    >
+                      <LogOut className="size-4 text-rose-500" /> Log out
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <Link
+                      href="/auth"
+                      onClick={() => setUserMenuOpen(false)}
+                      className="flex items-center px-4 py-3 text-sm font-bold text-[#222222] hover:bg-[#F7F7F7] transition-colors"
+                    >
+                      Sign up
+                    </Link>
+                    <Link
+                      href="/auth"
+                      onClick={() => setUserMenuOpen(false)}
+                      className="flex items-center px-4 py-3 text-sm font-medium text-[#222222] hover:bg-[#F7F7F7] transition-colors"
+                    >
+                      Log in
+                    </Link>
+
+                    <div className="my-1 border-t border-[#EBEBEB]" />
+
+                    <Link
+                      href="/admin"
+                      onClick={() => setUserMenuOpen(false)}
+                      className="flex items-center px-4 py-3 text-sm font-medium text-[#222222] hover:bg-[#F7F7F7] transition-colors"
+                    >
+                      Airbnb your home
+                    </Link>
+                    <Link
+                      href="/search"
+                      onClick={() => setUserMenuOpen(false)}
+                      className="flex items-center px-4 py-3 text-sm font-medium text-[#222222] hover:bg-[#F7F7F7] transition-colors"
+                    >
+                      Help Center
+                    </Link>
+                  </>
+                )}
+              </div>
+            )}
+          </div>
+
+          {/* Mobile hamburger toggle */}
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="grid size-10 place-items-center rounded-full md:hidden text-[#222222] hover:bg-[#F7F7F7] transition-colors"
+            aria-label="Toggle navigation menu"
+          >
+            {mobileMenuOpen ? <X className="size-5" /> : <Menu className="size-5" />}
+          </button>
         </div>
+      </div>
 
-        {/* Mobile hamburger */}
-        <button
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className={`grid size-10 place-items-center rounded-full lg:hidden transition-colors ${scrolled
-            ? "text-gray-800 hover:bg-gray-100"
-            : "text-white hover:bg-white/20"
-            }`}
-          aria-label="Toggle menu"
-        >
-          {mobileMenuOpen ? (
-            <X className="size-5" />
-          ) : (
-            <Menu className="size-5" />
-          )}
-        </button>
-      </nav>
-
-      {/* Mobile dropdown */}
+      {/* Mobile navigation drawer */}
       {mobileMenuOpen && (
-        <div className="absolute left-0 right-0 top-full bg-white border-b border-gray-200 shadow-xl lg:hidden animate-in fade-in slide-in-from-top-2 duration-200">
-          <nav className="flex flex-col p-4">
-            {[
-              { label: "Buy", href: "/search" },
-              { label: "Rent", href: "/search?status=Rental" },
-              { label: "Sell", href: "/search?status=For+sale" },
-              { label: "Home Buying Plan", href: "/plan" },
-              { label: "Home Loans", href: "/home-loans" },
-              { label: "Find an Agent", href: "/search" },
-              { label: "Manage Rentals", href: "/admin" },
-            ].map((item) => (
-              <Link
-                key={item.label}
-                href={item.href}
-                onClick={() => setMobileMenuOpen(false)}
-                className="px-4 py-3 text-sm font-semibold text-gray-800 rounded-lg hover:bg-gray-50"
-              >
-                {item.label}
-              </Link>
-            ))}
+        <div className="border-t border-[#EBEBEB] bg-white p-4 md:hidden animate-in slide-in-from-top-2 duration-150">
+          <nav className="flex flex-col space-y-1">
+            <Link
+              href="/"
+              onClick={() => setMobileMenuOpen(false)}
+              className="px-4 py-3 text-sm font-bold text-[#222222] rounded-xl hover:bg-[#F7F7F7]"
+            >
+              Stays
+            </Link>
+            <Link
+              href="/search?type=Airbnb"
+              onClick={() => setMobileMenuOpen(false)}
+              className="px-4 py-3 text-sm font-semibold text-[#717171] rounded-xl hover:bg-[#F7F7F7]"
+            >
+              Experiences
+            </Link>
+            <Link
+              href="/search?status=For+rent"
+              onClick={() => setMobileMenuOpen(false)}
+              className="px-4 py-3 text-sm font-semibold text-[#717171] rounded-xl hover:bg-[#F7F7F7]"
+            >
+              Services & Rentals
+            </Link>
+            <Link
+              href="/search"
+              onClick={() => setMobileMenuOpen(false)}
+              className="px-4 py-3 text-sm font-semibold text-[#717171] rounded-xl hover:bg-[#F7F7F7]"
+            >
+              All Homes
+            </Link>
+            <Link
+              href="/saved"
+              onClick={() => setMobileMenuOpen(false)}
+              className="px-4 py-3 text-sm font-semibold text-[#717171] rounded-xl hover:bg-[#F7F7F7]"
+            >
+              Wishlists
+            </Link>
 
             {isAdmin && (
               <Link
                 href="/admin"
                 onClick={() => setMobileMenuOpen(false)}
-                className="mt-1 flex items-center gap-2 px-4 py-3 text-sm font-semibold text-emerald-700 bg-emerald-50 rounded-lg"
+                className="mt-2 flex items-center gap-2 px-4 py-3 text-sm font-bold text-[#FF385C] bg-[#FFF0F2] rounded-xl"
               >
-                <Shield className="size-4" /> Admin Portal
+                <Shield className="size-4" /> Host / Admin Portal
               </Link>
             )}
 
-            <div className="mt-3 pt-3 border-t border-gray-100">
+            <div className="pt-3 mt-2 border-t border-[#EBEBEB]">
               {user ? (
                 <button
                   onClick={() => {
                     handleSignOut();
                     setMobileMenuOpen(false);
                   }}
-                  className="flex w-full items-center justify-center gap-2 rounded-full border border-gray-200 bg-white px-4 py-3 text-sm font-semibold text-gray-700"
+                  className="flex w-full items-center justify-center gap-2 rounded-xl border border-[#DDDDDD] bg-white py-3 text-sm font-bold text-[#222222]"
                 >
-                  <LogOut className="size-4" /> Sign Out
+                  <LogOut className="size-4 text-rose-500" /> Log out
                 </button>
               ) : (
                 <Link
                   href="/auth"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="flex w-full items-center justify-center gap-2 rounded-full bg-[#006AFF] px-4 py-3 text-sm font-bold text-white"
+                  className="flex w-full items-center justify-center gap-2 rounded-xl gradient-brand py-3 text-sm font-bold text-white shadow-md"
                 >
-                  Sign in
+                  Sign in or Register
                 </Link>
               )}
             </div>
