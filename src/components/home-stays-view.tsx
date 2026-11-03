@@ -81,7 +81,7 @@ export function HomeStaysView({ initialProperties }: { initialProperties: Proper
         <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#EBEBEB] pb-6 mb-8">
           <div>
             <h1 className="text-xl sm:text-2xl font-extrabold text-[#222222]">
-              Stays & Vacation Rentals across the Northwest and beyond
+              Stays & Vacation Rentals and Sales across the Northwest and beyond
             </h1>
             <p className="mt-1 text-sm text-[#717171]">
               Showing {filtered.length} stay{filtered.length === 1 ? "" : "s"} & properties
