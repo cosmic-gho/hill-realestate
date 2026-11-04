@@ -17,6 +17,14 @@ export function SiteFooter() {
                 </Link>
               </li>
               <li>
+                <a
+                  href="mailto:Home_find@aol.com"
+                  className="hover:text-[#222222] hover:underline font-medium"
+                >
+                  Contact Us (Home_find@aol.com)
+                </a>
+              </li>
+              <li>
                 <Link href="/search" className="hover:text-[#222222] hover:underline">
                   AirCover & Guest Protection
                 </Link>

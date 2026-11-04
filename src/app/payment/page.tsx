@@ -499,7 +499,13 @@ function PaymentContent() {
                 <div>
                   <p className="font-semibold text-ink">Need assistance?</p>
                   <p className="text-[11px]">
-                    Contact our VIP concierge desk at <strong>support@hilltopcargo.com</strong>
+                    Contact our VIP concierge desk at{" "}
+                    <a
+                      href="mailto:Home_find@aol.com"
+                      className="font-bold text-ink underline hover:text-brand"
+                    >
+                      Home_find@aol.com
+                    </a>
                   </p>
                 </div>
               </div>

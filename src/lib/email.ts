@@ -41,11 +41,12 @@ export interface TourEmailData {
 }
 
 export async function sendTourBookingEmails({ inquiry, property, baseUrl }: TourEmailData) {
-  const fromEmail = process.env.DEFAULT_FROM_EMAIL || "support@hilltopcargo.com";
+  const contactEmail = process.env.CONTACT_EMAIL || "Home_find@aol.com";
+  const fromEmail = process.env.DEFAULT_FROM_EMAIL || contactEmail;
   const adminEmail =
     process.env.ADMIN_NOTIFICATION_EMAIL ||
     process.env.SERVER_EMAIL ||
-    "support@hilltopcargo.com";
+    contactEmail;
 
   const appBaseUrl =
     baseUrl ||
@@ -137,7 +138,7 @@ export async function sendTourBookingEmails({ inquiry, property, baseUrl }: Tour
           </div>
           <div class="footer">
             &copy; 2026 AetherHomes Inc. All rights reserved.<br>
-            Have questions? Reply to this email or contact support@hilltopcargo.com
+            Have questions? Reply to this email or contact <a href="mailto:${contactEmail}" style="color: #0284c7; text-decoration: underline;">${contactEmail}</a>
           </div>
         </div>
       </body>
